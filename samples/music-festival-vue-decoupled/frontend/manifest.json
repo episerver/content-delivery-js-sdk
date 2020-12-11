@@ -1,0 +1,297 @@
+{
+    "propertyGroups": {
+        "items": [
+            {
+                "name": "Information",
+                "displayName": "Information",
+                "sortIndex": 10
+            },
+            {
+                "name": "DynamicBlocks",
+                "displayName": "Dynamic Blocks",
+                "sortIndex": 60
+            }
+        ]
+    },
+    "contentTypes": {
+        "allowedUpgrades": "major",
+        "items": [
+            {
+                "id": "ac096c4f-56ab-4396-9f5c-cfa923875c18",
+                "name": "BuyTicketBlock",
+                "baseType": "Block",
+                "properties": [
+                    {
+                        "name": "Heading",
+                        "dataType": "PropertyLongString",
+                        "branchSpecific": true,
+                        "editSettings": {
+                            "visibility": "Default",
+                            "displayName": "Heading",
+                            "groupName": "Information",
+                            "order": 0
+                        }
+                    },
+                    {
+                        "name": "Message",
+                        "dataType": "PropertyLongString",
+                        "branchSpecific": true,
+                        "editSettings": {
+                            "visibility": "Default",
+                            "displayName": "Message",
+                            "groupName": "Information",
+                            "order": 0
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "ed70e2a6-1d80-4a51-9aa7-bb91609ccf1b",
+                "name": "ContentBlock",
+                "baseType": "Block",
+                "properties": [
+                    {
+                        "name": "Title",
+                        "dataType": "PropertyLongString",
+                        "branchSpecific": true,
+                        "editSettings": {
+                            "visibility": "Default",
+                            "displayName": "Title",
+                            "groupName": "Information",
+                            "order": 10
+                        }
+                    },
+                    {
+                        "name": "Image",
+                        "dataType": "PropertyUrl",
+                        "branchSpecific": false,
+                        "editSettings": {
+                            "visibility": "Default",
+                            "displayName": "Image",
+                            "groupName": "Information",
+                            "order": 10,
+                            "hint": "Url"
+                        }
+                    },
+                    {
+                        "name": "ImageAlignment",
+                        "dataType": "PropertyLongString",
+                        "branchSpecific": false,
+                        "editSettings": {
+                            "visibility": "Default",
+                            "displayName": "Image Alignment",
+                            "groupName": "Information",
+                            "order": 10
+                        }
+                    },
+                    {
+                        "name": "Content",
+                        "dataType": "PropertyXhtmlString",
+                        "branchSpecific": true,
+                        "editSettings": {
+                            "visibility": "Default",
+                            "displayName": "Content",
+                            "groupName": "Information",
+                            "order": 10
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "0a5b7b88-d0ec-4a2a-83d4-13a66d6d581d",
+                "name": "ArtistContainerPage",
+                "baseType": "Page",
+                "properties": []
+            },
+            {
+                "id": "9e98d26a-6f06-4c35-bfbd-8b850a0fa433",
+                "name": "ArtistDetailsPage",
+                "baseType": "Page",
+                "properties": [
+                    {
+                        "name": "ArtistName",
+                        "dataType": "PropertyLongString",
+                        "branchSpecific": false,
+                        "editSettings": {
+                            "visibility": "Default",
+                            "displayName": "Artist Name",
+                            "groupName": "Information",
+                            "order": 10
+                        }
+                    },
+                    {
+                        "name": "ArtistPhoto",
+                        "dataType": "PropertyUrl",
+                        "branchSpecific": false,
+                        "editSettings": {
+                            "visibility": "Default",
+                            "displayName": "Artist Photo",
+                            "groupName": "Information",
+                            "order": 20,
+                            "hint": "Url"
+                        }
+                    },
+                    {
+                        "name": "ArtistDescription",
+                        "dataType": "PropertyXhtmlString",
+                        "branchSpecific": true,
+                        "editSettings": {
+                            "visibility": "Default",
+                            "displayName": "Artist Description",
+                            "groupName": "Information",
+                            "order": 30,
+                            "helpText": "Description to appear on the artist detail page."
+                        }
+                    },
+                    {
+                        "name": "ArtistGenre",
+                        "dataType": "PropertyLongString",
+                        "branchSpecific": false,
+                        "editSettings": {
+                            "visibility": "Default",
+                            "displayName": "Artist Genre",
+                            "groupName": "Information",
+                            "order": 40
+                        }
+                    },
+                    {
+                        "name": "PerformanceStartTime",
+                        "dataType": "PropertyDate",
+                        "branchSpecific": false,
+                        "editSettings": {
+                            "visibility": "Default",
+                            "displayName": "Performance Start Time",
+                            "groupName": "Information",
+                            "order": 50
+                        }
+                    },
+                    {
+                        "name": "PerformanceEndTime",
+                        "dataType": "PropertyDate",
+                        "branchSpecific": false,
+                        "editSettings": {
+                            "visibility": "Default",
+                            "displayName": "Performance End Time",
+                            "groupName": "Information",
+                            "order": 55
+                        }
+                    },
+                    {
+                        "name": "StageName",
+                        "dataType": "PropertyLongString",
+                        "branchSpecific": false,
+                        "editSettings": {
+                            "visibility": "Default",
+                            "displayName": "Stage Name",
+                            "groupName": "Information",
+                            "order": 60
+                        }
+                    },
+                    {
+                        "name": "ArtistIsHeadliner",
+                        "dataType": "PropertyBoolean",
+                        "branchSpecific": false,
+                        "editSettings": {
+                            "visibility": "Default",
+                            "displayName": "Headliner",
+                            "groupName": "Information",
+                            "order": 70
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "a736bc13-d17c-46e2-ad5d-e37bd3af086b",
+                "name": "ImageFile",
+                "baseType": "Image",
+                "properties": []
+            },
+            {
+                "id": "46278700-3173-4945-b143-befe071f0f71",
+                "name": "LandingPage",
+                "baseType": "Page",
+                "properties": [
+                    {
+                        "name": "BuyTicketBlock",
+                        "dataType": "PropertyBlock",
+                        "branchSpecific": false,
+                        "itemType": "BuyTicketBlock",
+                        "editSettings": {
+                            "visibility": "Default",
+                            "displayName": "Buy Ticket",
+                            "groupName": "Information",
+                            "order": 5
+                        }
+                    },
+                    {
+                        "name": "HeroImage",
+                        "dataType": "PropertyUrl",
+                        "branchSpecific": true,
+                        "editSettings": {
+                            "visibility": "Default",
+                            "displayName": "Hero Image",
+                            "groupName": "Information",
+                            "order": 10,
+                            "hint": "Url"
+                        }
+                    },
+                    {
+                        "name": "Title",
+                        "dataType": "PropertyLongString",
+                        "branchSpecific": true,
+                        "editSettings": {
+                            "visibility": "Default",
+                            "displayName": "Title",
+                            "groupName": "Information",
+                            "order": 20
+                        }
+                    },
+                    {
+                        "name": "Subtitle",
+                        "dataType": "PropertyLongString",
+                        "branchSpecific": true,
+                        "editSettings": {
+                            "visibility": "Default",
+                            "displayName": "Subtitle",
+                            "groupName": "Information",
+                            "order": 30
+                        }
+                    },
+                    {
+                        "name": "ArtistsLink",
+                        "dataType": "PropertyPageReference",
+                        "branchSpecific": false,
+                        "editSettings": {
+                            "visibility": "Default",
+                            "displayName": "Link to Artists list",
+                            "groupName": "Information",
+                            "order": 35
+                        }
+                    },
+                    {
+                        "name": "MainContentArea",
+                        "dataType": "PropertyContentArea",
+                        "branchSpecific": true,
+                        "editSettings": {
+                            "visibility": "Default",
+                            "displayName": "Main Content Area",
+                            "groupName": "Information",
+                            "order": 40
+                        }
+                    },
+                    {
+                        "name": "FooterContentArea",
+                        "dataType": "PropertyContentArea",
+                        "branchSpecific": true,
+                        "editSettings": {
+                            "visibility": "Default",
+                            "displayName": "Footer Content Area",
+                            "groupName": "Information",
+                            "order": 50
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}
