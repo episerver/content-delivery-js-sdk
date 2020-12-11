@@ -2,7 +2,7 @@
 
 This sample site demonstrates one approach to render Episerver content in a client side framework that is using client side routing for navigation with a working On Page Edit (OPE) mode in the Episerver UI, where the frontend and backend are hosted separately.
 
-This particular solution uses [Vue CLI](https://cli.vuejs.org/) with [Vuex](https://vuex.vuejs.org/) to handle the state of the app in a `single source of truth`. Most of the techniques are framework agnostic and can be used with any other framework, such as React or Angular.
+This particular solution uses [Vue CLI](https://cli.vuejs.org/) with [Vuex](https://next.vuex.vuejs.org/) to handle the state of the app in a `single source of truth`. Most of the techniques are framework agnostic and can be used with any other framework, such as React or Angular.
 
 Content is fetched from Episerver using the Content Delivery API: https://world.episerver.com/documentation/developer-guides/cms/content/content-delivery-api/
 

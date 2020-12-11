@@ -24,6 +24,10 @@ export default {
   }),
   methods: {
     getComponentForModel(model) {
+      if (model === undefined) {
+        return '404';
+      }
+
       // Blocks are only loaded in edit mode, i.e.
       // we should display them in our preview component.
       if (model.contentType[0] === 'Block') {
