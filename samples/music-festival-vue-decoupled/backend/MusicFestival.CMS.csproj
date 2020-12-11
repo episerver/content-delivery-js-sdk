@@ -81,13 +81,13 @@
       <HintPath>packages\EPiServer.CMS.AspNet.11.20.1\lib\net461\EPiServer.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="EPiServer.ContentApi.Cms, Version=2.18.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>packages\EPiServer.ContentDeliveryApi.Cms.2.18.0-feature-003788\lib\net461\EPiServer.ContentApi.Cms.dll</HintPath>
+      <HintPath>packages\EPiServer.ContentDeliveryApi.Cms.2.18.0-inte-003826\lib\net461\EPiServer.ContentApi.Cms.dll</HintPath>
     </Reference>
     <Reference Include="EPiServer.ContentApi.Core, Version=2.18.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>packages\EPiServer.ContentDeliveryApi.Core.2.18.0-feature-003788\lib\net461\EPiServer.ContentApi.Core.dll</HintPath>
+      <HintPath>packages\EPiServer.ContentDeliveryApi.Core.2.18.0-inte-003826\lib\net461\EPiServer.ContentApi.Core.dll</HintPath>
     </Reference>
     <Reference Include="EPiServer.ContentApi.Routing, Version=2.18.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>packages\EPiServer.ContentDeliveryApi.Cms.2.18.0-feature-003788\lib\net461\EPiServer.ContentApi.Routing.dll</HintPath>
+      <HintPath>packages\EPiServer.ContentDeliveryApi.Cms.2.18.0-inte-003826\lib\net461\EPiServer.ContentApi.Routing.dll</HintPath>
     </Reference>
     <Reference Include="EPiServer.Data, Version=11.20.1.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>packages\EPiServer.Framework.11.20.1\lib\net461\EPiServer.Data.dll</HintPath>
@@ -96,7 +96,7 @@
       <HintPath>packages\EPiServer.Framework.11.20.1\lib\net461\EPiServer.Data.Cache.dll</HintPath>
     </Reference>
     <Reference Include="EPiServer.DefinitionsApi, Version=0.4.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>packages\EPiServer.DefinitionsApi.0.4.0-inte-003780\lib\net461\EPiServer.DefinitionsApi.dll</HintPath>
+      <HintPath>packages\EPiServer.DefinitionsApi.0.4.0-inte-003826\lib\net461\EPiServer.DefinitionsApi.dll</HintPath>
     </Reference>
     <Reference Include="EPiServer.Enterprise, Version=11.20.1.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>packages\EPiServer.CMS.Core.11.20.1\lib\net461\EPiServer.Enterprise.dll</HintPath>

@@ -22,7 +22,7 @@ module.exports = {
       },
     }).then(function (response) {
       response.data.forEach(message => {
-        console.log(message.Severity, message.Message);
+        console.log(message.severity, message.message);
       });
     }).catch(function (error) {
       if (error.response) {
