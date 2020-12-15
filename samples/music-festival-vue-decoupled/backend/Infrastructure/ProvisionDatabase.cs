@@ -2,6 +2,7 @@
 using EPiServer.Cms.UI.AspNetIdentity;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
+using EPiServer.Enterprise.Internal;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.Personalization;
@@ -10,15 +11,19 @@ using EPiServer.ServiceLocation;
 using EPiServer.Shell.Security;
 using EPiServer.Web;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 
 namespace MusicFestival.CMS.Infrastructure
 {
     [InitializableModule]
-    [ModuleDependency(typeof(EPiServer.Web.InitializationModule))]
-    public class ProvisionDatabase : IInitializableModule
+    [ModuleDependency(typeof(DefaultSiteContentInitialization))]
+    public class ProvisionDatabase : IInitializableHttpModule
     {
+        private static bool hasProvisioned;
+
         private IContentSecurityRepository _securityRepository;
         private ISiteDefinitionRepository _siteDefinitionRepository;
         private UIUserProvider _userProvider;
@@ -28,20 +33,31 @@ namespace MusicFestival.CMS.Infrastructure
         {
             _securityRepository = context.Locate.Advanced.GetInstance<IContentSecurityRepository>();
             _siteDefinitionRepository = context.Locate.Advanced.GetInstance<ISiteDefinitionRepository>();
-
-            AddUsersAndRoles();
-            AddFrontendWebsite();
         }
 
         public void Uninitialize(InitializationEngine context) { }
 
+        public void InitializeHttpEvents(HttpApplication application)
+        {
+            application.BeginRequest += ApplicationBeginRequest;
+        }
+
+        private void ApplicationBeginRequest(object sender, EventArgs e)
+        {
+            if (!hasProvisioned)
+            {
+                hasProvisioned = AddUsersAndRoles();
+                hasProvisioned = AddFrontendWebsite();
+            }
+        }
+
         #region Users and Roles
 
-        private void AddUsersAndRoles()
+        private bool AddUsersAndRoles()
         {
             if (UIRoleProvider.RoleExists("WebAdmins"))
             {
-                return;
+                return false;
             }
 
             var password = "sparr0wHawk";
@@ -54,6 +70,8 @@ namespace MusicFestival.CMS.Infrastructure
             AddUser("emil", "Emil Svensson", password, new[] { "WebEditors" });
             AddUser("ida", "Ida Svensson", password, new[] { "WebEditors" });
             AddUser("lina", "Lina Lindström", password, new[] { "WebEditors" });
+
+            return true;
         }
 
         private void AddUser(string userName, string fullName, string passWord, string[] roleNames)
@@ -133,12 +151,20 @@ namespace MusicFestival.CMS.Infrastructure
 
         #region Sites
 
-        private void AddFrontendWebsite()
+        private bool AddFrontendWebsite()
         {
             var site = _siteDefinitionRepository
                 .List()
-                .First()
-                .CreateWritableClone();
+                .FirstOrDefault();
+
+            if (site is null)
+            {
+                return false;
+            }
+            else
+            {
+                site = site.CreateWritableClone();
+            }
 
             if (!site.Hosts.Any(x => x.Type == HostDefinitionType.Primary))
             {
@@ -153,6 +179,8 @@ namespace MusicFestival.CMS.Infrastructure
             }
 
             _siteDefinitionRepository.Save(site);
+
+            return true;
         }
 
         #endregion

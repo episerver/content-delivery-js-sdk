@@ -17,8 +17,8 @@ This project uses:
 
 1. Run `setup.cmd`. You can re-run `setup.cmd` at any time to reset the backend with a fresh database.
 2. Open `MusicFestivalDecoupled.sln` and hit `Ctrl + F5` in Visual Studio.
-3. Open terminal for `./frontend` and run `npm run serve`.
-4. Login on `http:localhost:5200/episerver` with either one of the following:
+3. Open terminal for `./frontend` and run `npm install` and then `npm run serve`.
+4. Login on `http://localhost:6500` with either one of the following:
 
 
 |Name    |Password    |Mailbox | Email |

@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "definitions:import": "epi-definitions import manifest.json -s http://localhost:5201 --allowed-upgrades major"
+    "definitions:import": "epi-definitions import manifest.json -s http://localhost:6500 --allowed-upgrades major"
   },
   "dependencies": {
     "axios": "^0.21.0",
