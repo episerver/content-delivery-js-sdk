@@ -41,11 +41,11 @@ function setContext(commit, response) {
 
 const actions = {
   /*
-   * When updating a model by friendly URL we assume that the friendly URL
+   * When updating a model by URL we assume that the URL
    * contains every querystring parameter that we might need on the server.
    */
-  [UPDATE_MODEL_BY_URL]({ commit }, friendlyUrl) {
-    return contentLoader.getContentByFriendlyUrl(friendlyUrl, parameters).then((response) => {
+  [UPDATE_MODEL_BY_URL]({ commit }, url) {
+    return contentLoader.getContentByUrl(url, parameters).then((response) => {
       setContext(commit, response);
       commit(UPDATE_MODEL, response.data[0]);
     });

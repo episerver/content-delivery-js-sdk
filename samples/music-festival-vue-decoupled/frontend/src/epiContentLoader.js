@@ -28,10 +28,10 @@ export default {
    * It is used in MusicFestival to get:
    *  - page data, through the vuex `epiDataModel` module
    */
-  getContentByFriendlyUrl: (friendlyUrl, parameters) => get(
+  getContentByUrl: (url, parameters) => get(
     '/content',
     {
-      contentUrl: friendlyUrl,
+      contentUrl: url,
       matchExact: false,
       ...parameters,
     },
