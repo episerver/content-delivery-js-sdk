@@ -27,7 +27,8 @@ namespace MusicFestival.CMS.Infrastructure
 
                 // Set MinimumRoles to empty to allow anonymous calls (for visitors to view site in view mode).
                 config.Default()
-                    .SetMinimumRoles(string.Empty);
+                    .SetMinimumRoles(string.Empty)
+                    .SetRequiredRole(string.Empty);
             });
 
             context.Services.Configure<DefinitionsApiOptions>(config =>
