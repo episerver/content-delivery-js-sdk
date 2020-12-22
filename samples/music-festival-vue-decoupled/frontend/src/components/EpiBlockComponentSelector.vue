@@ -18,7 +18,7 @@ export default {
   props: ['model'],
   methods: {
     getComponentForModel(model) {
-      // Pick the most specific view, i.e. first view that macthes
+      // Pick the most specific view, i.e. first view that matches
       // the the content type name in the content type inheritance chain.
       for (let i = (model.contentType.length - 1); i >= 0; i -= i) {
         const resolved = resolveComponent(model.contentType[i]);

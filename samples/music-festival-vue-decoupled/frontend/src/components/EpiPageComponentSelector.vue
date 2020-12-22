@@ -24,8 +24,8 @@ export default {
   }),
   methods: {
     getComponentForModel(model) {
-      if (model === undefined) {
-        return '404';
+      if (!model) {
+        return null;
       }
 
       // Blocks are only loaded in edit mode, i.e.
@@ -34,7 +34,7 @@ export default {
         return 'BlockPreview';
       }
 
-      // Pick the most specific view component, i.e. first view that macthes
+      // Pick the most specific view component, i.e. first view that matches
       // the the content type name in the content type inheritance chain.
       for (let i = (model.contentType.length - 1); i >= 0; i -= i) {
         const resolved = resolveComponent(model.contentType[i]);

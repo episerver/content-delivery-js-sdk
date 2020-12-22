@@ -4,14 +4,28 @@
  */
 
 import axios from 'axios';
+import AuthService from '@/authService';
 
-const get = (url, parameters, headers) => axios({
-  method: 'get',
-  baseURL: `${process.env.VUE_APP_CONTENT_DELIVERY_API}/api/episerver/v2.0`,
-  url,
-  params: parameters,
-  headers: { ...headers },
-});
+const authService = new AuthService();
+
+async function defaultHeaders() {
+  await authService.getAccessToken().then((acessToken) => {
+    axios.defaults.headers.common.Authorization = `Bearer ${acessToken}`;
+  }, (err) => {
+    console.error(err);
+  });
+}
+
+async function get(url, parameters, headers) {
+  await defaultHeaders();
+  return axios({
+    method: 'get',
+    baseURL: `${process.env.VUE_APP_CONTENT_DELIVERY_API}/api/episerver/v2.0`,
+    url,
+    params: parameters,
+    headers: { ...headers },
+  });
+}
 
 export default {
   /*

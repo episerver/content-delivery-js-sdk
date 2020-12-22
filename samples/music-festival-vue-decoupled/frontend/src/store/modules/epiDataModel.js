@@ -12,18 +12,15 @@ import { UPDATE_CONTEXT } from './epiContext';
 export const UPDATE_MODEL_BY_URL = 'epiDataModel/UPDATE_MODEL_BY_URL';
 export const UPDATE_MODEL_BY_CONTENT_LINK = 'epiDataModel/UPDATE_MODEL_BY_CONTENT_LINK';
 
-const state = {
-  model: {},
-  modelLoaded: false,
+export const MODEL_STATUS = {
+  UNKNOWN: 0,
+  RESOLVED: 200,
+  NOTFOUND: 404,
+  UNAUTHORIZED: 401,
+  ACCESSDENIED: 403,
 };
 
 const UPDATE_MODEL = 'epiDataModel/UPDATE_MODEL';
-const mutations = {
-  [UPDATE_MODEL](state, newModel) {
-    state.model = newModel;
-    state.modelLoaded = true;
-  },
-};
 
 const parameters = {
   expand: '*',
@@ -39,6 +36,35 @@ function setContext(commit, response) {
   }
 }
 
+function translateHttpStatus(status) {
+  switch (status) {
+    case 200:
+      return MODEL_STATUS.RESOLVED;
+    case 401:
+      return MODEL_STATUS.UNAUTHORIZED;
+    case 403:
+      return MODEL_STATUS.ACCESSDENIED;
+    case 404:
+      return MODEL_STATUS.NOTFOUND;
+    default:
+      return MODEL_STATUS.UNKNOWN;
+  }
+}
+
+const state = {
+  model: {},
+  modelLoaded: false,
+  status: MODEL_STATUS.UNKNOWN,
+};
+
+const mutations = {
+  [UPDATE_MODEL](state, payload) {
+    state.model = payload.model || {};
+    state.modelLoaded = (payload.status === MODEL_STATUS.RESOLVED);
+    state.status = payload.status;
+  },
+};
+
 const actions = {
   /*
    * When updating a model by URL we assume that the URL
@@ -46,9 +72,13 @@ const actions = {
    */
   [UPDATE_MODEL_BY_URL]({ commit }, url) {
     return contentLoader.getContentByUrl(url, parameters).then((response) => {
+      if (response === undefined) {
+        return;
+      }
+
       setContext(commit, response);
-      commit(UPDATE_MODEL, response.data[0]);
-    });
+      commit(UPDATE_MODEL, { model: response.data[0], status: translateHttpStatus(response.status) });
+    }).catch((error) => commit(UPDATE_MODEL, { status: translateHttpStatus(error.response.status) }));
   },
 
   /*
@@ -64,9 +94,13 @@ const actions = {
     };
 
     return contentLoader.getContentByContentLink(contentLink, params).then((response) => {
+      if (response === undefined) {
+        return;
+      }
+
       setContext(commit, response);
-      commit(UPDATE_MODEL, response.data);
-    });
+      commit(UPDATE_MODEL, { model: response.data, status: translateHttpStatus(response.status) });
+    }).catch((error) => commit(UPDATE_MODEL, { status: translateHttpStatus(error.response.status) }));
   },
 };
 

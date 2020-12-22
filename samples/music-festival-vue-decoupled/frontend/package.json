@@ -3,15 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --https",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "definitions:import": "epi-definitions import manifest.json -s http://localhost:6500 --allowed-upgrades major"
+    "definitions:import": "epi-definitions import manifest.json -s https://localhost:44340 --allowed-upgrades major"
   },
   "dependencies": {
     "axios": "^0.21.0",
     "core-js": "^3.6.5",
     "lodash": "^4.17.20",
+    "oidc-client": "^1.10.1",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"

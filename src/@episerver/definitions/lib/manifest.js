@@ -20,11 +20,11 @@ module.exports = {
         allowedUpgrades: allowedUpgrades,
         allowedDowngrades: allowedDowngrades,
       },
-    }).then(function (response) {
+    }).then((response) => {
       response.data.forEach(message => {
         console.log(message.severity, message.message);
       });
-    }).catch(function (error) {
+    }).catch((error) => {
       if (error.response) {
         console.error('Error', error.response.status, error.response.statusText);
       } else {
