@@ -5,7 +5,9 @@ using Microsoft.Owin.Security.Cookies;
 using MusicFestival.CMS.Infrastructure;
 using MusicFestival.CMS.Infrastructure.Authentication;
 using Owin;
+using System.Configuration;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Helpers;
 
@@ -17,6 +19,7 @@ namespace MusicFestival.CMS.Infrastructure
     {
         public void Configuration(IAppBuilder app)
         {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
             app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
@@ -29,12 +32,11 @@ namespace MusicFestival.CMS.Infrastructure
             app.AddOpenIdConnect(
                 new OpenIdConnectOptions
                 {
-                    Authority = "http://localhost:8081",
-                    ClientId = "festival-management",
-                    ClientSecret = "festival-management",
-                    RedirectUri = "https://localhost:44340/signin-oidc"
-                },
-                requireHttps: false);
+                    Authority = ConfigurationManager.AppSettings["Login:Authority"],
+                    ClientId = ConfigurationManager.AppSettings["Login:ClientId"],
+                    ClientSecret = ConfigurationManager.AppSettings["Login:ClientSecret"],
+                    RedirectUri = ConfigurationManager.AppSettings["Login:RedirectUri"]
+                });
 
             app.UseStageMarker(PipelineStage.Authenticate);
 
