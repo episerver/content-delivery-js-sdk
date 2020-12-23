@@ -3,14 +3,17 @@ import { UserManager, WebStorageStateStore } from 'oidc-client';
 
 export default {
   mounted() {
-    const setting = {
+    const settings = {
       response_mode: 'query',
       userStore: new WebStorageStateStore(),
     };
 
-    new UserManager(setting).signinRedirectCallback().then(() => {
-      // Just refresh the start page.
-      window.location.href = window.location.origin;
+    new UserManager(settings).signinRedirectCallback().then((user) => {
+      if (user && user.state) {
+        window.location.href = user.state;
+      } else {
+        window.location.href = window.location.origin;
+      }
     }).catch((err) => {
       console.error(err);
     });

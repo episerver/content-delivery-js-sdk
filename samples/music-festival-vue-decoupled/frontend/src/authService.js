@@ -24,7 +24,11 @@ export default class AuthService {
   }
 
   login() {
-    return this.userManager.signinRedirect();
+    const args = {
+      state: window.location.href,
+    };
+
+    return this.userManager.signinRedirect(args);
   }
 
   logout() {
