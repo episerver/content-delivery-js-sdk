@@ -51,7 +51,14 @@ router.beforeEach((to, from, next) => {
           router.replace('/not-found');
           break;
         case MODEL_STATUS.UNAUTHORIZED:
-          authService.login();
+          // Prevent redirect loop.
+          authService.getUser().then((user) => {
+            if (!user || user.expired) {
+              authService.login();
+            } else {
+              router.replace('/access-denied');
+            }
+          });
           break;
         case MODEL_STATUS.ACCESSDENIED:
           router.replace('/access-denied');

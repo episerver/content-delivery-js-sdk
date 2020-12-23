@@ -10,7 +10,7 @@ export default class AuthService {
       automaticSilentRenew: true,
       silent_redirect_uri: `${window.location.origin}/login-renewal`,
       response_type: 'code',
-      scope: 'openid profile offline_access email role',
+      scope: 'openid profile offline_access email role epi_content_delivery',
       post_logout_redirect_uri: window.location.origin,
       filterProtocolClaims: true,
       loadUserInfo: true,
