@@ -48,9 +48,8 @@ export default {
   },
   mounted() {
     authService.getUser().then((user) => {
-      this.isLoggedIn = (user && !user.expired);
-
-      if (this.isLoggedIn) {
+      if (user && !user.expired) {
+        this.isLoggedIn = true;
         this.username = user.profile.name;
       }
     });

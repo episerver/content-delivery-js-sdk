@@ -72,7 +72,7 @@ const actions = {
    */
   [UPDATE_MODEL_BY_URL]({ commit }, url) {
     return contentLoader.getContentByUrl(url, parameters).then((response) => {
-      if (response === undefined) {
+      if (!response) {
         return;
       }
 
@@ -94,7 +94,7 @@ const actions = {
     };
 
     return contentLoader.getContentByContentLink(contentLink, params).then((response) => {
-      if (response === undefined) {
+      if (!response) {
         return;
       }
 
