@@ -1,3 +1,7 @@
+<template>
+  <div></div>
+</template>
+
 <script>
 import { UserManager, WebStorageStateStore } from 'oidc-client';
 

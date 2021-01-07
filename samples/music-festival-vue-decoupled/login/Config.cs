@@ -102,7 +102,7 @@ namespace IdentityServer
                     AllowedCorsOrigins =  { "https://localhost:8080" },
                     FrontChannelLogoutUri = "https://localhost:8080",
                     PostLogoutRedirectUris = { "https://localhost:8080" },
-                    RedirectUris = { "https://localhost:8080/login-callback" },
+                    RedirectUris = { "https://localhost:8080/login-callback", "https://localhost:8080/login-renewal" },
                     RequireClientSecret = false,
                     RequireConsent = false,
                     RequirePkce = true,
