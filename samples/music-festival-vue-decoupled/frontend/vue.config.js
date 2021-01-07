@@ -1,3 +1,4 @@
+const path = require('path');
 // const fs = require('fs');
 
 module.exports = {
@@ -17,7 +18,7 @@ module.exports = {
 
     // Make all requesets go to index so friendly URLs
     // are working. But only if no static file is already being served.
-    after(app, server) {
+    after(app) {
       app.get('*', (req, res) => {
         res.sendFile(path.join(__dirname, 'public/index.html'));
       });

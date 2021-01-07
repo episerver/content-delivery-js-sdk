@@ -342,7 +342,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\Authentication\OpenIdConnectConfigurationsDefaults.cs" />
+    <Compile Include="Infrastructure\Authentication\OpenIdConnectOptionsDefaults.cs" />
     <Compile Include="Infrastructure\Authentication\OpenIdConnectExtensions.cs" />
     <Compile Include="Infrastructure\Authentication\OpenIdConnectOptions.cs" />
     <Compile Include="Infrastructure\Authentication\OpenIdConnectSecurityTokenProvider.cs" />

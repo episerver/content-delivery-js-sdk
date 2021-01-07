@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const { program } = require('commander');
-const { importManifest } = require('../lib/manifest');
+const { importManifest } = require('../api/manifest');
 
 program
   .version(`@episerver/definitions ${require('../package').version}`)
@@ -9,16 +9,30 @@ program
 
 program
   .command('import <path>')
-  .description('Imports a manifest from the specified path to a management application.')
+  .description('Import a manifest with definitions from the specified path to a management application.')
   .requiredOption('-s, --source <source>', 'URL to the management application.')
-  .option('--allowed-upgrades [allowedUpgrades]', 'Specify which semantic upgrades of definitions should be allowed. Allowed values are "none", "patch", "minor", and "major".')
-  .option('--allowed-downgrades [allowedDowngrades]', 'Specify which semantic downgrades of definitions should be allowed. Allowed values are "none", "patch", "minor", and "major".')
+  .requiredOption('--authority <authority>', 'Login authority.')
+  .requiredOption('--client-id <clientId>', 'Login client ID.')
+  .requiredOption('--client-secret <clientSecret>', 'Login client secret.')
+  .option('--allowed-upgrades [allowedUpgrades]', 'Which semantic upgrades of definitions should be allowed. Allowed values are "none", "patch", "minor", and "major".')
+  .option('--allowed-downgrades [allowedDowngrades]', 'Which semantic downgrades of definitions should be allowed. Allowed values are "none", "patch", "minor", and "major".')
   .action((path, cmd) => {
+    const options = {
+      allowedUpgrades: cmd.allowedUpgrades,
+      allowedDowngrades: cmd.allowedDowngrades
+    };
+
+    const login = {
+      authority: cmd.authority,
+      clientId: cmd.clientId,
+      clientSecret: cmd.clientSecret
+    };
+
     importManifest(
-      path, 
-      cmd.source, 
-      cmd.allowedUpgrades, 
-      cmd.allowedDowngrades)
+      path,
+      cmd.source,
+      options,
+      login)
   });
 
 program.parse(process.argv);

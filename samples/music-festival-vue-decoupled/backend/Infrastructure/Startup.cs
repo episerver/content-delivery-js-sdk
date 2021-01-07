@@ -58,7 +58,7 @@ namespace MusicFestival.CMS.Infrastructure
                 });
             });
 
-            AntiForgeryConfig.UniqueClaimTypeIdentifier = OpenIdConnectConfigurationsDefaults.NameClaimType;
+            AntiForgeryConfig.UniqueClaimTypeIdentifier = OpenIdConnectOptionsDefaults.NameClaimType;
         }
     }
 }

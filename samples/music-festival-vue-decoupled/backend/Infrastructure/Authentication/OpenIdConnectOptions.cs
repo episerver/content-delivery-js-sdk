@@ -32,24 +32,24 @@ namespace MusicFestival.CMS.Infrastructure.Authentication
         /// </summary>
         public IEnumerable<string> ValidAudiences { get; set; } = new[]
         {
-            OpenIdConnectConfigurationsDefaults.ContentDeliveryApiName,
-            OpenIdConnectConfigurationsDefaults.ContentManagementApiName,
-            OpenIdConnectConfigurationsDefaults.DefinitionsApiName
+            OpenIdConnectOptionsDefaults.ContentDeliveryApiName,
+            OpenIdConnectOptionsDefaults.ContentManagementApiName,
+            OpenIdConnectOptionsDefaults.DefinitionsApiName
         };
 
         /// <summary>
         /// Gets or sets the name that defines the user name claim type.
         /// </summary>
-        public string UsernameClaimType { get; set; } = OpenIdConnectConfigurationsDefaults.UsernameClaimType;
+        public string UsernameClaimType { get; set; } = OpenIdConnectOptionsDefaults.UsernameClaimType;
 
         /// <summary>
         /// Gets or sets the name that defines the name claim type.
         /// </summary>
-        public string NameClaimType { get; set; } = OpenIdConnectConfigurationsDefaults.NameClaimType;
+        public string NameClaimType { get; set; } = OpenIdConnectOptionsDefaults.NameClaimType;
 
         /// <summary>
         /// Gets or sets the role claim type.
         /// </summary>
-        public string RoleClaimType { get; set; } = OpenIdConnectConfigurationsDefaults.RoleClaimType;
+        public string RoleClaimType { get; set; } = OpenIdConnectOptionsDefaults.RoleClaimType;
     }
 }

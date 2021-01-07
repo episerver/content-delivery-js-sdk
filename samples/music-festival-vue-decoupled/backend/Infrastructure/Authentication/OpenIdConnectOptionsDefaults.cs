@@ -3,7 +3,7 @@
     /// <summary>
     /// Default values related to OpenIdConnect configuration.
     /// </summary>
-    public static class OpenIdConnectConfigurationsDefaults
+    public static class OpenIdConnectOptionsDefaults
     {
         /// <summary>
         /// The claim type to use for name claims.

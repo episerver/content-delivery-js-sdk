@@ -1,7 +1,6 @@
 ﻿using EPiServer.ContentApi.Cms;
 using EPiServer.ContentApi.Core.Configuration;
 using EPiServer.Core.Internal;
-using EPiServer.DefinitionsApi.Configuration;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.ServiceLocation;
@@ -29,12 +28,6 @@ namespace MusicFestival.CMS.Infrastructure
                 config.Default()
                     .SetMinimumRoles(string.Empty)
                     .SetRequiredRole(string.Empty);
-            });
-
-            context.Services.Configure<DefinitionsApiOptions>(config =>
-            {
-                // Allow anonymous calls to definitions API until we have configured authentication.
-                config.ClearAllowedScopes();
             });
         }
 

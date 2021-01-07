@@ -1,8 +1,11 @@
 const fs = require('fs');
+const https = require('https');
 const axios = require("axios");
+const { isLocal } = require("../lib/utils");
+const { GetAccessToken } = require("../lib/authService");
 
 module.exports = {
-  importManifest: (path, source, allowedUpgrades, allowedDowngrades) => {
+  importManifest: async (path, source, options, login) => {
     let data;
 
     try {
@@ -11,15 +14,21 @@ module.exports = {
       console.error('Error', error.message);
       return;
     }
-  
+
     axios({
-      method: 'put',
-      url: `${source}/api/episerver/v2.0/manifest`, 
-      data: data,
-      params: {
-        allowedUpgrades: allowedUpgrades,
-        allowedDowngrades: allowedDowngrades,
+      url: `${source}/api/episerver/v2.0/manifest`,
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${await GetAccessToken(login)}`,
       },
+      params: {
+        allowedUpgrades: options.allowedUpgrades,
+        allowedDowngrades: options.allowedDowngrades,
+      },
+      data: data,
+      httpsAgent: new https.Agent({
+        rejectUnauthorized: isLocal(source),
+      }),
     }).then((response) => {
       response.data.forEach(message => {
         console.log(message.severity, message.message);

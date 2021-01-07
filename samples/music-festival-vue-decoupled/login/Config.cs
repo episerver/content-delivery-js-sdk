@@ -19,7 +19,7 @@ namespace IdentityServer
                 {
                     Name = "role",
                     DisplayName = "Roles",
-                    Description = "Allow the service access to your user roles.",
+                    Description = "Allow access to your user roles.",
                     UserClaims = { "role" },
                     ShowInDiscoveryDocument = true,
                     Required = false,
@@ -67,9 +67,9 @@ namespace IdentityServer
             {
                 new Client
                 {
-                    ClientId = "epi_definitions_cli",
+                    ClientId = "definitions-cli",
                     ClientName = "Episerver Definitions CLI",
-                    ClientSecrets = { new Secret("epi_definitions_cli".Sha256()) },
+                    ClientSecrets = { new Secret("definitions-cli".Sha256()) },
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     AllowedScopes = { "epi_content_delivery", "epi_definitions" },
                     AccessTokenLifetime = TokenLifeTime,
