@@ -9,7 +9,7 @@ async function GetAccessToken(login) {
   });
 
   var issuer = await Issuer.discover(login.authority)
-    .catch((error) => console.error(error));
+    .catch((error) => console.error('Error', error.error));
 
   if (!issuer) {
     return '';
@@ -23,7 +23,7 @@ async function GetAccessToken(login) {
   const grant = await client.grant({
     grant_type: 'client_credentials',
     scope: 'epi_definitions',
-  }).catch((error) => console.error(error));
+  }).catch((error) => console.error('Error', error.error));
 
   return grant?.access_token;
 }

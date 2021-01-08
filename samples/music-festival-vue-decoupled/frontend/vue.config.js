@@ -1,5 +1,4 @@
 const path = require('path');
-// const fs = require('fs');
 
 module.exports = {
   chainWebpack: (config) => {
@@ -11,10 +10,7 @@ module.exports = {
       .loader('import-glob-loader');
   },
   devServer: {
-    // https: true,
-    // key: fs.readFileSync('./cert/localhost.key'),
-    // cert: fs.readFileSync('./cert/localhost.crt'),
-    // ca: fs.readFileSync('./cert/ca.crt'),
+    https: true,
 
     // Make all requesets go to index so friendly URLs
     // are working. But only if no static file is already being served.

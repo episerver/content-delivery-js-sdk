@@ -21,6 +21,7 @@ This project uses:
 3. Open `MusicFestivalDecoupled.sln` in Visual Studio and hit `Ctrl + F5` to run.
     * Login with either `bob/bob` (admin) or `alice/alice` (editor).
 4. Open terminal for `./frontend` and run `npm install` (only needed first run) and then `npm run serve`.
+5. If you receive a warning in the browser that the certificate is not valid (connection is not secure) you can disable this warning by navigating to `chrome://flags/#allow-insecure-localhost` (or similar in your browser-of-choice).
 
 ## Notable files
 
