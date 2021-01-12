@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EPiServer.Templates.Alloy.Mvc.Identity.Controllers
+namespace IdentityServer.Controllers
 {
     [SecurityHeaders]
     [Authorize]

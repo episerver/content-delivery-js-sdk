@@ -14,7 +14,7 @@ using IdentityServer4.Extensions;
 using IdentityServer.Models.Grants;
 using IdentityServer;
 
-namespace EPiServer.Templates.Alloy.Mvc.Identity.Controllers
+namespace IdentityServer.Controllers
 {
     /// <summary>
     /// This sample controller allows a user to revoke grants given to clients

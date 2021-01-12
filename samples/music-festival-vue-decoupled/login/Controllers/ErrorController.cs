@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 
-namespace EPiServer.Templates.Alloy.Mvc.Identity.Controllers
+namespace IdentityServer.Controllers
 {
     [SecurityHeaders]
     [AllowAnonymous]

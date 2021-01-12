@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using IdentityServer.Models.Consent;
 using IdentityServer;
 
-namespace EPiServer.Templates.Alloy.Mvc.Identity.Controllers
+namespace IdentityServer.Controllers
 {
     /// <summary>
     /// This controller processes the consent UI

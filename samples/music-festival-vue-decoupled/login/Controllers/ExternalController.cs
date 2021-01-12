@@ -18,7 +18,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace EPiServer.Templates.Alloy.Mvc.Identity.Controllers
+namespace IdentityServer.Controllers
 {
     [SecurityHeaders]
     [AllowAnonymous]
