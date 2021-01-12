@@ -17,11 +17,12 @@ This project uses:
 ## Setup and Run
 
 1. Run `setup.cmd`. You can re-run `setup.cmd` at any time to reset the backend with a fresh database.
-2. Open terminal for `./login` and run `dotnet run`.
-3. Open `MusicFestivalDecoupled.sln` in Visual Studio and hit `Ctrl + F5` to run.
+2. Trust developer certificates by running `dotnet dev-certs https --trust`, if you haven't done this before.
+3. Open terminal for `./login` and run `dotnet run`.
+4. Open `MusicFestivalDecoupled.sln` in Visual Studio and hit `Ctrl + F5` to run.
     * Login with either `bob/bob` (admin) or `alice/alice` (editor).
-4. Open terminal for `./frontend` and run `npm install` (only needed first run) and then `npm run serve`.
-5. If you receive a warning in the browser that the certificate is not valid (connection is not secure) you can disable this warning by navigating to `chrome://flags/#allow-insecure-localhost` (or similar in your browser-of-choice).
+5. Open terminal for `./frontend` and run `npm install` (only needed first run) and then `npm run serve`.
+6. If you receive a warning in the browser that the certificate is not valid (connection is not secure) you can disable this warning by navigating to `chrome://flags/#allow-insecure-localhost` (or similar in your browser-of-choice).
 
 ## Notable files
 
