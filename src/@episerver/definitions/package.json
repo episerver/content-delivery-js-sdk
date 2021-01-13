@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "axios": "^0.21.0",
-    "commander": "^6.2.0"
+    "commander": "^6.2.0",
+    "openid-client": "^4.2.2"
   }
 }

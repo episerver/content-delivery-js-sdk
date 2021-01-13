@@ -11,23 +11,18 @@ Content is fetched from Episerver using the Content Delivery API: https://world.
 This project uses:
 * npm 6+
 * Visual Studio 2019+
+* Dotnet SDK 3.1+
 * SQL Server 2016 Express LocalDB ([download here](https://www.microsoft.com/en-us/sql-server/sql-server-downloads))
 
 ## Setup and Run
 
 1. Run `setup.cmd`. You can re-run `setup.cmd` at any time to reset the backend with a fresh database.
-2. Open `MusicFestivalDecoupled.sln` and hit `Ctrl + F5` in Visual Studio.
-3. Open terminal for `./frontend` and run `npm install` and then `npm run serve`.
-4. Login on `http://localhost:6500` with either one of the following:
-
-
-|Name    |Password    |Mailbox | Email |
-|--------|------------|--------|-------|
-|cmsadmin|sparr0wHawk |        |       |
-|emil    |sparr0wHawk |https://www.mailinator.com/v3/index.jsp?zone=public&query=epic-emil   |epic-emil@mailinator.com   |
-|ida     |sparr0wHawk |https://www.mailinator.com/v3/index.jsp?zone=public&query=epic-ida    |epic-ida@mailinator.com    |
-|alfred  |sparr0wHawk |https://www.mailinator.com/v3/index.jsp?zone=public&query=epic-alfred |epic-alfred@mailinator.com |
-|lina    |sparr0wHawk |https://www.mailinator.com/v3/index.jsp?zone=public&query=epic-lina   |epic-lina@mailinator.com   |
+2. Trust developer certificates by running `dotnet dev-certs https --trust`, if you haven't done this before.
+3. Open terminal for `./login` and run `dotnet run`.
+4. Open `MusicFestivalDecoupled.sln` in Visual Studio and hit `Ctrl + F5` to run.
+    * Login with either `bob/bob` (admin) or `alice/alice` (editor).
+5. Open terminal for `./frontend` and run `npm install` (only needed first run) and then `npm run serve`.
+6. If you receive a warning in the browser that the certificate is not valid (connection is not secure) you can disable this warning by navigating to `chrome://flags/#allow-insecure-localhost` (or similar in your browser-of-choice).
 
 ## Notable files
 

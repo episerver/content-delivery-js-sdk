@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   chainWebpack: (config) => {
     // Add support for globbing import
@@ -8,9 +10,11 @@ module.exports = {
       .loader('import-glob-loader');
   },
   devServer: {
+    https: true,
+
     // Make all requesets go to index so friendly URLs
     // are working. But only if no static file is already being served.
-    after(app, server) {
+    after(app) {
       app.get('*', (req, res) => {
         res.sendFile(path.join(__dirname, 'public/index.html'));
       });
