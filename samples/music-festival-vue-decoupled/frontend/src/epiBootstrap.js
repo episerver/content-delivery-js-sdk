@@ -12,7 +12,7 @@
 
 import store from '@/store';
 import { UPDATE_CONTEXT } from '@/store/modules/epiContext';
-import { UPDATE_MODEL_BY_CONTENT_LINK } from '@/store/modules/epiDataModel';
+import { UPDATE_MODEL_BY_URL } from '@/store/modules/epiDataModel';
 
 function setContext() {
   // The `epiReady` event only has `isEditable`, but the epi object has both.
@@ -27,7 +27,7 @@ function setContext() {
   // If we're in an editable context we want to update the model on every change by the editor
   if (window.epi.isEditable) {
     window.epi.subscribe('contentSaved', (message) => {
-      store.dispatch(UPDATE_MODEL_BY_CONTENT_LINK, message.contentLink);
+      store.dispatch(UPDATE_MODEL_BY_URL, message.url);
     });
   }
 }

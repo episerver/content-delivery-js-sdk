@@ -31,7 +31,8 @@
 </template>
 
 <script>
-import contentLoader from '@/epiContentLoader';
+import { ContentLoader } from '@episerver/content-delivery';
+import AuthService from '@/authService';
 import BackButton from '@/components/widgets/BackButton.vue';
 import Card from '@/components/widgets/Card.vue';
 import LanguageSelector from '@/components/widgets/LanguageSelector.vue';
@@ -55,17 +56,17 @@ export default {
     model: 'updateData',
   },
   methods: {
-    updateData() {
-      const parameters = {};
+    async updateData() {
+      const authService = new AuthService();
+      const accessToken = await authService.getAccessToken();
+      const contentResolver = new ContentLoader(`${process.env.VUE_APP_CONTENT_DELIVERY_API}/api/episerver/v2.0`, accessToken);
 
-      return contentLoader.getChildrenByContentLink(this.model.contentLink, parameters)
-        .then((success) => {
-          // Sort response alphabetically
-          const ordered = _.orderBy(success.data, [(artist) => artist.artistName.toLowerCase()], ['asc']);
-          // Group them by first letter of artist name and store in data.artists object
-          this.artists = _.groupBy(ordered, (artist) => artist.artistName.substring(0, 1));
-          return success;
-        });
+      contentResolver.getChildren(this.model.contentLink.guidValue, this.model.language.name).then((children) => {
+        // Sort response alphabetically
+        const ordered = _.orderBy(children, [(artist) => artist.artistName.toLowerCase()], ['asc']);
+        // Group them by first letter of artist name and store in data.artists object
+        this.artists = _.groupBy(ordered, (artist) => artist.artistName.substring(0, 1));
+      });
     },
   },
   components: {
