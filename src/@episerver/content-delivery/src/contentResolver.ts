@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { ApiClient } from './apiClient';
+import { ContentDeliveryConfig, defaultConfig } from './config';
 import { ContentData, ContextMode } from './models';
 
 export enum ResolvedContentStatus
@@ -24,23 +25,23 @@ export interface ResolvedContent<T extends ContentData> {
 export class ContentResolver {
   readonly api: ApiClient;
 
-  constructor(apiUrl: string, accessToken?: string) {
-    this.api = new ApiClient(apiUrl, accessToken);
+  constructor(config?: Partial<ContentDeliveryConfig>) {
+    this.api = new ApiClient({ ...defaultConfig, ...config });
   }
 
-  resolveContent<T extends ResolvedContent<ContentData>>(url: string, matchExact: boolean, select?: Array<string>, expand: Array<string> = ['*']): Promise<T> {
+  resolveContent<T extends ContentData>(url: string, matchExact: boolean, select?: Array<string>, expand: Array<string> = ['*']): Promise<ResolvedContent<T>> {
     const parameters = {
       'contentUrl': url,
       'matchExact': matchExact,
       'select': select?.join(),
-      'expand': expand.join(),
+      'expand': expand?.join(),
     };
 
-    return new Promise<T>((resolve, reject) => {
+    return new Promise<ResolvedContent<T>>((resolve, reject) => {
       this.api.get('/content', parameters).then((response: AxiosResponse<any>) => {
-        const contentData = response.data as Array<ContentData>;        
+        const contentData = response.data as Array<T>;        
         let status = ResolvedContentStatus.Unknown;
-        let content: ContentData | undefined;
+        let content: T | undefined;
 
         switch (response.status) {
           case 401:
@@ -72,7 +73,7 @@ export class ContentResolver {
           startPage: response.headers['x-epi-startpageguid'],
         };
 
-        resolve(result as T);
+        resolve(result as ResolvedContent<T>);
       }).catch((response: AxiosResponse<any>) => {
         reject(response);
       });

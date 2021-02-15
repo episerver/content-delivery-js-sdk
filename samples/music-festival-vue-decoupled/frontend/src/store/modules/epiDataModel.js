@@ -5,7 +5,6 @@
  * site.
  */
 
-import AuthService from '@/authService';
 import { ContentResolver } from '@episerver/content-delivery';
 import { UPDATE_CONTEXT } from './epiContext';
 
@@ -29,9 +28,7 @@ const mutations = {
 
 const actions = {
   async [UPDATE_MODEL_BY_URL]({ commit }, url) {
-    const authService = new AuthService();
-    const accessToken = await authService.getAccessToken();
-    const contentResolver = new ContentResolver(`${process.env.VUE_APP_CONTENT_DELIVERY_API}/api/episerver/v2.0`, accessToken);
+    const contentResolver = new ContentResolver();
 
     return contentResolver.resolveContent(url, true).then((resolvedContent) => {
       commit(UPDATE_MODEL, { model: resolvedContent.content, status: resolvedContent.status });

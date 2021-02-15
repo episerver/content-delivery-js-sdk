@@ -32,7 +32,6 @@
 
 <script>
 import { ContentLoader } from '@episerver/content-delivery';
-import AuthService from '@/authService';
 import BackButton from '@/components/widgets/BackButton.vue';
 import Card from '@/components/widgets/Card.vue';
 import LanguageSelector from '@/components/widgets/LanguageSelector.vue';
@@ -57,11 +56,8 @@ export default {
   },
   methods: {
     async updateData() {
-      const authService = new AuthService();
-      const accessToken = await authService.getAccessToken();
-      const contentResolver = new ContentLoader(`${process.env.VUE_APP_CONTENT_DELIVERY_API}/api/episerver/v2.0`, accessToken);
-
-      contentResolver.getChildren(this.model.contentLink.guidValue, this.model.language.name).then((children) => {
+      const contentLoader = new ContentLoader();
+      contentLoader.getChildren(this.model.contentLink.guidValue, this.model.language.name).then((children) => {
         // Sort response alphabetically
         const ordered = _.orderBy(children, [(artist) => artist.artistName.toLowerCase()], ['asc']);
         // Group them by first letter of artist name and store in data.artists object

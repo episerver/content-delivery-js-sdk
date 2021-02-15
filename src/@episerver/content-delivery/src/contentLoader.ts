@@ -1,12 +1,13 @@
 import { AxiosResponse } from 'axios';
 import { ApiClient } from './apiClient';
+import { ContentDeliveryConfig, defaultConfig } from './config';
 import { ContentData } from './models';
 
 export class ContentLoader {
   readonly api: ApiClient;
 
-  constructor(apiUrl: string, accessToken?: string) {
-    this.api = new ApiClient(apiUrl, accessToken);
+  constructor(config?: Partial<ContentDeliveryConfig>) {
+    this.api = new ApiClient({ ...defaultConfig, ...config });
   }
 
   getContent<T extends ContentData>(id: string, branch: string = '*', select?: Array<string>, expand: Array<string> = ['*']): Promise<T> {
@@ -16,7 +17,7 @@ export class ContentLoader {
 
     const parameters = {
       'select': select?.join(),
-      'expand': expand.join(),
+      'expand': expand?.join(),
     };
 
     return new Promise<T>((resolve, reject) => {
@@ -28,38 +29,38 @@ export class ContentLoader {
     });
   }
 
-  getChildren<T extends Array<ContentData>>(id: string, branch: string = '*', select?: Array<string>, expand: Array<string> = ['*']): Promise<T> {
+  getChildren<T extends ContentData, R = Array<T>>(id: string, branch: string = '*', select?: Array<string>, expand: Array<string> = ['*']): Promise<R> {
     const headers = {
       'Accept-Language': branch,
     };
 
     const parameters = {
       'select': select?.join(),
-      'expand': expand.join(),
+      'expand': expand?.join(),
     };
 
-    return new Promise<T>((resolve, reject) => {
+    return new Promise<R>((resolve, reject) => {
       this.api.get(`/content/${id}/children`, parameters, headers).then((response: AxiosResponse<any>) => {
-        resolve(response.data as T);
+        resolve(response.data as R);
       }).catch((response: AxiosResponse<any>) => {
         reject(response);
       });
     });
   }
 
-  getAncestors<T extends Array<ContentData>>(id: string, branch: string = '*', select?: Array<string>, expand: Array<string> = ['*']): Promise<T> {
+  getAncestors<T extends ContentData, R = Array<T>>(id: string, branch: string = '*', select?: Array<string>, expand: Array<string> = ['*']): Promise<R> {
     const headers = {
       'Accept-Language': branch,
     };
 
     const parameters = {
       'select': select?.join(),
-      'expand': expand.join(),
+      'expand': expand?.join(),
     };
 
-    return new Promise<T>((resolve, reject) => {
+    return new Promise<R>((resolve, reject) => {
       this.api.get(`/content/${id}/ancestors`, parameters, headers).then((response: AxiosResponse<any>) => {
-        resolve(response.data as T);
+        resolve(response.data as R);
       }).catch((response: AxiosResponse<any>) => {
         reject(response);
       });

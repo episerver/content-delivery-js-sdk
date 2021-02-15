@@ -1,6 +1,6 @@
 import { UserManager, WebStorageStateStore } from 'oidc-client';
 
-export default class AuthService {
+class AuthService {
   constructor() {
     const settings = {
       userStore: new WebStorageStateStore({ store: window.localStorage }),
@@ -39,3 +39,7 @@ export default class AuthService {
     return this.userManager.getUser().then((data) => (data ? data.access_token : null));
   }
 }
+
+const authService = new AuthService();
+
+export default authService;

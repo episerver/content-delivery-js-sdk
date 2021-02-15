@@ -1,14 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { UPDATE_MODEL_BY_URL } from '@/store/modules/epiDataModel';
 import store from '@/store';
-import AuthService from '@/authService';
+import authService from '@/authService';
 import PageComponentSelector from '@/components/EpiPageComponentSelector.vue';
 import LoginCallback from '@/components/LoginCallback.vue';
 import LoginRenewal from '@/components/LoginRenewal.vue';
 import AccessDenied from '@/views/403.vue';
 import NotFound from '@/views/404.vue';
-
-const authService = new AuthService();
 
 const router = createRouter({
   // Use the HTML HistoryAPI so the # isn't needed in the URL, and
