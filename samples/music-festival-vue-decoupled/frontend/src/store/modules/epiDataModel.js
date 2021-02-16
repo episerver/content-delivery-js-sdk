@@ -15,13 +15,13 @@ const UPDATE_MODEL = 'epiDataModel/UPDATE_MODEL';
 const state = {
   model: {},
   modelLoaded: false,
-  status: 0,
+  status: 'UNKNOWN',
 };
 
 const mutations = {
   [UPDATE_MODEL](state, payload) {
     state.model = payload.model || {};
-    state.modelLoaded = (payload.status === 1);
+    state.modelLoaded = (payload.status === 'RESOLVED');
     state.status = payload.status;
   },
 };
@@ -32,14 +32,15 @@ const actions = {
 
     return contentResolver.resolveContent(url, true).then((resolvedContent) => {
       commit(UPDATE_MODEL, { model: resolvedContent.content, status: resolvedContent.status });
-
+      console.log(resolvedContent.mode);
+      console.log(resolvedContent.status);
       const context = {
-        isEditable: resolvedContent.mode === 2,
-        inEditMode: resolvedContent.mode === 2,
+        isEditable: resolvedContent.mode === 'EDIT',
+        inEditMode: resolvedContent.mode === 'EDIT',
       };
 
       commit(UPDATE_CONTEXT, context);
-    }).catch(() => commit(UPDATE_MODEL, { status: 0 }));
+    }).catch(() => commit(UPDATE_MODEL, { status: 'UNKNOWN' }));
   },
 };
 

@@ -1,7 +1,7 @@
 export declare enum ContextMode {
-    Default = 0,
-    Preview = 1,
-    Edit = 2
+    Default = "DEFAULT",
+    Preview = "PREVIEW",
+    Edit = "EDIT"
 }
 export interface Language {
     link: string;

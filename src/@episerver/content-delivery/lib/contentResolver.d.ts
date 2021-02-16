@@ -1,11 +1,11 @@
 import { ContentDeliveryConfig } from './config';
 import { ContentData, ContextMode } from './models';
 export declare enum ResolvedContentStatus {
-    Unknown = 0,
-    Resolved = 1,
-    NotFound = 2,
-    Unauthorized = 3,
-    AccessDenied = 4
+    Unknown = "UNKNOWN",
+    Resolved = "RESOLVED",
+    NotFound = "NOTFOUND",
+    Unauthorized = "UNAUTHORIZED",
+    AccessDenied = "ACCESSDENIED"
 }
 export interface ResolvedContent<T extends ContentData> {
     content: T | undefined;

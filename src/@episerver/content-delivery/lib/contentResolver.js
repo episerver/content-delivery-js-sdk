@@ -20,11 +20,11 @@ const config_1 = require("./config");
 const models_1 = require("./models");
 var ResolvedContentStatus;
 (function (ResolvedContentStatus) {
-    ResolvedContentStatus[ResolvedContentStatus["Unknown"] = 0] = "Unknown";
-    ResolvedContentStatus[ResolvedContentStatus["Resolved"] = 1] = "Resolved";
-    ResolvedContentStatus[ResolvedContentStatus["NotFound"] = 2] = "NotFound";
-    ResolvedContentStatus[ResolvedContentStatus["Unauthorized"] = 3] = "Unauthorized";
-    ResolvedContentStatus[ResolvedContentStatus["AccessDenied"] = 4] = "AccessDenied";
+    ResolvedContentStatus["Unknown"] = "UNKNOWN";
+    ResolvedContentStatus["Resolved"] = "RESOLVED";
+    ResolvedContentStatus["NotFound"] = "NOTFOUND";
+    ResolvedContentStatus["Unauthorized"] = "UNAUTHORIZED";
+    ResolvedContentStatus["AccessDenied"] = "ACCESSDENIED";
 })(ResolvedContentStatus = exports.ResolvedContentStatus || (exports.ResolvedContentStatus = {}));
 class ContentResolver {
     constructor(config) {

@@ -45,10 +45,10 @@ router.beforeEach((to, from, next) => {
   if (to.name === 'page-component-selector' && store.state.epiDataModel.model.url !== to.fullPath) {
     store.dispatch(UPDATE_MODEL_BY_URL, to.fullPath).then(() => {
       switch (store.state.epiDataModel.status) {
-        case 2: // NotFound
+        case 'NOTFOUND':
           router.replace('/not-found');
           break;
-        case 3: // Unauthorized
+        case 'UNAUTHORIZED':
           // Prevent redirect loop.
           authService.getUser().then((user) => {
             if (!user || user.expired) {
@@ -58,7 +58,7 @@ router.beforeEach((to, from, next) => {
             }
           });
           break;
-        case 4: // AccessDenied
+        case 'ACCESSDENIED':
           router.replace('/access-denied');
           break;
         default:
