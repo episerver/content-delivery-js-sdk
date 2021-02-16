@@ -32,8 +32,7 @@ const actions = {
 
     return contentResolver.resolveContent(url, true).then((resolvedContent) => {
       commit(UPDATE_MODEL, { model: resolvedContent.content, status: resolvedContent.status });
-      console.log(resolvedContent.mode);
-      console.log(resolvedContent.status);
+
       const context = {
         isEditable: resolvedContent.mode === 'EDIT',
         inEditMode: resolvedContent.mode === 'EDIT',
