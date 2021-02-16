@@ -1,4 +1,3 @@
-import { ApiClient } from './apiClient';
 import { ContentDeliveryConfig } from './config';
 import { ContentData, ContextMode } from './models';
 export declare enum ResolvedContentStatus {
@@ -17,8 +16,11 @@ export interface ResolvedContent<T extends ContentData> {
     site: string;
     startPage: string;
 }
+export declare type ContentResolverError = {
+    statusText: string;
+};
 export declare class ContentResolver {
-    readonly api: ApiClient;
+    #private;
     constructor(config?: Partial<ContentDeliveryConfig>);
     resolveContent<T extends ContentData>(url: string, matchExact: boolean, select?: Array<string>, expand?: Array<string>): Promise<ResolvedContent<T>>;
 }

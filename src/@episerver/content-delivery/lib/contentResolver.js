@@ -1,4 +1,18 @@
 "use strict";
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, privateMap, value) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to set private field on non-instance");
+    }
+    privateMap.set(receiver, value);
+    return value;
+};
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, privateMap) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to get private field on non-instance");
+    }
+    return privateMap.get(receiver);
+};
+var _api;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ContentResolver = exports.ResolvedContentStatus = void 0;
 const apiClient_1 = require("./apiClient");
@@ -14,7 +28,16 @@ var ResolvedContentStatus;
 })(ResolvedContentStatus = exports.ResolvedContentStatus || (exports.ResolvedContentStatus = {}));
 class ContentResolver {
     constructor(config) {
-        this.api = new apiClient_1.ApiClient(Object.assign(Object.assign({}, config_1.defaultConfig), config));
+        _api.set(this, void 0);
+        __classPrivateFieldSet(this, _api, new apiClient_1.ApiClient(Object.assign(Object.assign({}, config_1.defaultConfig), config)));
+        __classPrivateFieldGet(this, _api).onConfig = (config) => {
+            config.validateStatus = (status) => {
+                // When resolving content we want to return ResolvedContent
+                // regardless the content was found or not.
+                return status >= 200 && status < 500;
+            };
+            return config;
+        };
     }
     resolveContent(url, matchExact, select, expand = ['*']) {
         const parameters = {
@@ -24,7 +47,7 @@ class ContentResolver {
             'expand': expand === null || expand === void 0 ? void 0 : expand.join(),
         };
         return new Promise((resolve, reject) => {
-            this.api.get('/content', parameters).then((response) => {
+            __classPrivateFieldGet(this, _api).get('/content', parameters).then((response) => {
                 var _a;
                 const contentData = response.data;
                 let status = ResolvedContentStatus.Unknown;
@@ -60,11 +83,17 @@ class ContentResolver {
                     startPage: response.headers['x-epi-startpageguid'],
                 };
                 resolve(result);
-            }).catch((response) => {
-                reject(response);
+            }).catch((error) => {
+                reject(MapAxiosErrorToContentResolverError(error));
             });
         });
     }
 }
 exports.ContentResolver = ContentResolver;
+_api = new WeakMap();
+function MapAxiosErrorToContentResolverError(error) {
+    return {
+        statusText: error.message,
+    };
+}
 //# sourceMappingURL=contentResolver.js.map

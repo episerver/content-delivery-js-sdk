@@ -1,4 +1,4 @@
-import { AxiosResponse } from 'axios';
+import { AxiosResponse, AxiosRequestConfig, AxiosError } from 'axios';
 import { ApiClient } from './apiClient';
 import { ContentDeliveryConfig, defaultConfig } from './config';
 import { ContentData, ContextMode } from './models';
@@ -22,11 +22,25 @@ export interface ResolvedContent<T extends ContentData> {
   startPage: string,
 }
 
+export type ContentResolverError = {
+  statusText: string,
+}
+
 export class ContentResolver {
-  readonly api: ApiClient;
+  readonly #api: ApiClient;
 
   constructor(config?: Partial<ContentDeliveryConfig>) {
-    this.api = new ApiClient({ ...defaultConfig, ...config });
+    this.#api = new ApiClient({ ...defaultConfig, ...config });
+
+    this.#api.onConfig = (config: AxiosRequestConfig) => { 
+      config.validateStatus = (status: number) => {
+        // When resolving content we want to return ResolvedContent
+        // regardless the content was found or not.
+        return status >= 200 && status < 500;
+      };
+
+      return config;
+    };
   }
 
   resolveContent<T extends ContentData>(url: string, matchExact: boolean, select?: Array<string>, expand: Array<string> = ['*']): Promise<ResolvedContent<T>> {
@@ -38,7 +52,7 @@ export class ContentResolver {
     };
 
     return new Promise<ResolvedContent<T>>((resolve, reject) => {
-      this.api.get('/content', parameters).then((response: AxiosResponse<any>) => {
+      this.#api.get('/content', parameters).then((response: AxiosResponse<any>) => {
         const contentData = response.data as Array<T>;        
         let status = ResolvedContentStatus.Unknown;
         let content: T | undefined;
@@ -74,9 +88,15 @@ export class ContentResolver {
         };
 
         resolve(result as ResolvedContent<T>);
-      }).catch((response: AxiosResponse<any>) => {
-        reject(response);
+      }).catch((error: AxiosError<any>) => {
+        reject(MapAxiosErrorToContentResolverError(error));
       });
     });
   }
+}
+
+function MapAxiosErrorToContentResolverError(error: AxiosError<any>): ContentResolverError {
+  return {
+    statusText: error.message,
+  };
 }

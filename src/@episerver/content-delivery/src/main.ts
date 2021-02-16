@@ -1,3 +1,4 @@
-export { ContentDeliveryConfig, defaultConfig } from './config';
-export { ContentLoader } from './contentLoader';
-export { ContentResolver } from './contentResolver';
+export * from './config';
+export * from './contentLoader';
+export * from './contentResolver';
+export * from './models';
