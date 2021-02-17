@@ -38,6 +38,7 @@ class ApiClient {
         if (__classPrivateFieldGet(this, _config).getAccessToken) {
             __classPrivateFieldGet(this, _config).getAccessToken(path).then((accessToken) => {
                 config.headers.Authorization = `Bearer ${accessToken}`;
+                config.withCredentials = true;
             });
         }
         var instance = axios_1.default.create(config);

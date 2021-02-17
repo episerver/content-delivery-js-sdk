@@ -24,6 +24,7 @@ export class ApiClient {
     if (this.#config.getAccessToken) {
       this.#config.getAccessToken(path).then((accessToken) => {
         config.headers.Authorization = `Bearer ${accessToken}`;
+        config.withCredentials = true;
       });
     }
 
