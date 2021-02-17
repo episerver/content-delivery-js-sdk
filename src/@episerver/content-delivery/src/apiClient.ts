@@ -3,14 +3,14 @@ import { ContentDeliveryConfig } from './config';
 
 export class ApiClient {
   readonly #config: ContentDeliveryConfig;
-  #onConfig?: (config: AxiosRequestConfig) => AxiosRequestConfig;
+  #onBeforeRequest?: (config: AxiosRequestConfig) => AxiosRequestConfig;
 
   constructor(config: ContentDeliveryConfig) {
     this.#config = config;
   }
 
-  set onConfig(onConfig: (config: AxiosRequestConfig) => AxiosRequestConfig) {
-    this.#onConfig = onConfig;
+  set onBeforeRequest(onBeforeRequest: (config: AxiosRequestConfig) => AxiosRequestConfig) {
+    this.#onBeforeRequest = onBeforeRequest;
   }
 
   get(path: string, parameters?: any, headers?: any): Promise<AxiosResponse<any>> {
@@ -30,8 +30,8 @@ export class ApiClient {
 
     var instance = axios.create(config);
 
-    if (this.#onConfig) {
-      instance.interceptors.request.use(this.#onConfig);
+    if (this.#onBeforeRequest) {
+      instance.interceptors.request.use(this.#onBeforeRequest);
     }
 
     return instance.get(path);

@@ -15,18 +15,18 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _config, _onConfig;
+var _config, _onBeforeRequest;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ApiClient = void 0;
 const axios_1 = __importDefault(require("axios"));
 class ApiClient {
     constructor(config) {
         _config.set(this, void 0);
-        _onConfig.set(this, void 0);
+        _onBeforeRequest.set(this, void 0);
         __classPrivateFieldSet(this, _config, config);
     }
-    set onConfig(onConfig) {
-        __classPrivateFieldSet(this, _onConfig, onConfig);
+    set onBeforeRequest(onBeforeRequest) {
+        __classPrivateFieldSet(this, _onBeforeRequest, onBeforeRequest);
     }
     get(path, parameters, headers) {
         const config = {
@@ -42,12 +42,12 @@ class ApiClient {
             });
         }
         var instance = axios_1.default.create(config);
-        if (__classPrivateFieldGet(this, _onConfig)) {
-            instance.interceptors.request.use(__classPrivateFieldGet(this, _onConfig));
+        if (__classPrivateFieldGet(this, _onBeforeRequest)) {
+            instance.interceptors.request.use(__classPrivateFieldGet(this, _onBeforeRequest));
         }
         return instance.get(path);
     }
 }
 exports.ApiClient = ApiClient;
-_config = new WeakMap(), _onConfig = new WeakMap();
+_config = new WeakMap(), _onBeforeRequest = new WeakMap();
 //# sourceMappingURL=apiClient.js.map

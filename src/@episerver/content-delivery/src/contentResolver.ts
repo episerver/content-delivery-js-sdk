@@ -32,7 +32,7 @@ export class ContentResolver {
   constructor(config?: Partial<ContentDeliveryConfig>) {
     this.#api = new ApiClient({ ...defaultConfig, ...config });
 
-    this.#api.onConfig = (config: AxiosRequestConfig) => { 
+    this.#api.onBeforeRequest = (config: AxiosRequestConfig) => { 
       config.validateStatus = (status: number) => {
         // When resolving content we want to return ResolvedContent
         // regardless the content was found or not.

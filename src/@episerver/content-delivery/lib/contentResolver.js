@@ -30,7 +30,7 @@ class ContentResolver {
     constructor(config) {
         _api.set(this, void 0);
         __classPrivateFieldSet(this, _api, new apiClient_1.ApiClient(Object.assign(Object.assign({}, config_1.defaultConfig), config)));
-        __classPrivateFieldGet(this, _api).onConfig = (config) => {
+        __classPrivateFieldGet(this, _api).onBeforeRequest = (config) => {
             config.validateStatus = (status) => {
                 // When resolving content we want to return ResolvedContent
                 // regardless the content was found or not.
