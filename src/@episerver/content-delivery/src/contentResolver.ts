@@ -3,39 +3,102 @@ import { ApiClient } from './apiClient';
 import { ContentDeliveryConfig, defaultConfig } from './config';
 import { ContentData, ContextMode } from './models';
 
+/**
+ * Enum describing the status of the resolved content. 
+ */
 export enum ResolvedContentStatus
 {
+  /**
+   * Content was unsuccessfully resolved due to
+   * unknown reasons. 
+   */
   Unknown = 'UNKNOWN',
+  /**
+   * Content was successfully resolved.
+   */
   Resolved = 'RESOLVED',
+  /**
+   * Content was not found.
+   */
   NotFound = 'NOTFOUND',
+  /**
+   * Request needs to be authorized to be able to
+   * resolve the content.
+   */
   Unauthorized = 'UNAUTHORIZED',
+  /**
+   * Request was authorized but didn't have sufficient 
+   * access rights to be able to resolve the content.
+   */
   AccessDenied = 'ACCESSDENIED',
 }
 
+/**
+ * Interface describing resolved content.
+ *
+ * @typeparam T - Type of content that is being resolved.
+ */
 export interface ResolvedContent<T extends ContentData> {
-  content: T | undefined,
+  /**
+   * Content that was resolved. Can be undefined if no
+   * content was resolved 
+   */
+  content?: T | undefined,
+  /**
+   * Branch that was resolved. 
+   */
   branch: string,
+  /**
+   * Status of the resolved content.
+   */
   status: ResolvedContentStatus
+  /**
+   * Context mode the content was resolved in.
+   */
   mode: ContextMode,
+  /**
+   * Rremaining path of the URL if the content was partially matched.
+   */
   remainingPath: string,
-  site: string,
-  startPage: string,
+  /**
+   * Identifier of the site the content belongs to.
+   */
+  siteId: string,
+  /**
+   * Identifier of the start page the content belongs to.
+   */
+  startPageId: string,
 }
 
+/**
+ * Interface describing a content resolving error.
+ */
 export type ContentResolverError = {
-  statusText: string,
+  /**
+   * Message describing the error.
+   */
+  ErrorMessage: string,
 }
 
+/**
+ * Class for resolving content.
+ */
 export class ContentResolver {
   readonly #api: ApiClient;
 
+  /**
+   * Constructs an instance of ContentResolver.
+   * 
+   * @param config - Optional configuration to use. The configuration is
+   * combined with the default configuration specified in defaultConfig.
+   */
   constructor(config?: Partial<ContentDeliveryConfig>) {
     this.#api = new ApiClient({ ...defaultConfig, ...config });
 
     this.#api.onBeforeRequest = (config: AxiosRequestConfig) => { 
       config.validateStatus = (status: number) => {
-        // When resolving content we want to return ResolvedContent
-        // regardless the content was found or not.
+        // When resolving content we want to return a ResolvedContent
+        // object regardless the content was found or not.
         return status >= 200 && status < 500;
       };
 
@@ -43,12 +106,23 @@ export class ContentResolver {
     };
   }
 
-  resolveContent<T extends ContentData>(url: string, matchExact: boolean, select?: Array<string>, expand: Array<string> = ['*']): Promise<ResolvedContent<T>> {
+  /**
+   * Resolve content from an URL.
+   *
+   * @param url - URL to resolve.
+   * @param matchExact - Match the URL exactly or patially.
+   * @param select - Properties to include in the response. All by default.
+   * @param expand - Properties to expand in the response. All by default.
+   * @returns A promise with a ResolvedContent regardless the content was successfully resolved or not.
+   * Check the status property whether the resolving was successful. 
+   * If the service returned a server error, the promise is rejected with a ContentResolverError.
+   */
+  resolveContent<T extends ContentData>(url: string, matchExact: boolean, select?: Array<string>, expand?: Array<string>): Promise<ResolvedContent<T>> {
     const parameters = {
       'contentUrl': url,
       'matchExact': matchExact,
-      'select': select?.join(),
-      'expand': expand?.join(),
+      'select': select ? select.join() : null,
+      'expand': expand ? expand.join() : '*',
     };
 
     return new Promise<ResolvedContent<T>>((resolve, reject) => {
@@ -83,8 +157,8 @@ export class ContentResolver {
           status: status,
           mode: (<any>ContextMode)[response.headers['x-epi-contextmode']] ?? ContextMode.Default,
           remainingPath: response.headers['x-epi-remainingroute'],
-          site: response.headers['x-epi-siteid'],
-          startPage: response.headers['x-epi-startpageguid'],
+          siteId: response.headers['x-epi-siteid'],
+          startPageId: response.headers['x-epi-startpageguid'],
         };
 
         resolve(result as ResolvedContent<T>);
@@ -97,6 +171,6 @@ export class ContentResolver {
 
 function MapAxiosErrorToContentResolverError(error: AxiosError<any>): ContentResolverError {
   return {
-    statusText: error.message,
+    ErrorMessage: error.message,
   };
 }

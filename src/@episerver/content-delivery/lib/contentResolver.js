@@ -18,33 +18,74 @@ exports.ContentResolver = exports.ResolvedContentStatus = void 0;
 const apiClient_1 = require("./apiClient");
 const config_1 = require("./config");
 const models_1 = require("./models");
+/**
+ * Enum describing the status of the resolved content.
+ */
 var ResolvedContentStatus;
 (function (ResolvedContentStatus) {
+    /**
+     * Content was unsuccessfully resolved due to
+     * unknown reasons.
+     */
     ResolvedContentStatus["Unknown"] = "UNKNOWN";
+    /**
+     * Content was successfully resolved.
+     */
     ResolvedContentStatus["Resolved"] = "RESOLVED";
+    /**
+     * Content was not found.
+     */
     ResolvedContentStatus["NotFound"] = "NOTFOUND";
+    /**
+     * Request needs to be authorized to be able to
+     * resolve the content.
+     */
     ResolvedContentStatus["Unauthorized"] = "UNAUTHORIZED";
+    /**
+     * Request was authorized but didn't have sufficient
+     * access rights to be able to resolve the content.
+     */
     ResolvedContentStatus["AccessDenied"] = "ACCESSDENIED";
 })(ResolvedContentStatus = exports.ResolvedContentStatus || (exports.ResolvedContentStatus = {}));
+/**
+ * Class for resolving content.
+ */
 class ContentResolver {
+    /**
+     * Constructs an instance of ContentResolver.
+     *
+     * @param config - Optional configuration to use. The configuration is
+     * combined with the default configuration specified in defaultConfig.
+     */
     constructor(config) {
         _api.set(this, void 0);
         __classPrivateFieldSet(this, _api, new apiClient_1.ApiClient(Object.assign(Object.assign({}, config_1.defaultConfig), config)));
         __classPrivateFieldGet(this, _api).onBeforeRequest = (config) => {
             config.validateStatus = (status) => {
-                // When resolving content we want to return ResolvedContent
-                // regardless the content was found or not.
+                // When resolving content we want to return a ResolvedContent
+                // object regardless the content was found or not.
                 return status >= 200 && status < 500;
             };
             return config;
         };
     }
-    resolveContent(url, matchExact, select, expand = ['*']) {
+    /**
+     * Resolve content from an URL.
+     *
+     * @param url - URL to resolve.
+     * @param matchExact - Match the URL exactly or patially.
+     * @param select - Properties to include in the response. All by default.
+     * @param expand - Properties to expand in the response. All by default.
+     * @returns A promise with a ResolvedContent regardless the content was successfully resolved or not.
+     * Check the status property whether the resolving was successful.
+     * If the service returned a server error, the promise is rejected with a ContentResolverError.
+     */
+    resolveContent(url, matchExact, select, expand) {
         const parameters = {
             'contentUrl': url,
             'matchExact': matchExact,
-            'select': select === null || select === void 0 ? void 0 : select.join(),
-            'expand': expand === null || expand === void 0 ? void 0 : expand.join(),
+            'select': select ? select.join() : null,
+            'expand': expand ? expand.join() : '*',
         };
         return new Promise((resolve, reject) => {
             __classPrivateFieldGet(this, _api).get('/content', parameters).then((response) => {
@@ -79,8 +120,8 @@ class ContentResolver {
                     status: status,
                     mode: (_a = models_1.ContextMode[response.headers['x-epi-contextmode']]) !== null && _a !== void 0 ? _a : models_1.ContextMode.Default,
                     remainingPath: response.headers['x-epi-remainingroute'],
-                    site: response.headers['x-epi-siteid'],
-                    startPage: response.headers['x-epi-startpageguid'],
+                    siteId: response.headers['x-epi-siteid'],
+                    startPageId: response.headers['x-epi-startpageguid'],
                 };
                 resolve(result);
             }).catch((error) => {
@@ -93,7 +134,7 @@ exports.ContentResolver = ContentResolver;
 _api = new WeakMap();
 function MapAxiosErrorToContentResolverError(error) {
     return {
-        statusText: error.message,
+        ErrorMessage: error.message,
     };
 }
 //# sourceMappingURL=contentResolver.js.map

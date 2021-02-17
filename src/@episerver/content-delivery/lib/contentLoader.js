@@ -17,18 +17,36 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ContentLoader = void 0;
 const apiClient_1 = require("./apiClient");
 const config_1 = require("./config");
+/**
+ * Class for loading content.
+ */
 class ContentLoader {
+    /**
+     * Constructs an instance of ContentLoader.
+     *
+     * @param config - Optional configuration to use. The configuration is
+     * combined with the default configuration specified in defaultConfig.
+     */
     constructor(config) {
         _api.set(this, void 0);
         __classPrivateFieldSet(this, _api, new apiClient_1.ApiClient(Object.assign(Object.assign({}, config_1.defaultConfig), config)));
     }
-    getContent(id, branch = '*', select, expand = ['*']) {
+    /**
+     * Get content by an identifier.
+     *
+     * @param id - Identifier of the content.
+     * @param branch - Branch of the content.
+     * @param select - Properties to include in the response. All by default.
+     * @param expand - Properties to expand in the response. All by default.
+     * @returns A promise with a ContentData if the content was found, otherwise rejected with a ContentLoaderError.
+     */
+    getContent(id, branch = '*', select, expand) {
         const headers = {
             'Accept-Language': branch,
         };
         const parameters = {
-            'select': select === null || select === void 0 ? void 0 : select.join(),
-            'expand': expand === null || expand === void 0 ? void 0 : expand.join(),
+            'select': select ? select.join() : null,
+            'expand': expand ? expand.join() : '*',
         };
         return new Promise((resolve, reject) => {
             __classPrivateFieldGet(this, _api).get(`/content/${id}`, parameters, headers).then((response) => {
@@ -38,13 +56,22 @@ class ContentLoader {
             });
         });
     }
-    getChildren(id, branch = '*', select, expand = ['*']) {
+    /**
+     * Get child content by an identifier.
+     *
+     * @param id - Identifier of the parent content.
+     * @param branch - Branch of the content.
+     * @param select - Properties to include in the response. All by default.
+     * @param expand - Properties to expand in the response. All by default.
+     * @returns A promise with an array of ContentData, otherwise rejected with a ContentLoaderError.
+     */
+    getChildren(id, branch = '*', select, expand) {
         const headers = {
             'Accept-Language': branch,
         };
         const parameters = {
-            'select': select === null || select === void 0 ? void 0 : select.join(),
-            'expand': expand === null || expand === void 0 ? void 0 : expand.join(),
+            'select': select ? select.join() : null,
+            'expand': expand ? expand.join() : '*',
         };
         return new Promise((resolve, reject) => {
             __classPrivateFieldGet(this, _api).get(`/content/${id}/children`, parameters, headers).then((response) => {
@@ -54,13 +81,22 @@ class ContentLoader {
             });
         });
     }
-    getAncestors(id, branch = '*', select, expand = ['*']) {
+    /**
+     * Get ancestor content by an identifier.
+     *
+     * @param parentId - Identifier of the content.
+     * @param branch - Branch of the content.
+     * @param select - Properties to include in the response. All by default.
+     * @param expand - Properties to expand in the response. All by default.
+     * @returns A promise with an array of ContentData, otherwise rejected with a ContentLoaderError.
+     */
+    getAncestors(id, branch = '*', select, expand) {
         const headers = {
             'Accept-Language': branch,
         };
         const parameters = {
-            'select': select === null || select === void 0 ? void 0 : select.join(),
-            'expand': expand === null || expand === void 0 ? void 0 : expand.join(),
+            'select': select ? select.join() : null,
+            'expand': expand ? expand.join() : '*',
         };
         return new Promise((resolve, reject) => {
             __classPrivateFieldGet(this, _api).get(`/content/${id}/ancestors`, parameters, headers).then((response) => {
@@ -77,13 +113,13 @@ function MapAxiosErrorToContentLoaderError(error) {
     if (error.response) {
         return {
             data: error.response.data,
-            status: error.response.status,
-            statusText: error.response.statusText,
+            statusCode: error.response.status,
+            errorMessage: error.response.statusText,
         };
     }
     return {
-        status: 0,
-        statusText: error.message,
+        statusCode: 0,
+        errorMessage: error.message,
     };
 }
 //# sourceMappingURL=contentLoader.js.map

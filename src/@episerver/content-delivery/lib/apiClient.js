@@ -19,15 +19,37 @@ var _config, _onBeforeRequest;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ApiClient = void 0;
 const axios_1 = __importDefault(require("axios"));
+/**
+ * Class for making API calls to the Content Delivery API.
+ */
 class ApiClient {
+    /**
+     * Constructs an instance of ApiClient.
+     *
+     * @param config Configuration to use.
+     */
     constructor(config) {
         _config.set(this, void 0);
         _onBeforeRequest.set(this, void 0);
         __classPrivateFieldSet(this, _config, config);
     }
+    /**
+     * Sets the function to call for getting an access token
+     * to authorize the request.
+     *
+     * @param onBeforeRequest - Function to use.
+     */
     set onBeforeRequest(onBeforeRequest) {
         __classPrivateFieldSet(this, _onBeforeRequest, onBeforeRequest);
     }
+    /**
+     * Make a GET request.
+     *
+     * @param path - Path to request.
+     * @param parameters - Parameters to include in the request.
+     * @param headers - Headers to include in the request.
+     * @returns A promise with an AxiosResponse if the request was successful, otherwise rejected with an AxiosError.
+     */
     get(path, parameters, headers) {
         const config = {
             method: 'get',

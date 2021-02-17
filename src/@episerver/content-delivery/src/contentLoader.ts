@@ -3,27 +3,59 @@ import { ApiClient } from './apiClient';
 import { ContentDeliveryConfig, defaultConfig } from './config';
 import { ContentData } from './models';
 
+/**
+ * Type describing a content loader error.
+ * 
+ * @typeparam T - Type of the additional error data. 
+ */
 export type ContentLoaderError<T = any> = {
-  data?: T,
-  status: number,
-  statusText: string,
+  /**
+   * Additional error data. Can be undefined.
+   */
+  data?: T | undefined,
+  /**
+   * HTTP status code.
+   */
+  statusCode: number,
+  /**
+   * Message describing the error.
+   */
+  errorMessage: string,
 }
 
+/**
+ * Class for loading content.
+ */
 export class ContentLoader {
   readonly #api: ApiClient;
 
+  /**
+   * Constructs an instance of ContentLoader.
+   * 
+   * @param config - Optional configuration to use. The configuration is
+   * combined with the default configuration specified in defaultConfig.
+   */
   constructor(config?: Partial<ContentDeliveryConfig>) {
     this.#api = new ApiClient({ ...defaultConfig, ...config });
   }
 
-  getContent<T extends ContentData>(id: string, branch: string = '*', select?: Array<string>, expand: Array<string> = ['*']): Promise<T> {
+  /**
+   * Get content by an identifier.
+   * 
+   * @param id - Identifier of the content.
+   * @param branch - Branch of the content. 
+   * @param select - Properties to include in the response. All by default.
+   * @param expand - Properties to expand in the response. All by default.
+   * @returns A promise with a ContentData if the content was found, otherwise rejected with a ContentLoaderError.
+   */
+  getContent<T extends ContentData>(id: string, branch: string = '*', select?: Array<string>, expand?: Array<string>): Promise<T> {
     const headers = {
       'Accept-Language': branch,
     };
 
     const parameters = {
-      'select': select?.join(),
-      'expand': expand?.join(),
+      'select': select ? select.join() : null,
+      'expand': expand ? expand.join() : '*',
     };
 
     return new Promise<T>((resolve, reject) => {
@@ -35,14 +67,23 @@ export class ContentLoader {
     });
   }
 
-  getChildren<T extends ContentData, R = Array<T>>(id: string, branch: string = '*', select?: Array<string>, expand: Array<string> = ['*']): Promise<R> {
+  /**
+   * Get child content by an identifier.
+   * 
+   * @param id - Identifier of the parent content.
+   * @param branch - Branch of the content. 
+   * @param select - Properties to include in the response. All by default.
+   * @param expand - Properties to expand in the response. All by default.
+   * @returns A promise with an array of ContentData, otherwise rejected with a ContentLoaderError.
+   */
+  getChildren<T extends ContentData, R = Array<T>>(id: string, branch: string = '*', select?: Array<string>, expand?: Array<string>): Promise<R> {
     const headers = {
       'Accept-Language': branch,
     };
 
     const parameters = {
-      'select': select?.join(),
-      'expand': expand?.join(),
+      'select': select ? select.join() : null,
+      'expand': expand ? expand.join() : '*',
     };
 
     return new Promise<R>((resolve, reject) => {
@@ -54,14 +95,23 @@ export class ContentLoader {
     });
   }
 
-  getAncestors<T extends ContentData, R = Array<T>>(id: string, branch: string = '*', select?: Array<string>, expand: Array<string> = ['*']): Promise<R> {
+  /**
+   * Get ancestor content by an identifier.
+   * 
+   * @param parentId - Identifier of the content.
+   * @param branch - Branch of the content. 
+   * @param select - Properties to include in the response. All by default.
+   * @param expand - Properties to expand in the response. All by default.
+   * @returns A promise with an array of ContentData, otherwise rejected with a ContentLoaderError.
+   */
+  getAncestors<T extends ContentData, R = Array<T>>(id: string, branch: string = '*', select?: Array<string>, expand?: Array<string>): Promise<R> {
     const headers = {
       'Accept-Language': branch,
     };
 
     const parameters = {
-      'select': select?.join(),
-      'expand': expand?.join(),
+      'select': select ? select.join() : null,
+      'expand': expand ? expand.join() : '*',
     };
 
     return new Promise<R>((resolve, reject) => {
@@ -78,13 +128,13 @@ function MapAxiosErrorToContentLoaderError<T = any>(error: AxiosError<any>): Con
   if (error.response) {
     return {
       data: error.response.data,
-      status: error.response.status,
-      statusText: error.response.statusText,
+      statusCode: error.response.status,
+      errorMessage: error.response.statusText,
     }
   }
 
   return {
-    status: 0,
-    statusText: error.message,
+    statusCode: 0,
+    errorMessage: error.message,
   };
 }
