@@ -87,7 +87,7 @@ export type ContentResolverError = {
   /**
    * Message describing the error.
    */
-  ErrorMessage: string,
+  errorMessage: string,
 }
 
 /**
@@ -180,6 +180,6 @@ export class ContentResolver {
 
 function MapAxiosErrorToContentResolverError(error: AxiosError<any>): ContentResolverError {
   return {
-    ErrorMessage: error.message,
+    errorMessage: error.message,
   };
 }

@@ -129,7 +129,7 @@ exports.ContentResolver = ContentResolver;
 _api = new WeakMap();
 function MapAxiosErrorToContentResolverError(error) {
     return {
-        ErrorMessage: error.message,
+        errorMessage: error.message,
     };
 }
 //# sourceMappingURL=contentResolver.js.map
