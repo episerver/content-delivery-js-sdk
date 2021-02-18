@@ -2,6 +2,30 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { ContentDeliveryConfig } from './config';
 
 /**
+ * Interface describing the default API parameters.
+ */
+export interface ApiParameters {
+  /**
+   * Properties to include in the response.
+   */
+  select?: string,
+  /**
+   * Properties to expand in the response.
+   */
+  expand?: string,
+}
+
+/**
+ * Interface describing the default API headers.
+ */
+export interface ApiHeaders {
+  /**
+   * Branch of the content
+   */
+  ['Accept-Language']?: string,
+}
+
+/**
  * Class for making API calls to the Content Delivery API.
  */
 export class ApiClient {
@@ -35,12 +59,12 @@ export class ApiClient {
    * @param headers - Headers to include in the request.
    * @returns A promise with an AxiosResponse if the request was successful, otherwise rejected with an AxiosError.
    */
-  get(path: string, parameters?: any, headers?: any): Promise<AxiosResponse<any>> {
+  get(path: string, parameters?: ApiParameters, headers?: ApiHeaders): Promise<AxiosResponse<any>> {
     const config: AxiosRequestConfig = {
         method: 'get',
         baseURL: this.#config.apiUrl,
         params: parameters,
-        headers: { ...headers },
+        headers: headers,
     };
 
     if (this.#config.getAccessToken) {
@@ -57,5 +81,31 @@ export class ApiClient {
     }
 
     return instance.get(path);
+  }
+
+  /**
+   * Get default API parameters to use when making requests.
+   * 
+   * @param select - Properties to include in the response. All by default, unless configured differently.
+   * @param expand - Properties to expand in the response. None by default, unless configured differently.
+   * @returns Default parameters combined with the default configuration.
+   */
+  getDefaultParameters(select?: Array<string>, expand?: Array<string>) : ApiParameters {
+    return {
+      select: select ? select.join() : this.#config.selectAllProperties ? undefined : 'name',
+      expand: expand ? expand.join() : this.#config.expandAllProperties ? '*' : undefined,
+    };
+  }
+
+  /**
+   * Get default API headers to use when making requests.
+   * 
+   * @param branch - Branch of the content.
+   * @returns Default headers combined with the default configuration.
+   */
+  getDefaultHeaders(branch?: string) : ApiHeaders {
+    return {
+      ['Accept-Language']: branch ? branch : '*'
+    };
   }
 }

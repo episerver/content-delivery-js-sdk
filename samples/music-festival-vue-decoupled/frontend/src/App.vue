@@ -48,6 +48,8 @@ export default {
   mounted() {
     defaultConfig.apiUrl = `${process.env.VUE_APP_CONTENT_DELIVERY_API}/api/episerver/v2.0`;
     defaultConfig.getAccessToken = () => authService.getAccessToken();
+    defaultConfig.selectAllProperties = true;
+    defaultConfig.expandAllProperties = true;
 
     authService.getUser().then((user) => {
       if (user && !user.expired) {

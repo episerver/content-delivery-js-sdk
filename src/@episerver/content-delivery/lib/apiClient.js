@@ -55,7 +55,7 @@ class ApiClient {
             method: 'get',
             baseURL: __classPrivateFieldGet(this, _config).apiUrl,
             params: parameters,
-            headers: Object.assign({}, headers),
+            headers: headers,
         };
         if (__classPrivateFieldGet(this, _config).getAccessToken) {
             __classPrivateFieldGet(this, _config).getAccessToken(path).then((accessToken) => {
@@ -68,6 +68,30 @@ class ApiClient {
             instance.interceptors.request.use(__classPrivateFieldGet(this, _onBeforeRequest));
         }
         return instance.get(path);
+    }
+    /**
+     * Get default API parameters to use when making requests.
+     *
+     * @param select - Properties to include in the response. All by default, unless configured differently.
+     * @param expand - Properties to expand in the response. None by default, unless configured differently.
+     * @returns Default parameters combined with the default configuration.
+     */
+    getDefaultParameters(select, expand) {
+        return {
+            select: select ? select.join() : __classPrivateFieldGet(this, _config).selectAllProperties ? undefined : 'name',
+            expand: expand ? expand.join() : __classPrivateFieldGet(this, _config).expandAllProperties ? '*' : undefined,
+        };
+    }
+    /**
+     * Get default API headers to use when making requests.
+     *
+     * @param branch - Branch of the content.
+     * @returns Default headers combined with the default configuration.
+     */
+    getDefaultHeaders(branch) {
+        return {
+            ['Accept-Language']: branch ? branch : '*'
+        };
     }
 }
 exports.ApiClient = ApiClient;

@@ -13,19 +13,23 @@ export enum ResolvedContentStatus
    * unknown reasons. 
    */
   Unknown = 'UNKNOWN',
+
   /**
    * Content was successfully resolved.
    */
   Resolved = 'RESOLVED',
+
   /**
    * Content was not found.
    */
   NotFound = 'NOTFOUND',
+
   /**
    * Request needs to be authorized to be able to
    * resolve the content.
    */
   Unauthorized = 'UNAUTHORIZED',
+
   /**
    * Request was authorized but didn't have sufficient 
    * access rights to be able to resolve the content.
@@ -44,26 +48,32 @@ export interface ResolvedContent<T extends ContentData> {
    * content was resolved 
    */
   content?: T | undefined,
+
   /**
    * Branch that was resolved. 
    */
   branch: string,
+
   /**
    * Status of the resolved content.
    */
   status: ResolvedContentStatus
+
   /**
    * Context mode the content was resolved in.
    */
   mode: ContextMode,
+
   /**
    * Rremaining path of the URL if the content was partially matched.
    */
   remainingPath: string,
+
   /**
    * Identifier of the site the content belongs to.
    */
   siteId: string,
+
   /**
    * Identifier of the start page the content belongs to.
    */
@@ -111,8 +121,8 @@ export class ContentResolver {
    *
    * @param url - URL to resolve.
    * @param matchExact - Match the URL exactly or patially.
-   * @param select - Properties to include in the response. All by default.
-   * @param expand - Properties to expand in the response. All by default.
+   * @param select - Properties to include in the response. All by default, unless configured differently.
+   * @param expand - Properties to expand in the response. None by default, unless configured differently.
    * @returns A promise with a ResolvedContent regardless the content was successfully resolved or not.
    * Check the status property whether the resolving was successful. 
    * If the service returned a server error, the promise is rejected with a ContentResolverError.
@@ -121,8 +131,7 @@ export class ContentResolver {
     const parameters = {
       'contentUrl': url,
       'matchExact': matchExact,
-      'select': select ? select.join() : null,
-      'expand': expand ? expand.join() : '*',
+      ... this.#api.getDefaultParameters(select, expand),
     };
 
     return new Promise<ResolvedContent<T>>((resolve, reject) => {

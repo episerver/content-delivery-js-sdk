@@ -6,6 +6,8 @@ exports.defaultConfig = void 0;
  * Content Delivery API.
  */
 exports.defaultConfig = {
-    apiUrl: '/'
+    apiUrl: '/',
+    selectAllProperties: true,
+    expandAllProperties: false,
 };
 //# sourceMappingURL=config.js.map

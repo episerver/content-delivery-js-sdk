@@ -36,18 +36,13 @@ class ContentLoader {
      *
      * @param id - Identifier of the content.
      * @param branch - Branch of the content.
-     * @param select - Properties to include in the response. All by default.
-     * @param expand - Properties to expand in the response. All by default.
+     * @param select - Properties to include in the response. All by default, unless configured differently.
+     * @param expand - Properties to expand in the response. None by default, unless configured differently.
      * @returns A promise with a ContentData if the content was found, otherwise rejected with a ContentLoaderError.
      */
-    getContent(id, branch = '*', select, expand) {
-        const headers = {
-            'Accept-Language': branch,
-        };
-        const parameters = {
-            'select': select ? select.join() : null,
-            'expand': expand ? expand.join() : '*',
-        };
+    getContent(id, branch, select, expand) {
+        const parameters = __classPrivateFieldGet(this, _api).getDefaultParameters(select, expand);
+        const headers = __classPrivateFieldGet(this, _api).getDefaultHeaders(branch);
         return new Promise((resolve, reject) => {
             __classPrivateFieldGet(this, _api).get(`/content/${id}`, parameters, headers).then((response) => {
                 resolve(response.data);
@@ -61,18 +56,13 @@ class ContentLoader {
      *
      * @param id - Identifier of the parent content.
      * @param branch - Branch of the content.
-     * @param select - Properties to include in the response. All by default.
-     * @param expand - Properties to expand in the response. All by default.
+     * @param select - Properties to include in the response. All by default, unless configured differently.
+     * @param expand - Properties to expand in the response. None by default, unless configured differently.
      * @returns A promise with an array of ContentData, otherwise rejected with a ContentLoaderError.
      */
-    getChildren(id, branch = '*', select, expand) {
-        const headers = {
-            'Accept-Language': branch,
-        };
-        const parameters = {
-            'select': select ? select.join() : null,
-            'expand': expand ? expand.join() : '*',
-        };
+    getChildren(id, branch, select, expand) {
+        const parameters = __classPrivateFieldGet(this, _api).getDefaultParameters(select, expand);
+        const headers = __classPrivateFieldGet(this, _api).getDefaultHeaders(branch);
         return new Promise((resolve, reject) => {
             __classPrivateFieldGet(this, _api).get(`/content/${id}/children`, parameters, headers).then((response) => {
                 resolve(response.data);
@@ -86,18 +76,13 @@ class ContentLoader {
      *
      * @param parentId - Identifier of the content.
      * @param branch - Branch of the content.
-     * @param select - Properties to include in the response. All by default.
-     * @param expand - Properties to expand in the response. All by default.
+     * @param select - Properties to include in the response. All by default, unless configured differently.
+     * @param expand - Properties to expand in the response. None by default, unless configured differently.
      * @returns A promise with an array of ContentData, otherwise rejected with a ContentLoaderError.
      */
-    getAncestors(id, branch = '*', select, expand) {
-        const headers = {
-            'Accept-Language': branch,
-        };
-        const parameters = {
-            'select': select ? select.join() : null,
-            'expand': expand ? expand.join() : '*',
-        };
+    getAncestors(id, branch, select, expand) {
+        const parameters = __classPrivateFieldGet(this, _api).getDefaultParameters(select, expand);
+        const headers = __classPrivateFieldGet(this, _api).getDefaultHeaders(branch);
         return new Promise((resolve, reject) => {
             __classPrivateFieldGet(this, _api).get(`/content/${id}/ancestors`, parameters, headers).then((response) => {
                 resolve(response.data);

@@ -7,11 +7,24 @@ export type ContentDeliveryConfig = {
    * URL to the Content Delivery API.
    */
   apiUrl: string;
+
   /**
    * Function to call to get an access token for authorizing
    * requests to the Content Delivery API.
    */
   getAccessToken?: (path?: string) => Promise<string>,
+
+  /**
+   * Select all properties by default, unless otherwise
+   * specified in each request to the Content Delivery API.
+   */
+  selectAllProperties: boolean,
+
+  /**
+   * Expand all properties by default, unless otherwise
+   * specified in each request to the Content Delivery API.
+   */
+  expandAllProperties: boolean,
 };
 
 /**
@@ -19,5 +32,7 @@ export type ContentDeliveryConfig = {
  * Content Delivery API.
  */
 export const defaultConfig: ContentDeliveryConfig = { 
-  apiUrl: '/' 
+  apiUrl: '/',
+  selectAllProperties: true,
+  expandAllProperties: false,
 }

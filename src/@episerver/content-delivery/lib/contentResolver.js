@@ -74,19 +74,14 @@ class ContentResolver {
      *
      * @param url - URL to resolve.
      * @param matchExact - Match the URL exactly or patially.
-     * @param select - Properties to include in the response. All by default.
-     * @param expand - Properties to expand in the response. All by default.
+     * @param select - Properties to include in the response. All by default, unless configured differently.
+     * @param expand - Properties to expand in the response. None by default, unless configured differently.
      * @returns A promise with a ResolvedContent regardless the content was successfully resolved or not.
      * Check the status property whether the resolving was successful.
      * If the service returned a server error, the promise is rejected with a ContentResolverError.
      */
     resolveContent(url, matchExact, select, expand) {
-        const parameters = {
-            'contentUrl': url,
-            'matchExact': matchExact,
-            'select': select ? select.join() : null,
-            'expand': expand ? expand.join() : '*',
-        };
+        const parameters = Object.assign({ 'contentUrl': url, 'matchExact': matchExact }, __classPrivateFieldGet(this, _api).getDefaultParameters(select, expand));
         return new Promise((resolve, reject) => {
             __classPrivateFieldGet(this, _api).get('/content', parameters).then((response) => {
                 var _a;

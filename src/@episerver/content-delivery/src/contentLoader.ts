@@ -13,10 +13,12 @@ export type ContentLoaderError<T = any> = {
    * Additional error data. Can be undefined.
    */
   data?: T | undefined,
+
   /**
    * HTTP status code.
    */
   statusCode: number,
+
   /**
    * Message describing the error.
    */
@@ -44,19 +46,13 @@ export class ContentLoader {
    * 
    * @param id - Identifier of the content.
    * @param branch - Branch of the content. 
-   * @param select - Properties to include in the response. All by default.
-   * @param expand - Properties to expand in the response. All by default.
+   * @param select - Properties to include in the response. All by default, unless configured differently.
+   * @param expand - Properties to expand in the response. None by default, unless configured differently.
    * @returns A promise with a ContentData if the content was found, otherwise rejected with a ContentLoaderError.
    */
-  getContent<T extends ContentData>(id: string, branch: string = '*', select?: Array<string>, expand?: Array<string>): Promise<T> {
-    const headers = {
-      'Accept-Language': branch,
-    };
-
-    const parameters = {
-      'select': select ? select.join() : null,
-      'expand': expand ? expand.join() : '*',
-    };
+  getContent<T extends ContentData>(id: string, branch?: string, select?: Array<string>, expand?: Array<string>): Promise<T> {
+    const parameters = this.#api.getDefaultParameters(select, expand);
+    const headers = this.#api.getDefaultHeaders(branch);
 
     return new Promise<T>((resolve, reject) => {
       this.#api.get(`/content/${id}`, parameters, headers).then((response: AxiosResponse<any>) => {
@@ -72,19 +68,13 @@ export class ContentLoader {
    * 
    * @param id - Identifier of the parent content.
    * @param branch - Branch of the content. 
-   * @param select - Properties to include in the response. All by default.
-   * @param expand - Properties to expand in the response. All by default.
+   * @param select - Properties to include in the response. All by default, unless configured differently.
+   * @param expand - Properties to expand in the response. None by default, unless configured differently.
    * @returns A promise with an array of ContentData, otherwise rejected with a ContentLoaderError.
    */
-  getChildren<T extends ContentData, R = Array<T>>(id: string, branch: string = '*', select?: Array<string>, expand?: Array<string>): Promise<R> {
-    const headers = {
-      'Accept-Language': branch,
-    };
-
-    const parameters = {
-      'select': select ? select.join() : null,
-      'expand': expand ? expand.join() : '*',
-    };
+  getChildren<T extends ContentData, R = Array<T>>(id: string, branch?: string, select?: Array<string>, expand?: Array<string>): Promise<R> {
+    const parameters = this.#api.getDefaultParameters(select, expand);
+    const headers = this.#api.getDefaultHeaders(branch);
 
     return new Promise<R>((resolve, reject) => {
       this.#api.get(`/content/${id}/children`, parameters, headers).then((response: AxiosResponse<any>) => {
@@ -100,19 +90,13 @@ export class ContentLoader {
    * 
    * @param parentId - Identifier of the content.
    * @param branch - Branch of the content. 
-   * @param select - Properties to include in the response. All by default.
-   * @param expand - Properties to expand in the response. All by default.
+   * @param select - Properties to include in the response. All by default, unless configured differently.
+   * @param expand - Properties to expand in the response. None by default, unless configured differently.
    * @returns A promise with an array of ContentData, otherwise rejected with a ContentLoaderError.
    */
-  getAncestors<T extends ContentData, R = Array<T>>(id: string, branch: string = '*', select?: Array<string>, expand?: Array<string>): Promise<R> {
-    const headers = {
-      'Accept-Language': branch,
-    };
-
-    const parameters = {
-      'select': select ? select.join() : null,
-      'expand': expand ? expand.join() : '*',
-    };
+  getAncestors<T extends ContentData, R = Array<T>>(id: string, branch?: string, select?: Array<string>, expand?: Array<string>): Promise<R> {
+    const parameters = this.#api.getDefaultParameters(select, expand);
+    const headers = this.#api.getDefaultHeaders(branch);
 
     return new Promise<R>((resolve, reject) => {
       this.#api.get(`/content/${id}/ancestors`, parameters, headers).then((response: AxiosResponse<any>) => {
