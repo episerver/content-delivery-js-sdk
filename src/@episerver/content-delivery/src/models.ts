@@ -133,6 +133,26 @@ export interface ContentData {
 }
 
 /**
+ * Inteface describing a category
+ */
+export interface Category {
+  /**
+   * Identifier of the category.
+   */
+  id: number,
+
+  /**
+   * Identifier of the category.
+   */
+  name: string,
+
+  /**
+   * Description of the category.
+   */
+  description: string,
+}
+
+/**
  * Interface describing page content.
  */
 export interface PageData extends ContentData {
@@ -149,5 +169,5 @@ export interface PageData extends ContentData {
   /**
    * List of categories.
    */
-  category: Array<string>,
+  category: Array<Category>,
 }
