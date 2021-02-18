@@ -107,7 +107,7 @@ The constructor also takes a [`ContentDeliveryConfig`](#contentdeliveryconfig-sc
 Resolving content by an URL:
 
 ```js
-contentLoader.resolveContent('https://site.com/en/page1/page2/doesnt-exist/', false)
+contentResolver.resolveContent('https://site.com/en/page1/page2/doesnt-exist/', false)
   .then((resolvedContent) => {
     // Content was resolved. Please note that the promise is fulfilled
     // even though the content was not found. The return object contains a status
