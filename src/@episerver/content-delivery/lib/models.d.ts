@@ -52,6 +52,10 @@ export interface ContentLink {
      * Language branch of the content.
      */
     language: Language;
+    /**
+     * The content item if it was expanded.
+     */
+    expanded?: ContentData;
 }
 /**
  * Interface describing content.
@@ -68,20 +72,7 @@ export interface ContentData {
     /**
      * Content type.
      */
-    contentType: {
-        /**
-         * Name of the content type.
-         */
-        name: string;
-        /**
-         * Universally unique identifier of the content type
-         */
-        guidValue: string;
-        /**
-         * Base content type
-         */
-        base: string;
-    };
+    contentType: Array<string>;
     /**
      * Language branch of the content.
      */
