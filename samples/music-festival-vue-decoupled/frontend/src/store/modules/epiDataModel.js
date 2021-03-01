@@ -5,102 +5,41 @@
  * site.
  */
 
-import contentLoader from '@/epiContentLoader';
+import { ContentResolver } from '@episerver/content-delivery';
 import { UPDATE_CONTEXT } from './epiContext';
 
-// Actions for the epiDataModel module
 export const UPDATE_MODEL_BY_URL = 'epiDataModel/UPDATE_MODEL_BY_URL';
-export const UPDATE_MODEL_BY_CONTENT_LINK = 'epiDataModel/UPDATE_MODEL_BY_CONTENT_LINK';
-
-export const MODEL_STATUS = {
-  UNKNOWN: 0,
-  RESOLVED: 200,
-  NOTFOUND: 404,
-  UNAUTHORIZED: 401,
-  ACCESSDENIED: 403,
-};
 
 const UPDATE_MODEL = 'epiDataModel/UPDATE_MODEL';
-
-const parameters = {
-  expand: '*',
-};
-
-function setContext(commit, response) {
-  if (response.headers['x-epi-contextmode'] === 'Edit') {
-    const context = {
-      isEditable: true,
-      inEditMode: true,
-    };
-    commit(UPDATE_CONTEXT, context);
-  }
-}
-
-function translateHttpStatus(status) {
-  switch (status) {
-    case 200:
-      return MODEL_STATUS.RESOLVED;
-    case 401:
-      return MODEL_STATUS.UNAUTHORIZED;
-    case 403:
-      return MODEL_STATUS.ACCESSDENIED;
-    case 404:
-      return MODEL_STATUS.NOTFOUND;
-    default:
-      return MODEL_STATUS.UNKNOWN;
-  }
-}
 
 const state = {
   model: {},
   modelLoaded: false,
-  status: MODEL_STATUS.UNKNOWN,
+  status: 'UNKNOWN',
 };
 
 const mutations = {
   [UPDATE_MODEL](state, payload) {
     state.model = payload.model || {};
-    state.modelLoaded = (payload.status === MODEL_STATUS.RESOLVED);
+    state.modelLoaded = (payload.status === 'RESOLVED');
     state.status = payload.status;
   },
 };
 
 const actions = {
-  /*
-   * When updating a model by URL we assume that the URL
-   * contains every querystring parameter that we might need on the server.
-   */
-  [UPDATE_MODEL_BY_URL]({ commit }, url) {
-    return contentLoader.getContentByUrl(url, parameters).then((response) => {
-      if (!response) {
-        return;
-      }
+  async [UPDATE_MODEL_BY_URL]({ commit }, url) {
+    const contentResolver = new ContentResolver();
 
-      setContext(commit, response);
-      commit(UPDATE_MODEL, { model: response.data[0], status: translateHttpStatus(response.status) });
-    }).catch((error) => commit(UPDATE_MODEL, { status: translateHttpStatus(error.response.status) }));
-  },
+    return contentResolver.resolveContent(url, true).then((resolvedContent) => {
+      commit(UPDATE_MODEL, { model: resolvedContent.content, status: resolvedContent.status });
 
-  /*
-   * Updating a model by content link is done when something is being
-   * edited and when viewing a block. In order to be sure that we get the
-   * correct model, we need to keep any previously existing query string
-   * from the friendly URL.
-   */
-  [UPDATE_MODEL_BY_CONTENT_LINK]({ commit, rootState }, contentLink) {
-    const params = {
-      ...parameters,
-      ...rootState.route.query,
-    };
+      const context = {
+        isEditable: resolvedContent.mode === 'EDIT',
+        inEditMode: resolvedContent.mode === 'EDIT',
+      };
 
-    return contentLoader.getContentByContentLink(contentLink, params).then((response) => {
-      if (!response) {
-        return;
-      }
-
-      setContext(commit, response);
-      commit(UPDATE_MODEL, { model: response.data, status: translateHttpStatus(response.status) });
-    }).catch((error) => commit(UPDATE_MODEL, { status: translateHttpStatus(error.response.status) }));
+      commit(UPDATE_CONTEXT, context);
+    }).catch(() => commit(UPDATE_MODEL, { status: 'UNKNOWN' }));
   },
 };
 

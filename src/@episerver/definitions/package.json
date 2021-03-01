@@ -10,6 +10,10 @@
     "definitions"
   ],
   "homepage": "https://www.episerver.com",
+  "repository": {
+    "type": "git",
+    "url" : "git+https://github.com/episerver/EPiServer.ContentDelivery.Vue.js.git"
+  },
   "main": "./bin/cli.js",
   "bin": {
     "epi-definitions": "./bin/cli.js"

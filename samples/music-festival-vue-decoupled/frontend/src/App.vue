@@ -27,9 +27,8 @@
 </style>
 
 <script>
-import AuthService from '@/authService';
-
-const authService = new AuthService();
+import authService from '@/authService';
+import { defaultConfig } from '@episerver/content-delivery';
 
 export default {
   data() {
@@ -47,6 +46,11 @@ export default {
     },
   },
   mounted() {
+    defaultConfig.apiUrl = `${process.env.VUE_APP_CONTENT_DELIVERY_API}/api/episerver/v2.0`;
+    defaultConfig.getAccessToken = () => authService.getAccessToken();
+    defaultConfig.selectAllProperties = true;
+    defaultConfig.expandAllProperties = true;
+
     authService.getUser().then((user) => {
       if (user && !user.expired) {
         this.isLoggedIn = true;

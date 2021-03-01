@@ -5,6 +5,7 @@ using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.ServiceLocation;
 using EPiServer.Web;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace MusicFestival.CMS.Infrastructure
@@ -27,7 +28,8 @@ namespace MusicFestival.CMS.Infrastructure
                 // Set MinimumRoles to empty to allow anonymous calls (for visitors to view site in view mode).
                 config.Default()
                     .SetMinimumRoles(string.Empty)
-                    .SetRequiredRole(string.Empty);
+                    .SetRequiredRole(string.Empty)
+                    .SetClients(Enumerable.Empty<ContentApiClient>()); // This clears the default client and uses site definitions instead.
             });
         }
 
