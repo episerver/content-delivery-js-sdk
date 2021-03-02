@@ -21,6 +21,11 @@
         public const string RoleClaimType = "role";
 
         /// <summary>
+        /// The default Content Definitions API resource name.
+        /// </summary>
+        public const string ContentDefinitionsApiName = "epi_content_definitions";
+
+        /// <summary>
         /// The default Content Delivery API resource name.
         /// </summary>
         public const string ContentDeliveryApiName = "epi_content_delivery";
@@ -29,10 +34,5 @@
         /// The default Content Management API resource name.
         /// </summary>
         public const string ContentManagementApiName = "epi_content_management";
-
-        /// <summary>
-        /// The default Definitions API resource name.
-        /// </summary>
-        public const string DefinitionsApiName = "epi_definitions";
     }
 }
