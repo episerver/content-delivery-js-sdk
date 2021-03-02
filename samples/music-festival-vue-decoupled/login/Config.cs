@@ -53,11 +53,11 @@ namespace IdentityServer
                        new Secret("epi_content_management".Sha256()),
                    }
                },
-               new ApiResource("epi_definitions", "Episerver Definitions")
+               new ApiResource("epi_content_definitions", "Episerver Content Definitions")
                {
                    ApiSecrets =
                    {
-                       new Secret("epi_definitions".Sha256()),
+                       new Secret("epi_content_definitions".Sha256()),
                    }
                }
             };
@@ -67,11 +67,11 @@ namespace IdentityServer
             {
                 new Client
                 {
-                    ClientId = "definitions-cli",
-                    ClientName = "Episerver Definitions CLI",
-                    ClientSecrets = { new Secret("definitions-cli".Sha256()) },
+                    ClientId = "content-definitions-cli",
+                    ClientName = "Episerver Content Definitions CLI",
+                    ClientSecrets = { new Secret("content-definitions-cli".Sha256()) },
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    AllowedScopes = { "epi_content_delivery", "epi_definitions" },
+                    AllowedScopes = { "epi_content_definitions" },
                     AccessTokenLifetime = TokenLifeTime,
                     IdentityTokenLifetime = TokenLifeTime
                 },
@@ -97,7 +97,7 @@ namespace IdentityServer
                     ClientName = "Music Festival",
                     ClientSecrets = { new Secret("festival".Sha256()) },
                     AllowedGrantTypes = GrantTypes.Code,
-                    AllowedScopes = { "openid", "profile", "email", "role", "epi_content_delivery", "epi_definitions" },
+                    AllowedScopes = { "openid", "profile", "email", "role", "epi_content_delivery" },
                     AllowOfflineAccess = true,
                     AllowedCorsOrigins =  { "https://localhost:8080" },
                     FrontChannelLogoutUri = "https://localhost:8080",
