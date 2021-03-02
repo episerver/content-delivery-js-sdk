@@ -4,12 +4,12 @@ const { program } = require('commander');
 const { importManifest } = require('../api/manifest');
 
 program
-  .version(`@episerver/definitions ${require('../package').version}`)
+  .version(`@episerver/content-definitions ${require('../package').version}`)
   .usage('<command> [options]');
 
 program
   .command('import <path>')
-  .description('Import a manifest with definitions from the specified path to a management application.')
+  .description('Import a manifest with content definitions from the specified path to a management application.')
   .requiredOption('-s, --source <source>', 'URL to the management application.')
   .requiredOption('--authority <authority>', 'Login authority.')
   .requiredOption('--client-id <clientId>', 'Login client ID.')

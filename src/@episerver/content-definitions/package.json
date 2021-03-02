@@ -1,7 +1,7 @@
 {
-  "name": "@episerver/definitions",
+  "name": "@episerver/content-definitions",
   "version": "1.0.0",
-  "description": "Episerver tool for managing application manifest files with definitions.",
+  "description": "Episerver tool for managing content definitions manifest files.",
   "author": "Johan Petersson <johan.petersson@episerver.com>",
   "license": "Apache-2.0",
   "keywords": [
@@ -16,7 +16,7 @@
   },
   "main": "./bin/cli.js",
   "bin": {
-    "epi-definitions": "./bin/cli.js"
+    "content-definitions": "./bin/cli.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

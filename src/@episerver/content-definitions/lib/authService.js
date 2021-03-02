@@ -22,7 +22,7 @@ async function GetAccessToken(login) {
 
   const grant = await client.grant({
     grant_type: 'client_credentials',
-    scope: 'epi_definitions',
+    scope: 'epi_content_definitions',
   }).catch((error) => console.error('Error', error.error));
 
   return grant?.access_token;

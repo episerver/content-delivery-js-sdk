@@ -1,6 +1,6 @@
 # Episerver Content Delivery JavaScript SDK - Content Definitions
 
-SDK and CLI for managing definitions and modelling of data in an Episerver application running the [Content Definitions API](https://world.episerver.com/documentation/developer-guides/content-definitions-api/). The SDK is written in TypeScript and includes types.
+SDK and CLI for managing content definitions and modelling of data in an Episerver application running the [Content Definitions API](https://world.episerver.com/documentation/developer-guides/content-definitions-api/).
 
 Please visit [Episerver World](https://world.episerver.com/) for full documentation of the APIs. 
 
@@ -24,7 +24,7 @@ $ yarn install @episerver/content-definitions
 
 Help:
 ```bash
-$ npx epi-definitions --help
+$ npx content-definitions --help
 ```
 
 ```bash
@@ -35,20 +35,20 @@ Options:
   -h, --help               display help for command
 
 Commands:
-  import [options] <path>  Import a manifest with definitions from the specified path to a management application.
+  import [options] <path>  Import a manifest with content definitions from the specified path to a management application.
   help [command]           display help for command
 ```
 
 Importing of content definitions manifest:
 
 ```bash
-$ npx epi-definitions import manifest.json -s https://site.com --allowed-upgrades major --authority https://login.com --client-id definitions-cli --client-secret definitions-cli
+$ npx content-definitions import manifest.json -s https://site.com --allowed-upgrades major --authority https://login.com --client-id definitions-cli --client-secret definitions-cli
 ```
 
 ```bash
 Usage: cli import [options] <path>
 
-Import a manifest with definitions from the specified path to a management application.
+Import a manifest with content definitions from the specified path to a management application.
 
 Options:
   -s, --source <source>                     URL to the management application.

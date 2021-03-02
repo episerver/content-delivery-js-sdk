@@ -16,7 +16,7 @@ module.exports = {
     }
 
     axios({
-      url: `${source}/api/episerver/v2.0/manifest`,
+      url: `${source}/api/episerver/v2.0/content-manifest`,
       method: 'PUT',
       headers: {
         Authorization: `Bearer ${await GetAccessToken(login)}`,
@@ -30,7 +30,7 @@ module.exports = {
         rejectUnauthorized: isLocal(source),
       }),
     }).then((response) => {
-      response.data.forEach(message => {
+      response.data.messages.forEach(message => {
         console.log(message.severity, message.message);
       });
     }).catch((error) => {
