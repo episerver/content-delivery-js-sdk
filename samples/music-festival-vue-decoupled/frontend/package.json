@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "definitions:import": "epi-definitions import manifest.json -s https://localhost:44340 --allowed-upgrades major --authority https://localhost:8081 --client-id definitions-cli --client-secret definitions-cli"
+    "content-definitions:import": "content-definitions import manifest.json -s https://localhost:44340 --allowed-upgrades major --authority https://localhost:8081 --client-id content-definitions-cli --client-secret content-definitions-cli"
   },
   "dependencies": {
     "@episerver/content-delivery": "file:../../../src/@episerver/content-delivery",
@@ -18,7 +18,7 @@
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
-    "@episerver/definitions": "file:../../../src/@episerver/definitions",
+    "@episerver/content-definitions": "file:../../../src/@episerver/content-definitions",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
