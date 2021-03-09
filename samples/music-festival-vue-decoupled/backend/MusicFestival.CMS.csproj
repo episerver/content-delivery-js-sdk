@@ -81,16 +81,16 @@
       <HintPath>packages\EPiServer.CMS.AspNet.11.20.4\lib\net461\EPiServer.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="EPiServer.ContentApi.Cms, Version=2.19.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>packages\EPiServer.ContentDeliveryApi.Cms.2.19.0-developerbuild-004739\lib\net461\EPiServer.ContentApi.Cms.dll</HintPath>
+      <HintPath>packages\EPiServer.ContentDeliveryApi.Cms.2.19.0-inte-004828\lib\net461\EPiServer.ContentApi.Cms.dll</HintPath>
     </Reference>
     <Reference Include="EPiServer.ContentApi.Core, Version=2.19.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>packages\EPiServer.ContentDeliveryApi.Core.2.19.0-developerbuild-004739\lib\net461\EPiServer.ContentApi.Core.dll</HintPath>
+      <HintPath>packages\EPiServer.ContentDeliveryApi.Core.2.19.0-inte-004828\lib\net461\EPiServer.ContentApi.Core.dll</HintPath>
     </Reference>
     <Reference Include="EPiServer.ContentApi.Routing, Version=2.19.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>packages\EPiServer.ContentDeliveryApi.Cms.2.19.0-developerbuild-004739\lib\net461\EPiServer.ContentApi.Routing.dll</HintPath>
+      <HintPath>packages\EPiServer.ContentDeliveryApi.Cms.2.19.0-inte-004828\lib\net461\EPiServer.ContentApi.Routing.dll</HintPath>
     </Reference>
     <Reference Include="EPiServer.ContentDefinitionsApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>packages\EPiServer.ContentDefinitionsApi.1.0.0-developerbuild-000001\lib\net461\EPiServer.ContentDefinitionsApi.dll</HintPath>
+      <HintPath>packages\EPiServer.ContentDefinitionsApi.1.0.0-inte-004828\lib\net461\EPiServer.ContentDefinitionsApi.dll</HintPath>
     </Reference>
     <Reference Include="EPiServer.Data, Version=11.20.4.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>packages\EPiServer.Framework.11.20.4\lib\net461\EPiServer.Data.dll</HintPath>

@@ -1,5 +1,5 @@
 {
-  "PropertyGroups": [
+  "propertyGroups": [
     {
       "name": "Information",
       "displayName": "Information",
@@ -33,7 +33,7 @@
       "systemGroup": true
     }
   ],
-  "ContentTypes": [
+  "contentTypes": [
     {
       "id": "ac096c4f-56ab-4396-9f5c-cfa923875c18",
       "name": "BuyTicketBlock",
