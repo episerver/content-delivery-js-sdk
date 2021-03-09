@@ -1,0 +1,29 @@
+{
+  "name": "@episerver/content-definitions",
+  "version": "1.0.0",
+  "description": "Episerver tool for managing content definitions manifest files.",
+  "author": "Johan Petersson <johan.petersson@episerver.com>",
+  "license": "Apache-2.0",
+  "keywords": [
+    "episerver",
+    "manifest",
+    "definitions"
+  ],
+  "homepage": "https://www.episerver.com",
+  "repository": {
+    "type": "git",
+    "url" : "git+https://github.com/episerver/EPiServer.ContentDelivery.Vue.js.git"
+  },
+  "main": "./bin/cli.js",
+  "bin": {
+    "content-definitions": "./bin/cli.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "axios": "^0.21.0",
+    "commander": "^6.2.0",
+    "openid-client": "^4.2.2"
+  }
+}

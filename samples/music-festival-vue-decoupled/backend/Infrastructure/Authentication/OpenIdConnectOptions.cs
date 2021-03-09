@@ -32,9 +32,9 @@ namespace MusicFestival.CMS.Infrastructure.Authentication
         /// </summary>
         public IEnumerable<string> ValidAudiences { get; set; } = new[]
         {
+            OpenIdConnectOptionsDefaults.ContentDefinitionsApiName,
             OpenIdConnectOptionsDefaults.ContentDeliveryApiName,
             OpenIdConnectOptionsDefaults.ContentManagementApiName,
-            OpenIdConnectOptionsDefaults.DefinitionsApiName
         };
 
         /// <summary>
