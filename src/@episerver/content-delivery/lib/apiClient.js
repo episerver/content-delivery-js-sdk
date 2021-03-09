@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, privateMap, value) {
     if (!privateMap.has(receiver)) {
         throw new TypeError("attempted to set private field on non-instance");
@@ -51,23 +60,26 @@ class ApiClient {
      * @returns A promise with an AxiosResponse if the request was successful, otherwise rejected with an AxiosError.
      */
     get(path, parameters, headers) {
-        const config = {
-            method: 'get',
-            baseURL: __classPrivateFieldGet(this, _config).apiUrl,
-            params: parameters,
-            headers: headers,
-        };
-        if (__classPrivateFieldGet(this, _config).getAccessToken) {
-            __classPrivateFieldGet(this, _config).getAccessToken(path).then((accessToken) => {
-                config.headers.Authorization = `Bearer ${accessToken}`;
-                config.withCredentials = true;
-            });
-        }
-        var instance = axios_1.default.create(config);
-        if (__classPrivateFieldGet(this, _onBeforeRequest)) {
-            instance.interceptors.request.use(__classPrivateFieldGet(this, _onBeforeRequest));
-        }
-        return instance.get(path);
+        return __awaiter(this, void 0, void 0, function* () {
+            const config = {
+                method: 'get',
+                baseURL: __classPrivateFieldGet(this, _config).apiUrl,
+                params: parameters,
+                headers: headers || {},
+                withCredentials: true,
+            };
+            if (__classPrivateFieldGet(this, _config).getAccessToken) {
+                const accessToken = yield __classPrivateFieldGet(this, _config).getAccessToken(path);
+                if (accessToken) {
+                    config.headers.Authorization = `Bearer ${accessToken}`;
+                }
+            }
+            const instance = axios_1.default.create(config);
+            if (__classPrivateFieldGet(this, _onBeforeRequest)) {
+                instance.interceptors.request.use(__classPrivateFieldGet(this, _onBeforeRequest));
+            }
+            return instance.get(path);
+        });
     }
     /**
      * Get default API parameters to use when making requests.

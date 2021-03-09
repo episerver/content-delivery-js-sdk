@@ -59,22 +59,23 @@ export class ApiClient {
    * @param headers - Headers to include in the request.
    * @returns A promise with an AxiosResponse if the request was successful, otherwise rejected with an AxiosError.
    */
-  get(path: string, parameters?: ApiParameters, headers?: ApiHeaders): Promise<AxiosResponse<any>> {
+  async get(path: string, parameters?: ApiParameters, headers?: ApiHeaders): Promise<AxiosResponse<any>> {
     const config: AxiosRequestConfig = {
-        method: 'get',
-        baseURL: this.#config.apiUrl,
-        params: parameters,
-        headers: headers,
+      method: 'get',
+      baseURL: this.#config.apiUrl,
+      params: parameters,
+      headers: headers || {},
+      withCredentials: true,
     };
 
     if (this.#config.getAccessToken) {
-      this.#config.getAccessToken(path).then((accessToken) => {
+      const accessToken = await this.#config.getAccessToken(path);
+      if (accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`;
-        config.withCredentials = true;
-      });
+      }
     }
 
-    var instance = axios.create(config);
+    const instance = axios.create(config);
 
     if (this.#onBeforeRequest) {
       instance.interceptors.request.use(this.#onBeforeRequest);
