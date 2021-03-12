@@ -41,8 +41,8 @@ This project uses:
 
 * [EpiPageComponentSelector.vue](frontend/src/components/EpiPageComponentSelector.vue): loads the Vue page component and owns its model.
 * [EpiBlockComponentSelector.vue](frontend/src/components/EpiBlockComponentSelector.vue): loads the Vue block component.
-* [EpiLink.vue](frontend/src/components/widgets/EpiLink.vue): regular links when in OPE and Vue router links otherwise.
-* [EpiViewModeLink.vue](frontend/src/components/widgets/EpiViewModeLink.vue): disables links completely when in OPE.
+* [EpiLink.vue](frontend/src/components/EpiLink.vue): regular links when in OPE and Vue router links otherwise.
+* [EpiViewModeLink.vue](frontend/src/components/EpiViewModeLink.vue): disables links completely when in OPE.
 
 ## Debugging Vuex state
 

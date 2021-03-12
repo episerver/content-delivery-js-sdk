@@ -373,11 +373,11 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>4500</DevelopmentServerPort>
+          <DevelopmentServerPort>44340</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:4500</IISUrl>
+          <IISUrl>https://localhost:44340</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
-          <IISAppRootUrl>http://localhost:4500/episerver/cms</IISAppRootUrl>
+          <IISAppRootUrl>https://localhost:44340/episerver/cms</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
