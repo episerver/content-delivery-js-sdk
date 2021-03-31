@@ -1,6 +1,41 @@
 import { ContentDeliveryConfig } from './config';
 import { ContentData } from './models';
 /**
+ * Interface describing additional request parameters
+ * for requesting content.
+ */
+export interface ContentRequest {
+    /**
+     * Branch of the content to request.
+     */
+    branch?: string;
+    /**
+     * Properties to include in the response.
+     * All by default, unless configured differently.
+     */
+    select?: Array<string>;
+    /**
+     * Properties to expand in the response.
+     * None by default, unless configured differently.
+     */
+    expand?: Array<string>;
+}
+/**
+ * Interface describing additional request parameters
+ * for requesting a collection of content items.
+ */
+export interface ContentCollectionRequest extends ContentRequest {
+    /**
+     * Number of content items to fetch per set.
+     */
+    limit?: number;
+    /**
+     * Continuation token for fetching the next
+     * set of content items.
+     */
+    continuationToken?: string;
+}
+/**
  * Type describing a content loader error.
  *
  * @typeparam T - Type of the additional error data.
@@ -9,7 +44,7 @@ export declare type ContentLoaderError<T = any> = {
     /**
      * Additional error data. Can be undefined.
      */
-    data?: T | undefined;
+    data?: T;
     /**
      * HTTP status code.
      */
@@ -18,6 +53,21 @@ export declare type ContentLoaderError<T = any> = {
      * Message describing the error.
      */
     errorMessage: string;
+};
+/**
+ * Type describing a content collection.
+ *
+ * @typeparam T - Type of the content items.
+ */
+export declare type ContentCollection<T extends ContentData> = {
+    /**
+     * The content items.
+     */
+    items?: Array<T>;
+    /**
+     * Continuation token to fetch next set of items.
+     */
+    continuationToken?: string;
 };
 /**
  * Class for loading content.
@@ -35,30 +85,25 @@ export declare class ContentLoader {
      * Get content by an identifier.
      *
      * @param id - Identifier of the content.
-     * @param branch - Branch of the content.
-     * @param select - Properties to include in the response. All by default, unless configured differently.
-     * @param expand - Properties to expand in the response. None by default, unless configured differently.
+     * @param request - Additional request parameters.
      * @returns A promise with a ContentData if the content was found, otherwise rejected with a ContentLoaderError.
      */
-    getContent<T extends ContentData>(id: string, branch?: string, select?: Array<string>, expand?: Array<string>): Promise<T>;
+    getContent<T extends ContentData>(id: string, request?: ContentRequest): Promise<T>;
     /**
-     * Get child content by an identifier.
+     * Get children by a parent identifier.
      *
      * @param id - Identifier of the parent content.
-     * @param branch - Branch of the content.
-     * @param select - Properties to include in the response. All by default, unless configured differently.
-     * @param expand - Properties to expand in the response. None by default, unless configured differently.
-     * @returns A promise with an array of ContentData, otherwise rejected with a ContentLoaderError.
+     * @param request - Additional request parameters.
+     * @returns A promise with an array of ContentData or a ContentCollection if 'top'
+     * or a 'continuationToken' is provided. Otherwise rejected with a ContentLoaderError.
      */
-    getChildren<T extends ContentData, R = Array<T>>(id: string, branch?: string, select?: Array<string>, expand?: Array<string>): Promise<R>;
+    getChildren<T extends ContentData>(id: string, request?: ContentCollectionRequest): Promise<Array<T> | ContentCollection<T>>;
     /**
-     * Get ancestor content by an identifier.
+     * Get ancestors by a parent identifier.
      *
      * @param parentId - Identifier of the content.
-     * @param branch - Branch of the content.
-     * @param select - Properties to include in the response. All by default, unless configured differently.
-     * @param expand - Properties to expand in the response. None by default, unless configured differently.
+     * @param request - Additional request parameters.
      * @returns A promise with an array of ContentData, otherwise rejected with a ContentLoaderError.
      */
-    getAncestors<T extends ContentData, R = Array<T>>(id: string, branch?: string, select?: Array<string>, expand?: Array<string>): Promise<R>;
+    getAncestors<T extends ContentData>(id: string, request?: ContentRequest): Promise<Array<T>>;
 }

@@ -4,6 +4,24 @@ import { ContentDeliveryConfig, defaultConfig } from './config';
 import { ContentData, ContextMode } from './models';
 
 /**
+ * Interface describing additional request parameters
+ * for resolving content.
+ */
+ export interface ResolveContentRequest {
+  /**
+   * Properties to include in the response. 
+   * All by default, unless configured differently.
+   */
+  select?: Array<string>,
+
+  /**
+   * Properties to expand in the response. 
+   * None by default, unless configured differently.
+   */
+  expand?: Array<string>,
+}
+
+/**
  * Enum describing the status of the resolved content. 
  */
 export enum ResolvedContentStatus
@@ -121,17 +139,16 @@ export class ContentResolver {
    *
    * @param url - URL to resolve.
    * @param matchExact - Match the URL exactly or patially.
-   * @param select - Properties to include in the response. All by default, unless configured differently.
-   * @param expand - Properties to expand in the response. None by default, unless configured differently.
+   * @param request - Additional request parameters. 
    * @returns A promise with a ResolvedContent regardless the content was successfully resolved or not.
    * Check the status property whether the resolving was successful. 
    * If the service returned a server error, the promise is rejected with a ContentResolverError.
    */
-  resolveContent<T extends ContentData>(url: string, matchExact: boolean, select?: Array<string>, expand?: Array<string>): Promise<ResolvedContent<T>> {
+  resolveContent<T extends ContentData>(url: string, matchExact: boolean, request?: ResolveContentRequest): Promise<ResolvedContent<T>> {
     const parameters = {
       'contentUrl': url,
       'matchExact': matchExact,
-      ... this.#api.getDefaultParameters(select, expand),
+      ... this.#api.getDefaultParameters(request?.select, request?.expand),
     };
 
     return new Promise<ResolvedContent<T>>((resolve, reject) => {
@@ -160,7 +177,7 @@ export class ContentResolver {
             break;
         };
 
-        const result = {
+        const result: ResolvedContent<T> = {
           content: content,
           branch: response.headers['x-epi-branch'],
           status: status,
@@ -170,7 +187,7 @@ export class ContentResolver {
           startPageId: response.headers['x-epi-startpageguid'],
         };
 
-        resolve(result as ResolvedContent<T>);
+        resolve(result);
       }).catch((error: AxiosError<any>) => {
         reject(MapAxiosErrorToContentResolverError(error));
       });
