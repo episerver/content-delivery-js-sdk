@@ -12,15 +12,23 @@ export interface ApiParameters {
      * Properties to expand in the response.
      */
     expand?: string;
+    /**
+     * Number of items to fetch per set.
+     */
+    top?: number;
 }
 /**
  * Interface describing the default API headers.
  */
 export interface ApiHeaders {
     /**
-     * Branch of the content
+     * Branch of the content.
      */
     ['Accept-Language']?: string;
+    /**
+     * Continuation token to fetch next set of items.
+     */
+    ['x-epi-continuation']?: string;
 }
 /**
  * Class for making API calls to the Content Delivery API.

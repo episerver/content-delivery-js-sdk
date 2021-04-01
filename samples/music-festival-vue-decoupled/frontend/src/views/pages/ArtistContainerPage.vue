@@ -57,7 +57,7 @@ export default {
   methods: {
     async updateData() {
       const contentLoader = new ContentLoader();
-      contentLoader.getChildren(this.model.contentLink.guidValue, this.model.language.name).then((children) => {
+      contentLoader.getChildren(this.model.contentLink.guidValue, { branch: this.model.language.name }).then((children) => {
         // Sort response alphabetically
         const ordered = _.orderBy(children, [(artist) => artist.artistName.toLowerCase()], ['asc']);
         // Group them by first letter of artist name and store in data.artists object

@@ -4,6 +4,46 @@ import { ContentDeliveryConfig, defaultConfig } from './config';
 import { ContentData } from './models';
 
 /**
+ * Interface describing additional request parameters
+ * for requesting content.
+ */
+export interface ContentRequest {
+  /**
+   * Branch of the content to request.
+   */
+  branch?: string,
+
+  /**
+   * Properties to include in the response. 
+   * All by default, unless configured differently.
+   */
+  select?: Array<string>,
+
+  /**
+   * Properties to expand in the response. 
+   * None by default, unless configured differently.
+   */
+  expand?: Array<string>,
+}
+
+/**
+ * Interface describing additional request parameters
+ * for requesting a collection of content items.
+ */
+export interface ContentCollectionRequest extends ContentRequest {
+  /**
+   * Number of content items to fetch per set.
+   */
+  top?: number,
+
+  /**
+   * Continuation token for fetching the next
+   * set of content items.
+   */
+  continuationToken?: string,
+}
+
+/**
  * Type describing a content loader error.
  * 
  * @typeparam T - Type of the additional error data. 
@@ -12,7 +52,7 @@ export type ContentLoaderError<T = any> = {
   /**
    * Additional error data. Can be undefined.
    */
-  data?: T | undefined,
+  data?: T,
 
   /**
    * HTTP status code.
@@ -23,6 +63,23 @@ export type ContentLoaderError<T = any> = {
    * Message describing the error.
    */
   errorMessage: string,
+}
+
+/**
+ * Type describing a content collection.
+ * 
+ * @typeparam T - Type of the content items. 
+ */
+ export type ContentCollection<T extends ContentData> = {
+  /**
+   * The content items.
+   */
+  items?: Array<T>,
+
+  /**
+   * Continuation token to fetch next set of items.
+   */
+   continuationToken?: string,
 }
 
 /**
@@ -45,14 +102,12 @@ export class ContentLoader {
    * Get content by an identifier.
    * 
    * @param id - Identifier of the content.
-   * @param branch - Branch of the content. 
-   * @param select - Properties to include in the response. All by default, unless configured differently.
-   * @param expand - Properties to expand in the response. None by default, unless configured differently.
+   * @param request - Additional request parameters. 
    * @returns A promise with a ContentData if the content was found, otherwise rejected with a ContentLoaderError.
    */
-  getContent<T extends ContentData>(id: string, branch?: string, select?: Array<string>, expand?: Array<string>): Promise<T> {
-    const parameters = this.#api.getDefaultParameters(select, expand);
-    const headers = this.#api.getDefaultHeaders(branch);
+  getContent<T extends ContentData>(id: string, request?: ContentRequest): Promise<T> {
+    const parameters = this.#api.getDefaultParameters(request?.select, request?.expand);
+    const headers = this.#api.getDefaultHeaders(request?.branch);
 
     return new Promise<T>((resolve, reject) => {
       this.#api.get(`/content/${id}`, parameters, headers).then((response: AxiosResponse<any>) => {
@@ -64,43 +119,56 @@ export class ContentLoader {
   }
 
   /**
-   * Get child content by an identifier.
+   * Get children by a parent identifier.
    * 
    * @param id - Identifier of the parent content.
-   * @param branch - Branch of the content. 
-   * @param select - Properties to include in the response. All by default, unless configured differently.
-   * @param expand - Properties to expand in the response. None by default, unless configured differently.
-   * @returns A promise with an array of ContentData, otherwise rejected with a ContentLoaderError.
+   * @param request - Additional request parameters. 
+   * @returns A promise with an array of ContentData or a ContentCollection if 'top' 
+   * or a 'continuationToken' is provided. Otherwise rejected with a ContentLoaderError.
    */
-  getChildren<T extends ContentData, R = Array<T>>(id: string, branch?: string, select?: Array<string>, expand?: Array<string>): Promise<R> {
-    const parameters = this.#api.getDefaultParameters(select, expand);
-    const headers = this.#api.getDefaultHeaders(branch);
+  getChildren<T extends ContentData>(id: string, request?: ContentCollectionRequest): Promise<Array<T> | ContentCollection<T>> {
+    let parameters = this.#api.getDefaultParameters(request?.select, request?.expand);
+    let headers = this.#api.getDefaultHeaders(request?.branch);
 
-    return new Promise<R>((resolve, reject) => {
-      this.#api.get(`/content/${id}/children`, parameters, headers).then((response: AxiosResponse<any>) => {
-        resolve(response.data as R);
-      }).catch((error: AxiosError<any>) => {
-        reject(MapAxiosErrorToContentLoaderError<T>(error));
+    if (request?.top || request?.continuationToken) {
+      if (request?.top) parameters = {...parameters, top: request?.top };
+      if (request?.continuationToken) headers = { ...headers, 'x-epi-continuation': request.continuationToken };
+
+      return new Promise<ContentCollection<T>>((resolve, reject) => {
+        this.#api.get(`/content/${id}/children`, parameters, headers).then((response: AxiosResponse<any>) => {
+          resolve({
+            items: response.data,
+            continuationToken: response.headers['x-epi-continuation'] 
+          });
+        }).catch((error: AxiosError<any>) => {
+          reject(MapAxiosErrorToContentLoaderError<T>(error));
+        });
       });
-    });
+    } else {
+      return new Promise<Array<T>>((resolve, reject) => {
+        this.#api.get(`/content/${id}/children`, parameters, headers).then((response: AxiosResponse<any>) => {
+          resolve(response.data);
+        }).catch((error: AxiosError<any>) => {
+          reject(MapAxiosErrorToContentLoaderError<T>(error));
+        });
+      });
+    }
   }
 
   /**
-   * Get ancestor content by an identifier.
+   * Get ancestors by a parent identifier.
    * 
    * @param parentId - Identifier of the content.
-   * @param branch - Branch of the content. 
-   * @param select - Properties to include in the response. All by default, unless configured differently.
-   * @param expand - Properties to expand in the response. None by default, unless configured differently.
+   * @param request - Additional request parameters. 
    * @returns A promise with an array of ContentData, otherwise rejected with a ContentLoaderError.
    */
-  getAncestors<T extends ContentData, R = Array<T>>(id: string, branch?: string, select?: Array<string>, expand?: Array<string>): Promise<R> {
-    const parameters = this.#api.getDefaultParameters(select, expand);
-    const headers = this.#api.getDefaultHeaders(branch);
+  getAncestors<T extends ContentData>(id: string, request?: ContentRequest): Promise<Array<T>> {
+    const parameters = this.#api.getDefaultParameters(request?.select, request?.expand);
+    const headers = this.#api.getDefaultHeaders(request?.branch);
 
-    return new Promise<R>((resolve, reject) => {
+    return new Promise<Array<T>>((resolve, reject) => {
       this.#api.get(`/content/${id}/ancestors`, parameters, headers).then((response: AxiosResponse<any>) => {
-        resolve(response.data as R);
+        resolve(response.data);
       }).catch((error: AxiosError<any>) => {
         reject(MapAxiosErrorToContentLoaderError<T>(error));
       });

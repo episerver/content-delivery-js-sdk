@@ -35,14 +35,12 @@ class ContentLoader {
      * Get content by an identifier.
      *
      * @param id - Identifier of the content.
-     * @param branch - Branch of the content.
-     * @param select - Properties to include in the response. All by default, unless configured differently.
-     * @param expand - Properties to expand in the response. None by default, unless configured differently.
+     * @param request - Additional request parameters.
      * @returns A promise with a ContentData if the content was found, otherwise rejected with a ContentLoaderError.
      */
-    getContent(id, branch, select, expand) {
-        const parameters = __classPrivateFieldGet(this, _api).getDefaultParameters(select, expand);
-        const headers = __classPrivateFieldGet(this, _api).getDefaultHeaders(branch);
+    getContent(id, request) {
+        const parameters = __classPrivateFieldGet(this, _api).getDefaultParameters(request === null || request === void 0 ? void 0 : request.select, request === null || request === void 0 ? void 0 : request.expand);
+        const headers = __classPrivateFieldGet(this, _api).getDefaultHeaders(request === null || request === void 0 ? void 0 : request.branch);
         return new Promise((resolve, reject) => {
             __classPrivateFieldGet(this, _api).get(`/content/${id}`, parameters, headers).then((response) => {
                 resolve(response.data);
@@ -52,37 +50,52 @@ class ContentLoader {
         });
     }
     /**
-     * Get child content by an identifier.
+     * Get children by a parent identifier.
      *
      * @param id - Identifier of the parent content.
-     * @param branch - Branch of the content.
-     * @param select - Properties to include in the response. All by default, unless configured differently.
-     * @param expand - Properties to expand in the response. None by default, unless configured differently.
-     * @returns A promise with an array of ContentData, otherwise rejected with a ContentLoaderError.
+     * @param request - Additional request parameters.
+     * @returns A promise with an array of ContentData or a ContentCollection if 'top'
+     * or a 'continuationToken' is provided. Otherwise rejected with a ContentLoaderError.
      */
-    getChildren(id, branch, select, expand) {
-        const parameters = __classPrivateFieldGet(this, _api).getDefaultParameters(select, expand);
-        const headers = __classPrivateFieldGet(this, _api).getDefaultHeaders(branch);
-        return new Promise((resolve, reject) => {
-            __classPrivateFieldGet(this, _api).get(`/content/${id}/children`, parameters, headers).then((response) => {
-                resolve(response.data);
-            }).catch((error) => {
-                reject(MapAxiosErrorToContentLoaderError(error));
+    getChildren(id, request) {
+        let parameters = __classPrivateFieldGet(this, _api).getDefaultParameters(request === null || request === void 0 ? void 0 : request.select, request === null || request === void 0 ? void 0 : request.expand);
+        let headers = __classPrivateFieldGet(this, _api).getDefaultHeaders(request === null || request === void 0 ? void 0 : request.branch);
+        if ((request === null || request === void 0 ? void 0 : request.top) || (request === null || request === void 0 ? void 0 : request.continuationToken)) {
+            if (request === null || request === void 0 ? void 0 : request.top)
+                parameters = Object.assign(Object.assign({}, parameters), { top: request === null || request === void 0 ? void 0 : request.top });
+            if (request === null || request === void 0 ? void 0 : request.continuationToken)
+                headers = Object.assign(Object.assign({}, headers), { 'x-epi-continuation': request.continuationToken });
+            return new Promise((resolve, reject) => {
+                __classPrivateFieldGet(this, _api).get(`/content/${id}/children`, parameters, headers).then((response) => {
+                    resolve({
+                        items: response.data,
+                        continuationToken: response.headers['x-epi-continuation']
+                    });
+                }).catch((error) => {
+                    reject(MapAxiosErrorToContentLoaderError(error));
+                });
             });
-        });
+        }
+        else {
+            return new Promise((resolve, reject) => {
+                __classPrivateFieldGet(this, _api).get(`/content/${id}/children`, parameters, headers).then((response) => {
+                    resolve(response.data);
+                }).catch((error) => {
+                    reject(MapAxiosErrorToContentLoaderError(error));
+                });
+            });
+        }
     }
     /**
-     * Get ancestor content by an identifier.
+     * Get ancestors by a parent identifier.
      *
      * @param parentId - Identifier of the content.
-     * @param branch - Branch of the content.
-     * @param select - Properties to include in the response. All by default, unless configured differently.
-     * @param expand - Properties to expand in the response. None by default, unless configured differently.
+     * @param request - Additional request parameters.
      * @returns A promise with an array of ContentData, otherwise rejected with a ContentLoaderError.
      */
-    getAncestors(id, branch, select, expand) {
-        const parameters = __classPrivateFieldGet(this, _api).getDefaultParameters(select, expand);
-        const headers = __classPrivateFieldGet(this, _api).getDefaultHeaders(branch);
+    getAncestors(id, request) {
+        const parameters = __classPrivateFieldGet(this, _api).getDefaultParameters(request === null || request === void 0 ? void 0 : request.select, request === null || request === void 0 ? void 0 : request.expand);
+        const headers = __classPrivateFieldGet(this, _api).getDefaultHeaders(request === null || request === void 0 ? void 0 : request.branch);
         return new Promise((resolve, reject) => {
             __classPrivateFieldGet(this, _api).get(`/content/${id}/ancestors`, parameters, headers).then((response) => {
                 resolve(response.data);

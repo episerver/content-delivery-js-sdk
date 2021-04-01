@@ -1,6 +1,22 @@
 import { ContentDeliveryConfig } from './config';
 import { ContentData, ContextMode } from './models';
 /**
+ * Interface describing additional request parameters
+ * for resolving content.
+ */
+export interface ResolveContentRequest {
+    /**
+     * Properties to include in the response.
+     * All by default, unless configured differently.
+     */
+    select?: Array<string>;
+    /**
+     * Properties to expand in the response.
+     * None by default, unless configured differently.
+     */
+    expand?: Array<string>;
+}
+/**
  * Enum describing the status of the resolved content.
  */
 export declare enum ResolvedContentStatus {
@@ -90,11 +106,10 @@ export declare class ContentResolver {
      *
      * @param url - URL to resolve.
      * @param matchExact - Match the URL exactly or patially.
-     * @param select - Properties to include in the response. All by default, unless configured differently.
-     * @param expand - Properties to expand in the response. None by default, unless configured differently.
+     * @param request - Additional request parameters.
      * @returns A promise with a ResolvedContent regardless the content was successfully resolved or not.
      * Check the status property whether the resolving was successful.
      * If the service returned a server error, the promise is rejected with a ContentResolverError.
      */
-    resolveContent<T extends ContentData>(url: string, matchExact: boolean, select?: Array<string>, expand?: Array<string>): Promise<ResolvedContent<T>>;
+    resolveContent<T extends ContentData>(url: string, matchExact: boolean, request?: ResolveContentRequest): Promise<ResolvedContent<T>>;
 }
