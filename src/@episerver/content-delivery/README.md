@@ -71,7 +71,7 @@ contentLoader.getContent('38963a25-b6ec-493b-aca4-f4fbce1aed4d', { expand: ['tea
   });
 ```
 
-Reference properties (content areas and content references) only includes the reference to the content by default. By expanding these properties the content of the referenced content is also included in the response.
+Reference properties (content areas and content references) only includes the reference to the content by default. By expanding these properties the content of the referenced content is also included in the response. See the [Content API documentation](https://world.episerver.com/documentation/developer-guides/content-delivery-api/api-fundamentals/contentapi/) for more information.
 
 Loading children by a parent identifier:
 
@@ -99,11 +99,13 @@ For loading the next set of content items, use the continuation token:
 contentLoader.getChildren('38963a25-b6ec-493b-aca4-f4fbce1aed4d', { continuationToken: continuationToken })
   .then((collection) => {
     // Children was successfully loaded
-    // When we reached the last set the continuation token won't be present.
+    var children = collection.items;
+    // When we reached the last set, the continuation token won't be present.
     var continuationToken = collection.continuationToken;
   });
 ```
 
+Note that the continuation token contains how many items that should be loaded, no need to provide the `top` parameter again.
 
 Loading ancestors by an identifier:
 
