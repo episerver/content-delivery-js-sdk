@@ -28,7 +28,7 @@ export interface ContentCollectionRequest extends ContentRequest {
     /**
      * Number of content items to fetch per set.
      */
-    limit?: number;
+    top?: number;
     /**
      * Continuation token for fetching the next
      * set of content items.

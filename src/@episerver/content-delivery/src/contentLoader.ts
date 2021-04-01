@@ -34,7 +34,7 @@ export interface ContentCollectionRequest extends ContentRequest {
   /**
    * Number of content items to fetch per set.
    */
-  limit?: number,
+  top?: number,
 
   /**
    * Continuation token for fetching the next
@@ -130,8 +130,8 @@ export class ContentLoader {
     let parameters = this.#api.getDefaultParameters(request?.select, request?.expand);
     let headers = this.#api.getDefaultHeaders(request?.branch);
 
-    if (request?.limit || request?.continuationToken) {
-      if (request?.limit) parameters = {...parameters, top: request?.limit };
+    if (request?.top || request?.continuationToken) {
+      if (request?.top) parameters = {...parameters, top: request?.top };
       if (request?.continuationToken) headers = { ...headers, 'x-epi-continuation': request.continuationToken };
 
       return new Promise<ContentCollection<T>>((resolve, reject) => {

@@ -85,7 +85,7 @@ contentLoader.getChildren('38963a25-b6ec-493b-aca4-f4fbce1aed4d')
 The function takes an optional [`ContentCollectionRequest`](#contentcollectionrequest-schema) object. In addition to the `ContentRequest` parameters we can also limit the number of content items to load:
 
 ```js
-contentLoader.getChildren('38963a25-b6ec-493b-aca4-f4fbce1aed4d', { limit: 10 })
+contentLoader.getChildren('38963a25-b6ec-493b-aca4-f4fbce1aed4d', { top: 10 })
   .then((collection) => {
     // Children was successfully loaded
     var children = collection.items;
@@ -133,7 +133,7 @@ The function takes an optional [`ContentRequest`](#contentrequest-schema) object
   branch: 'en',
   select: [''],
   expand: [''],
-  limit: 0,
+  top: 0,
   continuationToken: '',
 }
 ```

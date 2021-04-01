@@ -60,9 +60,9 @@ class ContentLoader {
     getChildren(id, request) {
         let parameters = __classPrivateFieldGet(this, _api).getDefaultParameters(request === null || request === void 0 ? void 0 : request.select, request === null || request === void 0 ? void 0 : request.expand);
         let headers = __classPrivateFieldGet(this, _api).getDefaultHeaders(request === null || request === void 0 ? void 0 : request.branch);
-        if ((request === null || request === void 0 ? void 0 : request.limit) || (request === null || request === void 0 ? void 0 : request.continuationToken)) {
-            if (request === null || request === void 0 ? void 0 : request.limit)
-                parameters = Object.assign(Object.assign({}, parameters), { top: request === null || request === void 0 ? void 0 : request.limit });
+        if ((request === null || request === void 0 ? void 0 : request.top) || (request === null || request === void 0 ? void 0 : request.continuationToken)) {
+            if (request === null || request === void 0 ? void 0 : request.top)
+                parameters = Object.assign(Object.assign({}, parameters), { top: request === null || request === void 0 ? void 0 : request.top });
             if (request === null || request === void 0 ? void 0 : request.continuationToken)
                 headers = Object.assign(Object.assign({}, headers), { 'x-epi-continuation': request.continuationToken });
             return new Promise((resolve, reject) => {
