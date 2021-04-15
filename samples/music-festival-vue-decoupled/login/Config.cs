@@ -17,10 +17,10 @@ namespace IdentityServer
                 new IdentityResources.Email(),
                 new IdentityResource
                 {
-                    Name = "role",
+                    Name = "roles",
                     DisplayName = "Roles",
                     Description = "Allow access to your user roles.",
-                    UserClaims = { "role" },
+                    UserClaims = { JwtClaimTypes.Role },
                     ShowInDiscoveryDocument = true,
                     Required = false,
                 }
@@ -77,27 +77,26 @@ namespace IdentityServer
                 },
                 new Client
                 {
-                    ClientId = "festival-management",
-                    ClientName = "Music Festival Management",
-                    ClientSecrets = { new Secret("festival-management".Sha256()) },
-                    AllowedGrantTypes = GrantTypes.Hybrid, // Full framework doesn't handle code flow automatically
-                    AllowedScopes = { "openid", "profile", "email", "role" },
+                    ClientId = "backend",
+                    ClientName = "Music Festival Backend",
+                    ClientSecrets = { new Secret("backend".Sha256()) },
+                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowedScopes = { "openid", "profile", "email", "roles" },
                     AllowOfflineAccess = true,
-                    FrontChannelLogoutUri = "https://localhost:44340/signout-oidc",
-                    PostLogoutRedirectUris = { "https://localhost:44340/signout-oidc" },
-                    RedirectUris = { "https://localhost:44340/signin-oidc" },
+                    RedirectUris = { "https://localhost:8082/signin-oidc" },
                     RequireClientSecret = false,
                     RequireConsent = false,
+                    RequirePkce = true,
                     AccessTokenLifetime = TokenLifeTime,
                     IdentityTokenLifetime = TokenLifeTime
                 },
                 new Client
                 {
-                    ClientId = "festival",
-                    ClientName = "Music Festival",
-                    ClientSecrets = { new Secret("festival".Sha256()) },
+                    ClientId = "frontend",
+                    ClientName = "Music Festival Frontend",
+                    ClientSecrets = { new Secret("frontend".Sha256()) },
                     AllowedGrantTypes = GrantTypes.Code,
-                    AllowedScopes = { "openid", "profile", "email", "role", "epi_content_delivery" },
+                    AllowedScopes = { "openid", "profile", "email", "roles", "epi_content_delivery" },
                     AllowOfflineAccess = true,
                     AllowedCorsOrigins =  { "https://localhost:8080" },
                     FrontChannelLogoutUri = "https://localhost:8080",
