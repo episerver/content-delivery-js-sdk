@@ -10,7 +10,7 @@ Content is fetched from Episerver using the Content Delivery API: https://world.
 
 This project uses:
 * npm 6+
-* Dotnet SDK 5+
+* .NET SDK 5+
 * SQL Server 2016 Express LocalDB ([download here](https://www.microsoft.com/en-us/sql-server/sql-server-downloads))
 
 ## Setup and Run
