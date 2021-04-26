@@ -145,7 +145,7 @@ The function takes an optional [`ContentRequest`](#contentrequest-schema) object
 ```js
 {
   data: {},
-  statusCode: 404,
+  errorCode: 404,
   errorMessage: '',
 }
 ```

@@ -1,4 +1,3 @@
-"use strict";
 var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, privateMap, value) {
     if (!privateMap.has(receiver)) {
         throw new TypeError("attempted to set private field on non-instance");
@@ -13,14 +12,12 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     return privateMap.get(receiver);
 };
 var _api;
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ContentLoader = void 0;
-const apiClient_1 = require("./apiClient");
-const config_1 = require("./config");
+import { ApiClient } from './apiClient';
+import { defaultConfig } from './config';
 /**
  * Class for loading content.
  */
-class ContentLoader {
+export class ContentLoader {
     /**
      * Constructs an instance of ContentLoader.
      *
@@ -29,7 +26,7 @@ class ContentLoader {
      */
     constructor(config) {
         _api.set(this, void 0);
-        __classPrivateFieldSet(this, _api, new apiClient_1.ApiClient(Object.assign(Object.assign({}, config_1.defaultConfig), config)));
+        __classPrivateFieldSet(this, _api, new ApiClient(Object.assign(Object.assign({}, defaultConfig), config)));
     }
     /**
      * Get content by an identifier.
@@ -43,9 +40,14 @@ class ContentLoader {
         const headers = __classPrivateFieldGet(this, _api).getDefaultHeaders(request === null || request === void 0 ? void 0 : request.branch);
         return new Promise((resolve, reject) => {
             __classPrivateFieldGet(this, _api).get(`/content/${id}`, parameters, headers).then((response) => {
-                resolve(response.data);
+                if (response.ok) {
+                    resolve(response.data);
+                }
+                else {
+                    reject(mapResponseToError(response));
+                }
             }).catch((error) => {
-                reject(MapAxiosErrorToContentLoaderError(error));
+                reject(mapToError(error));
             });
         });
     }
@@ -67,21 +69,31 @@ class ContentLoader {
                 headers = Object.assign(Object.assign({}, headers), { 'x-epi-continuation': request.continuationToken });
             return new Promise((resolve, reject) => {
                 __classPrivateFieldGet(this, _api).get(`/content/${id}/children`, parameters, headers).then((response) => {
-                    resolve({
-                        items: response.data,
-                        continuationToken: response.headers['x-epi-continuation']
-                    });
+                    if (response.ok) {
+                        resolve({
+                            items: response.data,
+                            continuationToken: response.headers['x-epi-continuation']
+                        });
+                    }
+                    else {
+                        reject(mapResponseToError(response));
+                    }
                 }).catch((error) => {
-                    reject(MapAxiosErrorToContentLoaderError(error));
+                    reject(mapToError(error));
                 });
             });
         }
         else {
             return new Promise((resolve, reject) => {
                 __classPrivateFieldGet(this, _api).get(`/content/${id}/children`, parameters, headers).then((response) => {
-                    resolve(response.data);
+                    if (response.ok) {
+                        resolve(response.data);
+                    }
+                    else {
+                        reject(mapResponseToError(response));
+                    }
                 }).catch((error) => {
-                    reject(MapAxiosErrorToContentLoaderError(error));
+                    reject(mapToError(error));
                 });
             });
         }
@@ -98,26 +110,28 @@ class ContentLoader {
         const headers = __classPrivateFieldGet(this, _api).getDefaultHeaders(request === null || request === void 0 ? void 0 : request.branch);
         return new Promise((resolve, reject) => {
             __classPrivateFieldGet(this, _api).get(`/content/${id}/ancestors`, parameters, headers).then((response) => {
-                resolve(response.data);
+                if (response.ok) {
+                    resolve(response.data);
+                }
+                else {
+                    reject(mapResponseToError(response));
+                }
             }).catch((error) => {
-                reject(MapAxiosErrorToContentLoaderError(error));
+                reject(mapToError(error));
             });
         });
     }
 }
-exports.ContentLoader = ContentLoader;
 _api = new WeakMap();
-function MapAxiosErrorToContentLoaderError(error) {
-    if (error.response) {
-        return {
-            data: error.response.data,
-            statusCode: error.response.status,
-            errorMessage: error.response.statusText,
-        };
-    }
+function mapResponseToError(response) {
     return {
-        statusCode: 0,
-        errorMessage: error.message,
+        errorCode: response.status,
+        errorMessage: response.statusText,
+    };
+}
+function mapToError(error) {
+    return {
+        errorMessage: error.statusText,
     };
 }
 //# sourceMappingURL=contentLoader.js.map

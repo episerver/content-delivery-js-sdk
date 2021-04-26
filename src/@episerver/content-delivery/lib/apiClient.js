@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -21,17 +20,12 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     }
     return privateMap.get(receiver);
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-var _config, _onBeforeRequest;
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ApiClient = void 0;
-const axios_1 = __importDefault(require("axios"));
+var _config;
+import fetch from 'cross-fetch';
 /**
  * Class for making API calls to the Content Delivery API.
  */
-class ApiClient {
+export class ApiClient {
     /**
      * Constructs an instance of ApiClient.
      *
@@ -39,17 +33,7 @@ class ApiClient {
      */
     constructor(config) {
         _config.set(this, void 0);
-        _onBeforeRequest.set(this, void 0);
         __classPrivateFieldSet(this, _config, config);
-    }
-    /**
-     * Sets the function to call for getting an access token
-     * to authorize the request.
-     *
-     * @param onBeforeRequest - Function to use.
-     */
-    set onBeforeRequest(onBeforeRequest) {
-        __classPrivateFieldSet(this, _onBeforeRequest, onBeforeRequest);
     }
     /**
      * Make a GET request.
@@ -57,28 +41,30 @@ class ApiClient {
      * @param path - Path to request.
      * @param parameters - Parameters to include in the request.
      * @param headers - Headers to include in the request.
-     * @returns A promise with an AxiosResponse if the request was successful, otherwise rejected with an AxiosError.
+     * @returns A promise with an ApiRespone if the request was successful, otherwise rejected with an ApiError.
      */
-    get(path, parameters, headers) {
+    get(path, parameters = {}, headers = {}) {
         return __awaiter(this, void 0, void 0, function* () {
-            const config = {
+            const requestUrl = getUrl(__classPrivateFieldGet(this, _config).apiUrl, path, parameters);
+            const request = {
                 method: 'get',
-                baseURL: __classPrivateFieldGet(this, _config).apiUrl,
-                params: parameters,
-                headers: headers || {},
-                withCredentials: true,
+                credentials: 'include',
+                headers: yield getHeaders(path, headers, __classPrivateFieldGet(this, _config)),
             };
-            if (__classPrivateFieldGet(this, _config).getAccessToken) {
-                const accessToken = yield __classPrivateFieldGet(this, _config).getAccessToken(path);
-                if (accessToken) {
-                    config.headers.Authorization = `Bearer ${accessToken}`;
-                }
-            }
-            const instance = axios_1.default.create(config);
-            if (__classPrivateFieldGet(this, _onBeforeRequest)) {
-                instance.interceptors.request.use(__classPrivateFieldGet(this, _onBeforeRequest));
-            }
-            return instance.get(path);
+            return new Promise((resolve, reject) => {
+                fetch(requestUrl, request).then((response) => __awaiter(this, void 0, void 0, function* () {
+                    const result = {
+                        ok: response.ok,
+                        status: response.status,
+                        statusText: response.statusText,
+                        headers: response.headers,
+                        data: yield response.json(),
+                    };
+                    resolve(result);
+                })).catch((error) => {
+                    reject(mapToError(error));
+                });
+            });
         });
     }
     /**
@@ -102,10 +88,49 @@ class ApiClient {
      */
     getDefaultHeaders(branch) {
         return {
-            ['Accept-Language']: branch ? branch : '*'
+            'Accept-Language': branch ? branch : '*'
         };
     }
 }
-exports.ApiClient = ApiClient;
-_config = new WeakMap(), _onBeforeRequest = new WeakMap();
+_config = new WeakMap();
+function getHeaders(path, headers = {}, config) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let result = new Headers(headers);
+        if (config.getAccessToken) {
+            const accessToken = yield config.getAccessToken(path);
+            if (accessToken) {
+                result.set('Authorization', `Bearer ${accessToken}`);
+            }
+        }
+        return Promise.resolve(result);
+    });
+}
+function getUrl(baseUrl, path, parameters) {
+    if (!baseUrl.endsWith('/'))
+        baseUrl += '/';
+    if (path.startsWith('/'))
+        path = path.substring(1);
+    let query = Object.keys(parameters)
+        .filter(key => parameters[key])
+        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(parameters[key])}`)
+        .join('&');
+    if (query)
+        query = '?' + query;
+    return baseUrl + path + query;
+}
+function mapToError(error) {
+    let result = {};
+    if (typeof error.json === 'function') {
+        error.json().then((jsonError) => {
+            result.data = jsonError;
+        }).catch((errorResponse) => {
+            result.status = errorResponse.status;
+            result.statusText = errorResponse.statusText;
+        });
+    }
+    else {
+        result.statusText = error;
+    }
+    return result;
+}
 //# sourceMappingURL=apiClient.js.map

@@ -1,4 +1,3 @@
-"use strict";
 var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, privateMap, value) {
     if (!privateMap.has(receiver)) {
         throw new TypeError("attempted to set private field on non-instance");
@@ -13,15 +12,13 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     return privateMap.get(receiver);
 };
 var _api;
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ContentResolver = exports.ResolvedContentStatus = void 0;
-const apiClient_1 = require("./apiClient");
-const config_1 = require("./config");
-const models_1 = require("./models");
+import { ApiClient } from './apiClient';
+import { defaultConfig } from './config';
+import { ContextMode } from './models';
 /**
  * Enum describing the status of the resolved content.
  */
-var ResolvedContentStatus;
+export var ResolvedContentStatus;
 (function (ResolvedContentStatus) {
     /**
      * Content was unsuccessfully resolved due to
@@ -46,11 +43,11 @@ var ResolvedContentStatus;
      * access rights to be able to resolve the content.
      */
     ResolvedContentStatus["AccessDenied"] = "ACCESSDENIED";
-})(ResolvedContentStatus = exports.ResolvedContentStatus || (exports.ResolvedContentStatus = {}));
+})(ResolvedContentStatus || (ResolvedContentStatus = {}));
 /**
  * Class for resolving content.
  */
-class ContentResolver {
+export class ContentResolver {
     /**
      * Constructs an instance of ContentResolver.
      *
@@ -59,15 +56,7 @@ class ContentResolver {
      */
     constructor(config) {
         _api.set(this, void 0);
-        __classPrivateFieldSet(this, _api, new apiClient_1.ApiClient(Object.assign(Object.assign({}, config_1.defaultConfig), config)));
-        __classPrivateFieldGet(this, _api).onBeforeRequest = (config) => {
-            config.validateStatus = (status) => {
-                // When resolving content we want to return a ResolvedContent
-                // object regardless the content was found or not.
-                return status >= 200 && status < 500;
-            };
-            return config;
-        };
+        __classPrivateFieldSet(this, _api, new ApiClient(Object.assign(Object.assign({}, defaultConfig), config)));
     }
     /**
      * Resolve content from an URL.
@@ -112,23 +101,22 @@ class ContentResolver {
                     content: content,
                     branch: response.headers['x-epi-branch'],
                     status: status,
-                    mode: (_a = models_1.ContextMode[response.headers['x-epi-contextmode']]) !== null && _a !== void 0 ? _a : models_1.ContextMode.Default,
+                    mode: (_a = ContextMode[response.headers['x-epi-contextmode']]) !== null && _a !== void 0 ? _a : ContextMode.Default,
                     remainingPath: response.headers['x-epi-remainingroute'],
                     siteId: response.headers['x-epi-siteid'],
                     startPageId: response.headers['x-epi-startpageguid'],
                 };
                 resolve(result);
             }).catch((error) => {
-                reject(MapAxiosErrorToContentResolverError(error));
+                reject(mapToError(error));
             });
         });
     }
 }
-exports.ContentResolver = ContentResolver;
 _api = new WeakMap();
-function MapAxiosErrorToContentResolverError(error) {
+function mapToError(error) {
     return {
-        errorMessage: error.message,
+        errorMessage: error.statusText,
     };
 }
 //# sourceMappingURL=contentResolver.js.map

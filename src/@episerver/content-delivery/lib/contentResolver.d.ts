@@ -87,7 +87,7 @@ export declare type ContentResolverError = {
     /**
      * Message describing the error.
      */
-    errorMessage: string;
+    errorMessage?: string;
 };
 /**
  * Class for resolving content.

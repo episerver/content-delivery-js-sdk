@@ -40,19 +40,15 @@ export interface ContentCollectionRequest extends ContentRequest {
  *
  * @typeparam T - Type of the additional error data.
  */
-export declare type ContentLoaderError<T = any> = {
-    /**
-     * Additional error data. Can be undefined.
-     */
-    data?: T;
+export declare type ContentLoaderError = {
     /**
      * HTTP status code.
      */
-    statusCode: number;
+    errorCode?: number;
     /**
      * Message describing the error.
      */
-    errorMessage: string;
+    errorMessage?: string;
 };
 /**
  * Type describing a content collection.

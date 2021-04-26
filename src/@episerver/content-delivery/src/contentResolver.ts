@@ -1,5 +1,4 @@
-import { AxiosResponse, AxiosRequestConfig, AxiosError } from 'axios';
-import { ApiClient } from './apiClient';
+import { ApiClient, ApiResponse, ApiError } from './apiClient';
 import { ContentDeliveryConfig, defaultConfig } from './config';
 import { ContentData, ContextMode } from './models';
 
@@ -105,7 +104,7 @@ export type ContentResolverError = {
   /**
    * Message describing the error.
    */
-  errorMessage: string,
+  errorMessage?: string,
 }
 
 /**
@@ -122,16 +121,6 @@ export class ContentResolver {
    */
   constructor(config?: Partial<ContentDeliveryConfig>) {
     this.#api = new ApiClient({ ...defaultConfig, ...config });
-
-    this.#api.onBeforeRequest = (config: AxiosRequestConfig) => { 
-      config.validateStatus = (status: number) => {
-        // When resolving content we want to return a ResolvedContent
-        // object regardless the content was found or not.
-        return status >= 200 && status < 500;
-      };
-
-      return config;
-    };
   }
 
   /**
@@ -152,7 +141,7 @@ export class ContentResolver {
     };
 
     return new Promise<ResolvedContent<T>>((resolve, reject) => {
-      this.#api.get('/content', parameters).then((response: AxiosResponse<any>) => {
+      this.#api.get('/content', parameters).then((response: ApiResponse) => {
         const contentData = response.data as Array<T>;        
         let status = ResolvedContentStatus.Unknown;
         let content: T | undefined;
@@ -188,15 +177,15 @@ export class ContentResolver {
         };
 
         resolve(result);
-      }).catch((error: AxiosError<any>) => {
-        reject(MapAxiosErrorToContentResolverError(error));
+      }).catch((error: ApiError) => {
+        reject(mapToError(error));
       });
     });
   }
 }
 
-function MapAxiosErrorToContentResolverError(error: AxiosError<any>): ContentResolverError {
+function mapToError(error: ApiError): ContentResolverError {
   return {
-    errorMessage: error.message,
-  };
+    errorMessage: error.statusText,
+  }
 }
