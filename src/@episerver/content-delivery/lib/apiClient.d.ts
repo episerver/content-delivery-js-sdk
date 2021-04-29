@@ -1,3 +1,4 @@
+import 'cross-fetch/polyfill';
 import { ContentDeliveryConfig } from './config';
 /**
  * Interface describing a response from the API.

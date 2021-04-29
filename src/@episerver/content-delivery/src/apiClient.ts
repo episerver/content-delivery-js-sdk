@@ -1,4 +1,4 @@
-import fetch from 'cross-fetch';
+import 'cross-fetch/polyfill';
 import { ContentDeliveryConfig } from './config';
 
 /**
@@ -162,9 +162,9 @@ export class ApiClient {
   }
 }
 
-async function getHeaders(path: string,  headers: ApiHeaders = {}, config: ContentDeliveryConfig): Promise<Headers> {
+async function getHeaders(path: string, headers: ApiHeaders = {}, config: ContentDeliveryConfig): Promise<Headers> {
   let result = new Headers(headers);
-  
+
   if (config.getAccessToken) {
     const accessToken = await config.getAccessToken(path);
     if (accessToken) {

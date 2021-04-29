@@ -21,7 +21,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     return privateMap.get(receiver);
 };
 var _config;
-import fetch from 'cross-fetch';
+import 'cross-fetch/polyfill';
 /**
  * Class for making API calls to the Content Delivery API.
  */
