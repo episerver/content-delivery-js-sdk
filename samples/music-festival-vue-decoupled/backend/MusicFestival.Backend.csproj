@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EPiServer.CMS.Web" version="12.0.0-inte-020655" />
-    <PackageReference Include="EPiServer.CMS.TinyMce" version="3.0.0-inte-020092" />
+    <PackageReference Include="EPiServer.CMS.Web" version="12.0.0-inte-020863" />
+    <PackageReference Include="EPiServer.CMS.TinyMce" version="3.0.0-inte-020101" />
     <PackageReference Include="EPiServer.ContentDefinitionsApi" Version="3.0.0-ci-001133" />
     <PackageReference Include="EPiServer.ContentDeliveryApi.Cms" Version="3.0.0-ci-001133" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.5" />
