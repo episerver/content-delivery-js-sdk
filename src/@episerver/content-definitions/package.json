@@ -12,7 +12,7 @@
   "homepage": "https://www.episerver.com",
   "repository": {
     "type": "git",
-    "url" : "git+https://github.com/episerver/EPiServer.ContentDelivery.Vue.js.git"
+    "url": "git+https://github.com/episerver/content-delivery-js-sdk.git"
   },
   "main": "./bin/cli.js",
   "bin": {

@@ -1,5 +1,4 @@
-import { AxiosError, AxiosResponse } from 'axios';
-import { ApiClient } from './apiClient';
+import { ApiClient, ApiResponse, ApiError } from './apiClient';
 import { ContentDeliveryConfig, defaultConfig } from './config';
 import { ContentData } from './models';
 
@@ -48,21 +47,16 @@ export interface ContentCollectionRequest extends ContentRequest {
  * 
  * @typeparam T - Type of the additional error data. 
  */
-export type ContentLoaderError<T = any> = {
-  /**
-   * Additional error data. Can be undefined.
-   */
-  data?: T,
-
+export type ContentLoaderError = {
   /**
    * HTTP status code.
    */
-  statusCode: number,
+  errorCode?: number,
 
   /**
    * Message describing the error.
    */
-  errorMessage: string,
+  errorMessage?: string,
 }
 
 /**
@@ -110,10 +104,14 @@ export class ContentLoader {
     const headers = this.#api.getDefaultHeaders(request?.branch);
 
     return new Promise<T>((resolve, reject) => {
-      this.#api.get(`/content/${id}`, parameters, headers).then((response: AxiosResponse<any>) => {
-        resolve(response.data as T);
-      }).catch((error: AxiosError<any>) => {
-        reject(MapAxiosErrorToContentLoaderError<T>(error));
+      this.#api.get(`/content/${id}`, parameters, headers).then((response: ApiResponse) => {
+        if (response.ok) {
+          resolve(response.data as T);
+        } else {
+          reject(mapResponseToError(response));
+        }
+      }).catch((error: ApiError) => {
+        reject(mapToError(error));
       });
     });
   }
@@ -135,21 +133,29 @@ export class ContentLoader {
       if (request?.continuationToken) headers = { ...headers, 'x-epi-continuation': request.continuationToken };
 
       return new Promise<ContentCollection<T>>((resolve, reject) => {
-        this.#api.get(`/content/${id}/children`, parameters, headers).then((response: AxiosResponse<any>) => {
-          resolve({
-            items: response.data,
-            continuationToken: response.headers['x-epi-continuation'] 
-          });
-        }).catch((error: AxiosError<any>) => {
-          reject(MapAxiosErrorToContentLoaderError<T>(error));
+        this.#api.get(`/content/${id}/children`, parameters, headers).then((response: ApiResponse) => {
+          if (response.ok) {
+            resolve({
+              items: response.data,
+              continuationToken: response.headers['x-epi-continuation'] 
+            });
+          } else {
+            reject(mapResponseToError(response));
+          }
+        }).catch((error: ApiError) => {
+          reject(mapToError(error));
         });
       });
     } else {
       return new Promise<Array<T>>((resolve, reject) => {
-        this.#api.get(`/content/${id}/children`, parameters, headers).then((response: AxiosResponse<any>) => {
-          resolve(response.data);
-        }).catch((error: AxiosError<any>) => {
-          reject(MapAxiosErrorToContentLoaderError<T>(error));
+        this.#api.get(`/content/${id}/children`, parameters, headers).then((response: ApiResponse) => {
+          if (response.ok) {
+            resolve(response.data);
+          } else {
+            reject(mapResponseToError(response));
+          }
+        }).catch((error: ApiError) => {
+          reject(mapToError(error));
         });
       });
     }
@@ -167,26 +173,28 @@ export class ContentLoader {
     const headers = this.#api.getDefaultHeaders(request?.branch);
 
     return new Promise<Array<T>>((resolve, reject) => {
-      this.#api.get(`/content/${id}/ancestors`, parameters, headers).then((response: AxiosResponse<any>) => {
-        resolve(response.data);
-      }).catch((error: AxiosError<any>) => {
-        reject(MapAxiosErrorToContentLoaderError<T>(error));
+      this.#api.get(`/content/${id}/ancestors`, parameters, headers).then((response: ApiResponse) => {
+        if (response.ok) {
+          resolve(response.data);
+        } else {
+          reject(mapResponseToError(response));
+        }
+      }).catch((error: ApiError) => {
+        reject(mapToError(error));
       });
     });
   }
 }
 
-function MapAxiosErrorToContentLoaderError<T = any>(error: AxiosError<any>): ContentLoaderError<T> {
-  if (error.response) {
-    return {
-      data: error.response.data,
-      statusCode: error.response.status,
-      errorMessage: error.response.statusText,
-    }
-  }
-
+function mapResponseToError(response: ApiResponse): ContentLoaderError {
   return {
-    statusCode: 0,
-    errorMessage: error.message,
-  };
+    errorCode: response.status,
+    errorMessage: response.statusText,
+  }
+}
+
+function mapToError(error: ApiError): ContentLoaderError {
+  return {
+    errorMessage: error.statusText,
+  }
 }
