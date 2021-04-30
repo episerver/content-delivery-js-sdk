@@ -1,0 +1,42 @@
+name: Npm publish
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    name: Build & test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+      - name: Build & test Content Definitions
+        working-directory: ./src/@episerver/content-definitions
+        run: npm test
+      - name: Build & test Content Delivery
+        working-directory: ./src/@episerver/content-delivery
+        run: npm test
+
+  publish:
+    name: Publish packages
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+          registry-url: https://registry.npmjs.org/         
+      - name: Publish Content Definitions
+        working-directory: ./src/@episerver/content-definitions
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+        run: npm publish --access public
+      - name: Publish Content Delivery
+        working-directory: ./src/@episerver/content-delivery
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+        run: npm publish --access public
