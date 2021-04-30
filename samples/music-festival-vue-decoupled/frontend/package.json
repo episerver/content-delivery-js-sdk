@@ -7,6 +7,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "preserve": "node dev-certs",
+    "prebuild": "node dev-certs",
     "content-definitions:import": "content-definitions import manifest.json -s https://localhost:44340 --allowed-upgrades major --authority https://localhost:8081 --client-id content-definitions-cli --client-secret content-definitions-cli"
   },
   "dependencies": {

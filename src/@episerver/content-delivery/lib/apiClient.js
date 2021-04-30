@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -21,11 +22,13 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     return privateMap.get(receiver);
 };
 var _config;
-import 'cross-fetch/polyfill';
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ApiClient = void 0;
+require("cross-fetch/polyfill");
 /**
  * Class for making API calls to the Content Delivery API.
  */
-export class ApiClient {
+class ApiClient {
     /**
      * Constructs an instance of ApiClient.
      *
@@ -92,6 +95,7 @@ export class ApiClient {
         };
     }
 }
+exports.ApiClient = ApiClient;
 _config = new WeakMap();
 function getHeaders(path, headers = {}, config) {
     return __awaiter(this, void 0, void 0, function* () {

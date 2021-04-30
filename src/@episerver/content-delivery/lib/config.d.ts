@@ -28,3 +28,4 @@ export declare type ContentDeliveryConfig = {
  * Content Delivery API.
  */
 export declare const defaultConfig: ContentDeliveryConfig;
+//# sourceMappingURL=config.d.ts.map

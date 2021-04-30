@@ -136,3 +136,4 @@ export interface PageData extends ContentData {
      */
     category: Array<Category>;
 }
+//# sourceMappingURL=models.d.ts.map

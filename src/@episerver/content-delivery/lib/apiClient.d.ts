@@ -108,3 +108,4 @@ export declare class ApiClient {
      */
     getDefaultHeaders(branch?: string): ApiHeaders;
 }
+//# sourceMappingURL=apiClient.d.ts.map

@@ -1,3 +1,4 @@
+"use strict";
 var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, privateMap, value) {
     if (!privateMap.has(receiver)) {
         throw new TypeError("attempted to set private field on non-instance");
@@ -12,12 +13,14 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     return privateMap.get(receiver);
 };
 var _api;
-import { ApiClient } from './apiClient';
-import { defaultConfig } from './config';
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ContentLoader = void 0;
+const apiClient_1 = require("./apiClient");
+const config_1 = require("./config");
 /**
  * Class for loading content.
  */
-export class ContentLoader {
+class ContentLoader {
     /**
      * Constructs an instance of ContentLoader.
      *
@@ -26,7 +29,7 @@ export class ContentLoader {
      */
     constructor(config) {
         _api.set(this, void 0);
-        __classPrivateFieldSet(this, _api, new ApiClient(Object.assign(Object.assign({}, defaultConfig), config)));
+        __classPrivateFieldSet(this, _api, new apiClient_1.ApiClient(Object.assign(Object.assign({}, config_1.defaultConfig), config)));
     }
     /**
      * Get content by an identifier.
@@ -122,6 +125,7 @@ export class ContentLoader {
         });
     }
 }
+exports.ContentLoader = ContentLoader;
 _api = new WeakMap();
 function mapResponseToError(response) {
     return {

@@ -1,8 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ContextMode = void 0;
 /**
  * Enum describing in which mode the Content Delivery API
  * is being used.
  */
-export var ContextMode;
+var ContextMode;
 (function (ContextMode) {
     /**
      * Default mode, also known as view mode.
@@ -16,5 +19,5 @@ export var ContextMode;
      * Edit mode in the CMS shell.
      */
     ContextMode["Edit"] = "EDIT";
-})(ContextMode || (ContextMode = {}));
+})(ContextMode = exports.ContextMode || (exports.ContextMode = {}));
 //# sourceMappingURL=models.js.map

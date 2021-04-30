@@ -29,7 +29,14 @@ namespace MusicFestival.CMS.Infrastructure
                 config.Default()
                     .SetMinimumRoles(string.Empty)
                     .SetRequiredRole(string.Empty)
-                    .SetClients(Enumerable.Empty<ContentApiClient>()); // This clears the default client and uses site definitions instead.
+                    .SetClients(new[]
+                    {
+                        new ContentApiClient
+                        {
+                            ClientId = "music-festival",
+                            AccessControlAllowOrigin = "https://localhost:8080"
+                        }
+                    });
             });
         }
 

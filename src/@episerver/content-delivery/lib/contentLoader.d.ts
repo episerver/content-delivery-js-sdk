@@ -103,3 +103,4 @@ export declare class ContentLoader {
      */
     getAncestors<T extends ContentData>(id: string, request?: ContentRequest): Promise<Array<T>>;
 }
+//# sourceMappingURL=contentLoader.d.ts.map

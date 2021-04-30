@@ -113,3 +113,4 @@ export declare class ContentResolver {
      */
     resolveContent<T extends ContentData>(url: string, matchExact: boolean, request?: ResolveContentRequest): Promise<ResolvedContent<T>>;
 }
+//# sourceMappingURL=contentResolver.d.ts.map

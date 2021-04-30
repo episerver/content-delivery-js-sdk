@@ -1,8 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.defaultConfig = void 0;
 /**
  * Default configuration to use when making requests to the
  * Content Delivery API.
  */
-export const defaultConfig = {
+exports.defaultConfig = {
     apiUrl: '/',
     selectAllProperties: true,
     expandAllProperties: false,
