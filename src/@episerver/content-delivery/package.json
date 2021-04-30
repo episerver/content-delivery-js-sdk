@@ -15,8 +15,8 @@
     "type": "git",
     "url": "git+https://github.com/episerver/content-delivery-js-sdk.git"
   },
-  "type": "module",
   "module": "./lib/main.js",
+  "main": "./lib/main.js",
   "types": "./lib/main.d.ts",
   "scripts": {
     "build": "npx tsc",
