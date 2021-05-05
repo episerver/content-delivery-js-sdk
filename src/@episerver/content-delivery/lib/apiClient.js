@@ -91,7 +91,7 @@ class ApiClient {
      */
     getDefaultHeaders(branch) {
         return {
-            'Accept-Language': branch ? branch : '*'
+            'Accept-Language': branch ? branch : undefined
         };
     }
 }

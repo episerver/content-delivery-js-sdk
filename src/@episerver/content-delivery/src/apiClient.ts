@@ -157,7 +157,7 @@ export class ApiClient {
    */
   getDefaultHeaders(branch?: string) : ApiHeaders {
     return {
-      'Accept-Language': branch ? branch : '*'
+      'Accept-Language': branch ? branch : undefined
     };
   }
 }
