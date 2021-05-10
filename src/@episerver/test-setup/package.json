@@ -1,0 +1,10 @@
+{
+  "name": "test-setup",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.mjs",
+  "scripts": {
+    "backend": "node ./src/index.mjs"
+  }
+}

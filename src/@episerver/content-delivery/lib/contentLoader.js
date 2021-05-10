@@ -75,7 +75,7 @@ class ContentLoader {
                     if (response.ok) {
                         resolve({
                             items: response.data,
-                            continuationToken: response.headers['x-epi-continuation']
+                            continuationToken: response.headers.get('x-epi-continuation')
                         });
                     }
                     else {

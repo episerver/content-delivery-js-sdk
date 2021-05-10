@@ -60,9 +60,12 @@ class ApiClient {
                         ok: response.ok,
                         status: response.status,
                         statusText: response.statusText,
-                        headers: response.headers,
+                        headers: new Map(),
                         data: yield response.json(),
                     };
+                    response.headers.forEach((value, key) => {
+                        result.headers.set(key, value);
+                    });
                     resolve(result);
                 })).catch((error) => {
                     reject(mapToError(error));
@@ -99,7 +102,12 @@ exports.ApiClient = ApiClient;
 _config = new WeakMap();
 function getHeaders(path, headers = {}, config) {
     return __awaiter(this, void 0, void 0, function* () {
-        let result = new Headers(headers);
+        let result = new Headers();
+        for (const name in headers) {
+            if (headers[name] !== undefined) {
+                result.set(name, headers[name]);
+            }
+        }
         if (config.getAccessToken) {
             const accessToken = yield config.getAccessToken(path);
             if (accessToken) {
@@ -115,7 +123,7 @@ function getUrl(baseUrl, path, parameters) {
     if (path.startsWith('/'))
         path = path.substring(1);
     let query = Object.keys(parameters)
-        .filter(key => parameters[key])
+        .filter(key => parameters[key] !== undefined)
         .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(parameters[key])}`)
         .join('&');
     if (query)

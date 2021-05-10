@@ -2,7 +2,7 @@ const fs = require('fs');
 const https = require('https');
 const axios = require("axios");
 const { isLocal } = require("../lib/utils");
-const { GetAccessToken } = require("../lib/authService");
+const { getAccessToken } = require("../lib/authService");
 
 module.exports = {
   importManifest: async (path, source, options, login) => {
@@ -19,7 +19,7 @@ module.exports = {
       url: `${source}/api/episerver/v2.0/contentmanifest`,
       method: 'PUT',
       headers: {
-        Authorization: `Bearer ${await GetAccessToken(login)}`,
+        Authorization: `Bearer ${await getAccessToken(login)}`,
       },
       params: {
         allowedUpgrades: options.allowedUpgrades,

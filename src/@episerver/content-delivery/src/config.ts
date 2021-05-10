@@ -31,7 +31,7 @@ export type ContentDeliveryConfig = {
  * Default configuration to use when making requests to the
  * Content Delivery API.
  */
-export const defaultConfig: ContentDeliveryConfig = { 
+export const defaultConfig: ContentDeliveryConfig = {
   apiUrl: '/',
   selectAllProperties: true,
   expandAllProperties: false,
