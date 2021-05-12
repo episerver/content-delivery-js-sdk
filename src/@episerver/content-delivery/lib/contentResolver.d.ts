@@ -54,11 +54,11 @@ export interface ResolvedContent<T extends ContentData> {
      * Content that was resolved. Can be undefined if no
      * content was resolved
      */
-    content?: T | undefined;
+    content?: T;
     /**
      * Branch that was resolved.
      */
-    branch: string;
+    branch?: string;
     /**
      * Status of the resolved content.
      */
@@ -70,15 +70,15 @@ export interface ResolvedContent<T extends ContentData> {
     /**
      * Rremaining path of the URL if the content was partially matched.
      */
-    remainingPath: string;
+    remainingPath?: string;
     /**
      * Identifier of the site the content belongs to.
      */
-    siteId: string;
+    siteId?: string;
     /**
      * Identifier of the start page the content belongs to.
      */
-    startPageId: string;
+    startPageId?: string;
 }
 /**
  * Interface describing a content resolving error.

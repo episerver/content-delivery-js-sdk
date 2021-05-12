@@ -6,7 +6,7 @@ import { ContentData, ContextMode } from './models';
  * Interface describing additional request parameters
  * for resolving content.
  */
- export interface ResolveContentRequest {
+export interface ResolveContentRequest {
   /**
    * Properties to include in the response. 
    * All by default, unless configured differently.
@@ -23,8 +23,7 @@ import { ContentData, ContextMode } from './models';
 /**
  * Enum describing the status of the resolved content. 
  */
-export enum ResolvedContentStatus
-{
+export enum ResolvedContentStatus {
   /**
    * Content was unsuccessfully resolved due to
    * unknown reasons. 
@@ -64,12 +63,12 @@ export interface ResolvedContent<T extends ContentData> {
    * Content that was resolved. Can be undefined if no
    * content was resolved 
    */
-  content?: T | undefined,
+  content?: T,
 
   /**
    * Branch that was resolved. 
    */
-  branch: string,
+  branch?: string,
 
   /**
    * Status of the resolved content.
@@ -84,17 +83,17 @@ export interface ResolvedContent<T extends ContentData> {
   /**
    * Rremaining path of the URL if the content was partially matched.
    */
-  remainingPath: string,
+  remainingPath?: string,
 
   /**
    * Identifier of the site the content belongs to.
    */
-  siteId: string,
+  siteId?: string,
 
   /**
    * Identifier of the start page the content belongs to.
    */
-  startPageId: string,
+  startPageId?: string,
 }
 
 /**
@@ -142,7 +141,7 @@ export class ContentResolver {
 
     return new Promise<ResolvedContent<T>>((resolve, reject) => {
       this.#api.get('/content', parameters).then((response: ApiResponse) => {
-        const contentData = response.data as Array<T>;        
+        const contentData = response.data as Array<T>;
         let status = ResolvedContentStatus.Unknown;
         let content: T | undefined;
 
@@ -152,7 +151,7 @@ export class ContentResolver {
             break;
           case 403:
             status = ResolvedContentStatus.AccessDenied;
-             break;
+            break;
           case 404:
             status = ResolvedContentStatus.NotFound;
             break;
@@ -168,12 +167,12 @@ export class ContentResolver {
 
         const result: ResolvedContent<T> = {
           content: content,
-          branch: response.headers['x-epi-branch'],
+          branch: response.headers.get('x-epi-branch'),
           status: status,
-          mode: (<any>ContextMode)[response.headers['x-epi-contextmode']] ?? ContextMode.Default,
-          remainingPath: response.headers['x-epi-remainingroute'],
-          siteId: response.headers['x-epi-siteid'],
-          startPageId: response.headers['x-epi-startpageguid'],
+          mode: (<any>ContextMode)[response.headers.get('x-epi-contextmode') ?? ''] ?? ContextMode.Default,
+          remainingPath: response.headers.get('x-epi-remainingroute'),
+          siteId: response.headers.get('x-epi-siteid'),
+          startPageId: response.headers.get('x-epi-startpageguid'),
         };
 
         resolve(result);

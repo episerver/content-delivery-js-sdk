@@ -75,7 +75,7 @@ class ContentResolver {
         const parameters = Object.assign({ 'contentUrl': url, 'matchExact': matchExact }, __classPrivateFieldGet(this, _api).getDefaultParameters(request === null || request === void 0 ? void 0 : request.select, request === null || request === void 0 ? void 0 : request.expand));
         return new Promise((resolve, reject) => {
             __classPrivateFieldGet(this, _api).get('/content', parameters).then((response) => {
-                var _a;
+                var _a, _b;
                 const contentData = response.data;
                 let status = ResolvedContentStatus.Unknown;
                 let content;
@@ -102,12 +102,12 @@ class ContentResolver {
                 ;
                 const result = {
                     content: content,
-                    branch: response.headers['x-epi-branch'],
+                    branch: response.headers.get('x-epi-branch'),
                     status: status,
-                    mode: (_a = models_1.ContextMode[response.headers['x-epi-contextmode']]) !== null && _a !== void 0 ? _a : models_1.ContextMode.Default,
-                    remainingPath: response.headers['x-epi-remainingroute'],
-                    siteId: response.headers['x-epi-siteid'],
-                    startPageId: response.headers['x-epi-startpageguid'],
+                    mode: (_b = models_1.ContextMode[(_a = response.headers.get('x-epi-contextmode')) !== null && _a !== void 0 ? _a : '']) !== null && _b !== void 0 ? _b : models_1.ContextMode.Default,
+                    remainingPath: response.headers.get('x-epi-remainingroute'),
+                    siteId: response.headers.get('x-epi-siteid'),
+                    startPageId: response.headers.get('x-epi-startpageguid'),
                 };
                 resolve(result);
             }).catch((error) => {

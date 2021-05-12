@@ -1,7 +1,7 @@
 const { isLocal } = require("./utils");
 const { Issuer, custom } = require('openid-client');
 
-async function GetAccessToken(login) {
+async function getAccessToken(login) {
   custom.setHttpOptionsDefaults({
     https: {
       rejectUnauthorized: isLocal(login.authority)
@@ -29,5 +29,5 @@ async function GetAccessToken(login) {
 }
 
 module.exports = {
-  GetAccessToken
+  getAccessToken
 }

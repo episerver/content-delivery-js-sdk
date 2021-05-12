@@ -54,7 +54,6 @@ namespace MusicFestival.Backend
         public static IServiceCollection AddContentDelivery(this IServiceCollection services)
         {
             services.AddContentDeliveryApi();
-            services.AddContentDeliveryApiAuthorization();
             services.AddContentDeliveryApiCors();
 
             services.ConfigureForExternalTemplates();
@@ -67,8 +66,7 @@ namespace MusicFestival.Backend
 
                 options.Default()
                     .SetMinimumRoles(string.Empty)
-                    .SetRequiredRole(string.Empty)
-                    .SetClients(Enumerable.Empty<ContentApiClient>()); // This clears the default client and uses site definitions instead.
+                    .SetRequiredRole(string.Empty);
             });
 
             return services;

@@ -15,12 +15,20 @@ Visit [Episerver World](https://world.episerver.com/documentation/developer-guid
 
 [Source code and documentation](https://github.com/episerver/content-delivery-js-sdk/tree/master/src/%40episerver/content-delivery).
 
+## Prerequisites for building and testing the SDKs
+
+This project uses:
+* Node.js 12+
+* npm 6+
+* .NET SDK 5+
+* SQL Server 2016 Express LocalDB ([download here](https://www.microsoft.com/en-us/sql-server/sql-server-downloads))
+
 ## Creating a release
 
- 1. Update version in all package.json files.
+ 1. Update version in all SDK package.json files.
  2. Merge to master branch.
  3. Create new Github release based of master branch.
- 4. Tag version, use following format v1.2.0.
+ 4. Tag version with following format: v1.2.0.
  5. Give the release a title and write an optional description.
  6. Publish.
 

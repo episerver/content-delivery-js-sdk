@@ -23,7 +23,7 @@ export interface ApiResponse {
   /**
    * Headers associated with the resource.
    */
-  headers?: any,
+  headers: Map<string, string>,
 
   /**
    * True if the response has status between 200 and 299.
@@ -34,7 +34,7 @@ export interface ApiResponse {
 /**
  * Interface describing an error from the API.
  */
- export interface ApiError {
+export interface ApiError {
   /**
    * HTTP status code from the API.
    */
@@ -54,7 +54,7 @@ export interface ApiResponse {
 /**
  * Interface describing the default API parameters.
  */
-export interface ApiParameters extends Record<string, any> { 
+export interface ApiParameters extends Record<string, any> {
   /**
    * Properties to include in the response.
    */
@@ -78,12 +78,12 @@ export interface ApiHeaders extends Record<string, any> {
   /**
    * Branch of the content.
    */
-   'Accept-Language'?: string,
+  'Accept-Language'?: string,
 
-   /**
-    * Continuation token to fetch next set of items.
-    */
-   'x-epi-continuation'?: string,
+  /**
+   * Continuation token to fetch next set of items.
+   */
+  'x-epi-continuation'?: string,
 }
 
 /**
@@ -124,9 +124,13 @@ export class ApiClient {
           ok: response.ok,
           status: response.status,
           statusText: response.statusText,
-          headers: response.headers,
+          headers: new Map(),
           data: await response.json(),
         };
+
+        response.headers.forEach((value: string, key: string) => {
+          result.headers.set(key, value);
+        })
 
         resolve(result);
       }).catch((error: any) => {
@@ -142,7 +146,7 @@ export class ApiClient {
    * @param expand - Properties to expand in the response. None by default, unless configured differently.
    * @returns Default parameters combined with the default configuration.
    */
-  getDefaultParameters(select?: Array<string>, expand?: Array<string>) : ApiParameters {
+  getDefaultParameters(select?: Array<string>, expand?: Array<string>): ApiParameters {
     return {
       select: select ? select.join() : this.#config.selectAllProperties ? undefined : 'name',
       expand: expand ? expand.join() : this.#config.expandAllProperties ? '*' : undefined,
@@ -155,7 +159,7 @@ export class ApiClient {
    * @param branch - Branch of the content.
    * @returns Default headers combined with the default configuration.
    */
-  getDefaultHeaders(branch?: string) : ApiHeaders {
+  getDefaultHeaders(branch?: string): ApiHeaders {
     return {
       'Accept-Language': branch ? branch : undefined
     };
@@ -163,7 +167,13 @@ export class ApiClient {
 }
 
 async function getHeaders(path: string, headers: ApiHeaders = {}, config: ContentDeliveryConfig): Promise<Headers> {
-  let result = new Headers(headers);
+  let result = new Headers();
+
+  for (const name in headers) {
+    if (headers[name] !== undefined) {
+      result.set(name, headers[name]);
+    }
+  }
 
   if (config.getAccessToken) {
     const accessToken = await config.getAccessToken(path);
@@ -180,7 +190,7 @@ function getUrl(baseUrl: string, path: string, parameters: ApiParameters): strin
   if (path.startsWith('/')) path = path.substring(1);
 
   let query = Object.keys(parameters)
-    .filter(key => parameters[key])
+    .filter(key => parameters[key] !== undefined)
     .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(parameters[key])}`)
     .join('&');
 
