@@ -65,6 +65,7 @@ namespace MusicFestival.Backend
             services.AddTinyMce();
             services.AddEmbeddedLocalization<Startup>();
             services.AddContentDelivery();
+            services.AddContentDefinitionsApi();
             services.AddHostedService<ProvisionDatabase>();
         }
 

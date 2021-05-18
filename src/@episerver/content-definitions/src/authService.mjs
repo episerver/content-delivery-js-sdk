@@ -1,15 +1,17 @@
-const { isLocal } = require("./utils");
-const { Issuer, custom } = require('openid-client');
+import { isLocal } from './utils.mjs';
+import { Issuer, custom } from 'openid-client';
 
-async function getAccessToken(login) {
+export async function getAccessToken(login) {
+  const url = new URL(login.authority);
+
   custom.setHttpOptionsDefaults({
     https: {
-      rejectUnauthorized: isLocal(login.authority)
+      rejectUnauthorized: !isLocal(url.hostname),
     },
   });
 
   var issuer = await Issuer.discover(login.authority)
-    .catch((error) => console.error('Error', error.error));
+    .catch(error => console.error(error.error));
 
   if (!issuer) {
     return '';
@@ -23,11 +25,7 @@ async function getAccessToken(login) {
   const grant = await client.grant({
     grant_type: 'client_credentials',
     scope: 'epi_content_definitions',
-  }).catch((error) => console.error('Error', error.error));
+  }).catch(error => console.error(error.error));
 
   return grant?.access_token;
-}
-
-module.exports = {
-  getAccessToken
 }

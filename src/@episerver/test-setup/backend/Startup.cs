@@ -36,6 +36,10 @@ namespace Backend
             services.AddTinyMce();
             services.AddEmbeddedLocalization<Startup>();
             services.AddContentDelivery();
+            services.AddContentDefinitionsApi(options => 
+            {
+                options.DisableScopeValidation = true;
+            });
             //services.AddHostedService<ProvisionDatabase>();
         }
 
