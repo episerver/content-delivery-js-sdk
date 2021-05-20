@@ -20,10 +20,18 @@
     "content-definitions": "./bin/cli.mjs"
   },
   "scripts": {
-    "test": "echo \"No tests yet\" && exit 0"
+    "test": "mocha --recursive --require ./test/fixture.mjs"
   },
   "dependencies": {
     "commander": "^6.2.0",
     "openid-client": "^4.2.2"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.18",
+    "@types/mocha": "^8.2.2",
+    "chai": "^4.3.4",
+    "concat-stream": "^2.0.0",
+    "mocha": "^8.4.0",
+    "test-setup": "file:../test-setup"
   }
 }

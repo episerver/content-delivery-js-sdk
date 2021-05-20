@@ -5,6 +5,7 @@ import { spawn } from 'child_process';
 
 export const baseUrl = 'http://localhost:8080';
 export const apiUrl = `${baseUrl}/api/episerver/v2.0/`;
+export const tempPath = './temp';
 
 const basePath = '../test-setup/'; 
 const appDataPath = path.join(basePath, 'backend/App_Data/');
@@ -17,7 +18,7 @@ export async function start() {
 
   return new Promise((resolve, reject) => {
     dotnet = spawn('dotnet', [ 'run', '-p', path.join(basePath, 'backend')], { stdio: 'inherit', })
-      .on('error', reject)
+      .on('error', (error) => reject(error))
       .on('exit', (code) => process.exit(code));
 
     waitForResponse()
@@ -54,14 +55,26 @@ async function waitForResponse() {
   return Promise.resolve();
 }
 
+export function createTempDirectory() {
+  console.log(`Creating temporary directory '${tempPath}'.`)
+
+  fs.mkdirSync(tempPath);
+}
+
+export function removeTempDirectory() {
+  console.log(`Removing temporary directory '${tempPath}'.`)
+
+  fs.rmdirSync(tempPath, { recursive: true, force: true });
+}
+
 function cleanUpData() {
-  console.log(`Cleaning up path '${appDataPath}'.`)
+  console.log(`Removing directory '${appDataPath}'.`)
 
   fs.rmdirSync(appDataPath, { recursive: true, force: true });
 }
 
 function newData() {
-  console.log(`Creating path '${appDataPath}'.`)
+  console.log(`Creating directory '${appDataPath}'.`)
 
   fs.mkdirSync(appDataPath);
 

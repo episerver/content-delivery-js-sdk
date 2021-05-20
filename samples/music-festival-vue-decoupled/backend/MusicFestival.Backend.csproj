@@ -7,8 +7,8 @@
 
   <ItemGroup>
     <PackageReference Include="EPiServer.CMS.Web" Version="12.0.0-inte-021134" />
-    <PackageReference Include="EPiServer.ContentDefinitionsApi" Version="3.0.0-ci-001425" />
-    <PackageReference Include="EPiServer.ContentDeliveryApi.Cms" Version="3.0.0-ci-001425" />
+    <PackageReference Include="EPiServer.ContentDefinitionsApi" Version="3.0.0-ci-001435" />
+    <PackageReference Include="EPiServer.ContentDeliveryApi.Cms" Version="3.0.0-ci-001435" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.5" />
   </ItemGroup>
