@@ -9,7 +9,7 @@ describe('ContentResolver', () => {
   describe('resolveContent', () => {
     describe('with default config', () => {
       it('should reject when invalid URL', async () => {
-        contentResolver.resolveContent('@').catch((error) => {
+        await contentResolver.resolveContent('@').catch((error) => {
           error.errorMessage.should.not.be.undefined;
         });
       });
@@ -103,7 +103,7 @@ describe('ContentResolver', () => {
 
     });
 
-    describe('with \'selectAllProperties\' false', async () => {
+    describe('with \'selectAllProperties\' false', () => {
       it('should not select any non-meta property', async () => {
         const cr = new ContentResolver({ selectAllProperties: false });
         const result = await cr.resolveContent(baseUrl, true);
@@ -113,7 +113,7 @@ describe('ContentResolver', () => {
       });
     });
 
-    describe('with \'expandAllProperties\' true', async () => {
+    describe('with \'expandAllProperties\' true', () => {
       it('should expand properties', async () => {
         const cr = new ContentResolver({ expandAllProperties: true });
         const result = await cr.resolveContent(baseUrl);

@@ -8,15 +8,15 @@ const listPageId = 6;
 
 describe('ContentLoader', () => {
   describe('getContent', () => {
-    describe('with default config', async () => {
-      it('should reject when content doesn\'t exist', () => {
-        contentLoader.getContent(999).catch((error) => {
+    describe('with default config', () => {
+      it('should reject when content doesn\'t exist', async () => {
+        await contentLoader.getContent(999).catch((error) => {
           error.errorCode.should.equal(404);
         });
       });
 
-      it('should reject when invalid id', () => {
-        contentLoader.getContent('@').catch((error) => {
+      it('should reject when invalid id', async () => {
+        await contentLoader.getContent('@').catch((error) => {
           error.errorCode.should.equal(400);
         });
       });
@@ -72,7 +72,7 @@ describe('ContentLoader', () => {
       });
     });
 
-    describe('with \'selectAllProperties\' false', async () => {
+    describe('with \'selectAllProperties\' false', () => {
       it('should not select any non-meta property', async () => {
         const cl = new ContentLoader({ selectAllProperties: false });
         const content = await cl.getContent(startPageId);
@@ -82,7 +82,7 @@ describe('ContentLoader', () => {
       });
     });
 
-    describe('with \'expandAllProperties\' true', async () => {
+    describe('with \'expandAllProperties\' true', () => {
       it('should expand properties', async () => {
         const cl = new ContentLoader({ expandAllProperties: true });
         const content = await cl.getContent(startPageId);
@@ -106,10 +106,28 @@ describe('ContentLoader', () => {
         children.should.be.empty;
       });
 
-      it('should reject when parent doesn\'t exist', () => {
-        contentLoader.getChildren(999).catch((error) => {
+      it('should reject when parent doesn\'t exist', async () => {
+        await contentLoader.getChildren(999).catch((error) => {
           error.errorCode.should.equal(404);
         });
+      });
+
+      it('should load default branch when non specified', async () => {
+        const children = await contentLoader.getChildren(startPageId);
+
+        children[0].language.name.should.equal('en');
+      });
+
+      it('should load \'en\' branch when specified', async () => {
+        const children = await contentLoader.getChildren(startPageId, { branch: 'en' });
+
+        children[0].language.name.should.equal('en');
+      });
+
+      it('should load \'sv\' branch when specified', async () => {
+        const children = await contentLoader.getChildren(startPageId, { branch: 'sv' });
+
+        children[0].language.name.should.equal('sv');
       });
 
       it('should only select \'title\' property when specified', async () => {
@@ -126,7 +144,7 @@ describe('ContentLoader', () => {
       });
     });
 
-    describe('with \'selectAllProperties\' false', async () => {
+    describe('with \'selectAllProperties\' false', () => {
       it('should not select any non-meta property', async () => {
         const cl = new ContentLoader({ selectAllProperties: false });
         const children = await cl.getChildren(rootPageId);
@@ -136,7 +154,7 @@ describe('ContentLoader', () => {
       });
     });
 
-    describe('with \'expandAllProperties\' true', async () => {
+    describe('with \'expandAllProperties\' true', () => {
       it('should expand properties', async () => {
         const cl = new ContentLoader({ expandAllProperties: true });
         const children = await cl.getChildren(rootPageId);
@@ -146,8 +164,8 @@ describe('ContentLoader', () => {
     });
 
     describe('with top', () => {
-      it('should reject when size larger than 100', () => {
-        contentLoader.getChildren(listPageId, { top: 101 }).catch((error) => {
+      it('should reject when size larger than 100', async () => {
+        await contentLoader.getChildren(listPageId, { top: 101 }).catch((error) => {
           error.errorCode.should.equal(400);
         });
       });
@@ -172,6 +190,12 @@ describe('ContentLoader', () => {
         second.items.length.should.equal(3);
         first.items.should.not.have.deep.members(second.items);
       });
+
+      it('should reject when invalid continuation token', async () => {
+        await contentLoader.getChildren(listPageId, { continuationToken: 'yadayada' }).catch((error) => {
+          error.errorCode.should.equal(400);
+        });
+      });
     });
   });
 
@@ -190,10 +214,28 @@ describe('ContentLoader', () => {
         ancestors.should.be.empty;
       });
 
-      it('should reject when content doesn\'t exist', () => {
-        contentLoader.getAncestors(999).catch((error) => {
+      it('should reject when content doesn\'t exist', async () => {
+        await contentLoader.getAncestors(999).catch((error) => {
           error.errorCode.should.equal(404);
         });
+      });
+
+      it('should load default branch when non specified', async () => {
+        const ancestors = await contentLoader.getAncestors(listPageId);
+
+        ancestors[0].language.name.should.equal('en');
+      });
+
+      it('should load \'en\' branch when specified', async () => {
+        const ancestors = await contentLoader.getAncestors(listPageId, { branch: 'en' });
+
+        ancestors[0].language.name.should.equal('en');
+      });
+
+      it('should load \'sv\' branch when specified', async () => {
+        const ancestors = await contentLoader.getAncestors(listPageId, { branch: 'sv' });
+
+        ancestors[0].language.name.should.equal('sv');
       });
 
       it('should only select \'title\' property when specified', async () => {
@@ -210,7 +252,7 @@ describe('ContentLoader', () => {
       });
     });
 
-    describe('with \'selectAllProperties\' false', async () => {
+    describe('with \'selectAllProperties\' false', () => {
       it('should not select any non-meta property', async () => {
         const cl = new ContentLoader({ selectAllProperties: false });
         const ancestors = await cl.getAncestors(listPageId);
@@ -220,7 +262,7 @@ describe('ContentLoader', () => {
       });
     });
 
-    describe('with \'expandAllProperties\' true', async () => {
+    describe('with \'expandAllProperties\' true', () => {
       it('should expand properties', async () => {
         const cl = new ContentLoader({ expandAllProperties: true });
         const ancestors = await cl.getAncestors(listPageId);
