@@ -33,12 +33,12 @@ export declare class SiteLoader {
      * @param id - Identifier of the site.
      * @returns A promise with a SiteDefinition if the site was found, otherwise rejected with a SiteLoaderError.
      */
-    getSite<T extends SiteDefinition>(id: string): Promise<T>;
+    getSite(id: string): Promise<SiteDefinition>;
     /**
    * List all sites.
    *
    * @returns A promise with an array of SiteDefinition. Otherwise rejected with a SiteLoaderError.
    */
-    getSites<T extends SiteDefinition>(): Promise<Array<T>>;
+    getSites(): Promise<Array<SiteDefinition>>;
 }
 //# sourceMappingURL=siteLoader.d.ts.map

@@ -182,17 +182,17 @@ export interface PageData extends ContentData {
   editLocation: string,
 
   /**
-   * 
+   * References to content asset roots for the site.
    */
-  contentRoots: Array<Record<string, ContentData>>,
+  contentRoots: Record<string, ContentData>,
 
   /**
-   *  
+   * Languages available for the site 
    */
   languages: Array<SiteDefinitionLanguage>,
 
   /**
-   * 
+   * The hosts for the site
    */
   hosts: Array<HostDefinition>,
 }

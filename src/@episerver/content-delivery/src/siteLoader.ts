@@ -41,11 +41,11 @@ export class SiteLoader {
    * @param id - Identifier of the site.
    * @returns A promise with a SiteDefinition if the site was found, otherwise rejected with a SiteLoaderError.
    */
-  getSite<T extends SiteDefinition>(id: string): Promise<T> {
-    return new Promise<T>((resolve, reject) => {
+  getSite(id: string): Promise<SiteDefinition> {
+    return new Promise<SiteDefinition>((resolve, reject) => {
       this.#api.get(`/site/${id}`).then((response: ApiResponse) => {
         if (response.ok) {
-          resolve(response.data as T);
+          resolve(response.data as SiteDefinition);
         } else {
           reject(mapResponseToError(response));
         }
@@ -60,8 +60,8 @@ export class SiteLoader {
  * 
  * @returns A promise with an array of SiteDefinition. Otherwise rejected with a SiteLoaderError.
  */
-  getSites<T extends SiteDefinition>(): Promise<Array<T>> {
-    return new Promise<Array<T>>((resolve, reject) => {
+  getSites(): Promise<Array<SiteDefinition>> {
+    return new Promise<Array<SiteDefinition>>((resolve, reject) => {
       this.#api.get(`/site/`).then((response: ApiResponse) => {
         if (response.ok) {
           resolve(response.data);
