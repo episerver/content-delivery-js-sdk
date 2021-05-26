@@ -136,4 +136,68 @@ export interface PageData extends ContentData {
      */
     category: Array<Category>;
 }
+/**
+ * Inteface describing a site
+ */
+export interface SiteDefinition {
+    /**
+     * Identifier of the site.
+     */
+    id: string;
+    /**
+     * Name of the site.
+     */
+    name: string;
+    /**
+     * The EditLocation of the site.
+     */
+    editLocation: string;
+    /**
+     * References to content asset roots for the site.
+     */
+    contentRoots: Record<string, ContentData>;
+    /**
+     * Languages available for the site
+     */
+    languages: Array<SiteDefinitionLanguage>;
+    /**
+     * The hosts for the site
+     */
+    hosts: Array<HostDefinition>;
+}
+/**
+ * Interface describing the language of a site definition.
+ */
+export interface SiteDefinitionLanguage extends Language {
+    /**
+     * Defines if this language is master language or not
+     */
+    isMasterLanguage: boolean;
+    /**
+     * The string uses to represent this language as a URL segment
+     */
+    UrlSegment: string;
+    /**
+     * The primary location of the site language.
+     * Remark: This property is only include when hosts are excluded from the main site information.
+     */
+    Url?: string;
+}
+/**
+ * Interface describing a host
+ */
+export interface HostDefinition {
+    /**
+     * Name of the host
+     */
+    name: string;
+    /**
+     * Type of the host
+     */
+    type: string;
+    /**
+     * Language of the host
+     */
+    language: Language;
+}
 //# sourceMappingURL=models.d.ts.map

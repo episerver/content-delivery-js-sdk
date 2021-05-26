@@ -78,6 +78,7 @@ namespace Backend
                 options.EnablePreviewFeatures = true;
 
                 options.Default()
+                    .SetIncludeSiteHosts(true)
                     .SetMinimumRoles(string.Empty)
                     .SetRequiredRole(string.Empty);
             });
