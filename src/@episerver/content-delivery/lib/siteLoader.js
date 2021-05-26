@@ -39,7 +39,7 @@ class SiteLoader {
      */
     getSite(id) {
         return new Promise((resolve, reject) => {
-            __classPrivateFieldGet(this, _api).get(`/site/${id}`).then((response) => {
+            __classPrivateFieldGet(this, _api).get(`/site/${encodeURIComponent(id)}`).then((response) => {
                 if (response.ok) {
                     resolve(response.data);
                 }

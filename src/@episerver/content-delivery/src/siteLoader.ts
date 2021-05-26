@@ -43,7 +43,7 @@ export class SiteLoader {
    */
   getSite(id: string): Promise<SiteDefinition> {
     return new Promise<SiteDefinition>((resolve, reject) => {
-      this.#api.get(`/site/${id}`).then((response: ApiResponse) => {
+      this.#api.get(`/site/${encodeURIComponent(id)}`).then((response: ApiResponse) => {
         if (response.ok) {
           resolve(response.data as SiteDefinition);
         } else {

@@ -21,6 +21,12 @@ describe('ContentLoader', () => {
         });
       });
 
+      it('should reject when invalid id', async () => {
+        await contentLoader.getContent('<b>html</b>').catch((error) => {
+          error.errorCode.should.equal(400);
+        });
+      });
+
       it('should load content when exists', async () => {
         const content = await contentLoader.getContent(startPageId);
 
@@ -109,6 +115,18 @@ describe('ContentLoader', () => {
       it('should reject when parent doesn\'t exist', async () => {
         await contentLoader.getChildren(999).catch((error) => {
           error.errorCode.should.equal(404);
+        });
+      });
+
+      it('should reject when parent is invalid', async () => {
+        await contentLoader.getChildren('@').catch((error) => {
+          error.errorCode.should.equal(400);
+        });
+      });
+
+      it('should reject when parent is invalid', async () => {
+        await contentLoader.getChildren('<b>html</b>').catch((error) => {
+          error.errorCode.should.equal(400);
         });
       });
 
@@ -217,6 +235,18 @@ describe('ContentLoader', () => {
       it('should reject when content doesn\'t exist', async () => {
         await contentLoader.getAncestors(999).catch((error) => {
           error.errorCode.should.equal(404);
+        });
+      });
+
+      it('should reject when parent is invalid', async () => {
+        await contentLoader.getAncestors('@').catch((error) => {
+          error.errorCode.should.equal(400);
+        });
+      });
+
+      it('should reject when parent is invalid', async () => {
+        await contentLoader.getAncestors('<b>html</b>').catch((error) => {
+          error.errorCode.should.equal(400);
         });
       });
 
