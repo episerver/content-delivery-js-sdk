@@ -64,24 +64,21 @@ namespace Backend
             return services;
         }
 
-        public static IServiceCollection AddContentDelivery(this IServiceCollection services)
+        public static IServiceCollection AddContentDeliveryApi(this IServiceCollection services)
         {
-            services.AddContentDeliveryApi();
-            services.AddContentDeliveryApiCors();
-
-            services.ConfigureForExternalTemplates();
-            services.ConfigureForContentDeliveryClient();
-            services.Configure<ExternalApplicationOptions>(o => o.OptimizeForDelivery = true);
-            services.Configure<ContentDeliveryAuthorizationOptions>(o => o.SetDisableScopeValidation(true));
-            services.Configure<ContentApiConfiguration>(options =>
+            services.AddContentDeliveryApi(options => 
             {
                 options.EnablePreviewFeatures = true;
-
-                options.Default()
-                    .SetIncludeSiteHosts(true)
-                    .SetMinimumRoles(string.Empty)
-                    .SetRequiredRole(string.Empty);
+                options.EnablePreviewMode = true;
+                options.ExpandedBehavior = ExpandedLanguageBehavior.RequestedLanguage;
+                options.IncludeSiteHosts = true;
+                options.FlattenPropertyModel = true;
+                options.ForceAbsolute = true;
+                options.ValidateTemplateForContentUrl = false;
             });
+
+            services.ConfigureForExternalTemplates();
+            services.Configure<ExternalApplicationOptions>(o => o.OptimizeForDelivery = true);
 
             return services;
         }

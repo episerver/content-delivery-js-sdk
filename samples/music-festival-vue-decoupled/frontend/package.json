@@ -8,7 +8,8 @@
     "lint": "vue-cli-service lint",
     "preserve": "node dev-certs",
     "prebuild": "node dev-certs",
-    "content-definitions:import": "content-definitions import manifest.json -s https://localhost:44340 --allowed-upgrades major --authority https://localhost:8081 --client-id content-definitions-cli --client-secret content-definitions-cli"
+    "content-definitions:import": "content-definitions import manifest.json -s https://localhost:8082 --allowed-upgrades major --authority https://localhost:8081 --client-id content-definitions-cli --client-secret content-definitions-cli",
+    "content-definitions:export": "content-definitions export manifest.json -s https://localhost:8082 --authority https://localhost:8081 --client-id content-definitions-cli --client-secret content-definitions-cli"
   },
   "dependencies": {
     "@episerver/content-delivery": "file:../../../src/@episerver/content-delivery",

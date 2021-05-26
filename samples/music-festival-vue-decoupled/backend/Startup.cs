@@ -1,5 +1,4 @@
 using EPiServer.DependencyInjection;
-using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
@@ -64,7 +63,8 @@ namespace MusicFestival.Backend
             services.AddCms();
             services.AddTinyMce();
             services.AddEmbeddedLocalization<Startup>();
-            services.AddContentDelivery();
+            services.AddContentDeliveryApi();
+            services.AddContentDefinitionsApi();
             services.AddHostedService<ProvisionDatabase>();
         }
 
