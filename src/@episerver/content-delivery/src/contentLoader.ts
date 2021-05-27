@@ -64,7 +64,7 @@ export type ContentLoaderError = {
  * 
  * @typeparam T - Type of the content items. 
  */
- export type ContentCollection<T extends ContentData> = {
+export type ContentCollection<T extends ContentData> = {
   /**
    * The content items.
    */
@@ -73,7 +73,7 @@ export type ContentLoaderError = {
   /**
    * Continuation token to fetch next set of items.
    */
-   continuationToken?: string,
+  continuationToken?: string,
 }
 
 /**
@@ -104,7 +104,7 @@ export class ContentLoader {
     const headers = this.#api.getDefaultHeaders(request?.branch);
 
     return new Promise<T>((resolve, reject) => {
-      this.#api.get(`/content/${id}`, parameters, headers).then((response: ApiResponse) => {
+      this.#api.get(`/content/${encodeURIComponent(id)}`, parameters, headers).then((response: ApiResponse) => {
         if (response.ok) {
           resolve(response.data as T);
         } else {
@@ -129,15 +129,15 @@ export class ContentLoader {
     let headers = this.#api.getDefaultHeaders(request?.branch);
 
     if (request?.top || request?.continuationToken) {
-      if (request?.top) parameters = {...parameters, top: request?.top };
+      if (request?.top) parameters = { ...parameters, top: request?.top };
       if (request?.continuationToken) headers = { ...headers, 'x-epi-continuation': request.continuationToken };
 
       return new Promise<ContentCollection<T>>((resolve, reject) => {
-        this.#api.get(`/content/${id}/children`, parameters, headers).then((response: ApiResponse) => {
+        this.#api.get(`/content/${encodeURIComponent(id)}/children`, parameters, headers).then((response: ApiResponse) => {
           if (response.ok) {
             resolve({
               items: response.data,
-              continuationToken: response.headers['x-epi-continuation'] 
+              continuationToken: response.headers.get('x-epi-continuation')
             });
           } else {
             reject(mapResponseToError(response));
@@ -148,7 +148,7 @@ export class ContentLoader {
       });
     } else {
       return new Promise<Array<T>>((resolve, reject) => {
-        this.#api.get(`/content/${id}/children`, parameters, headers).then((response: ApiResponse) => {
+        this.#api.get(`/content/${encodeURIComponent(id)}/children`, parameters, headers).then((response: ApiResponse) => {
           if (response.ok) {
             resolve(response.data);
           } else {
@@ -173,7 +173,7 @@ export class ContentLoader {
     const headers = this.#api.getDefaultHeaders(request?.branch);
 
     return new Promise<Array<T>>((resolve, reject) => {
-      this.#api.get(`/content/${id}/ancestors`, parameters, headers).then((response: ApiResponse) => {
+      this.#api.get(`/content/${encodeURIComponent(id)}/ancestors`, parameters, headers).then((response: ApiResponse) => {
         if (response.ok) {
           resolve(response.data);
         } else {

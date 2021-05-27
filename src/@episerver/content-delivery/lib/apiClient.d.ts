@@ -19,7 +19,7 @@ export interface ApiResponse {
     /**
      * Headers associated with the resource.
      */
-    headers?: any;
+    headers: Map<string, string>;
     /**
      * True if the response has status between 200 and 299.
      */
