@@ -16,6 +16,12 @@ describe('ContentLoader', () => {
       });
 
       it('should reject when invalid id', async () => {
+        await contentLoader.getContent('').catch((error) => {
+          error.errorCode.should.equal(400);
+        });
+      });
+
+      it('should reject when invalid id', async () => {
         await contentLoader.getContent('@').catch((error) => {
           error.errorCode.should.equal(400);
         });
@@ -114,6 +120,12 @@ describe('ContentLoader', () => {
 
       it('should reject when parent doesn\'t exist', async () => {
         await contentLoader.getChildren(999).catch((error) => {
+          error.errorCode.should.equal(404);
+        });
+      });
+
+      it('should reject when parent is invalid', async () => {
+        await contentLoader.getChildren('').catch((error) => {
           error.errorCode.should.equal(404);
         });
       });
@@ -234,6 +246,12 @@ describe('ContentLoader', () => {
 
       it('should reject when content doesn\'t exist', async () => {
         await contentLoader.getAncestors(999).catch((error) => {
+          error.errorCode.should.equal(404);
+        });
+      });
+
+      it('should reject when parent is invalid', async () => {
+        await contentLoader.getAncestors('').catch((error) => {
           error.errorCode.should.equal(404);
         });
       });

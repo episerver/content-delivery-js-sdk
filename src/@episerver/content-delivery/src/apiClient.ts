@@ -125,7 +125,7 @@ export class ApiClient {
           status: response.status,
           statusText: response.statusText,
           headers: new Map(),
-          data: await response.json(),
+          data: await response.json().catch(() => { }),
         };
 
         response.headers.forEach((value: string, key: string) => {

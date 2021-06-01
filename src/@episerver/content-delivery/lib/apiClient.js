@@ -61,8 +61,12 @@ class ApiClient {
                         status: response.status,
                         statusText: response.statusText,
                         headers: new Map(),
-                        data: yield response.json(),
+                        data: yield response.json().catch(() => { }),
                     };
+                    // try {
+                    //   result.data = await response.json();
+                    // } catch (error) {
+                    // }
                     response.headers.forEach((value, key) => {
                         result.headers.set(key, value);
                     });
