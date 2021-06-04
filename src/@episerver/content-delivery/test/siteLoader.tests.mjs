@@ -63,7 +63,6 @@ describe('SiteLoader', () => {
       const site = await GetFirstSite();
       const language = site.languages[0];
 
-      language.displayName.should.equal("engelska");
       language.name.should.equal("en");
       language.isMasterLanguage.should.equal(false);
       language.urlSegment.should.equal("en");
