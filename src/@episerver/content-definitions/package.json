@@ -20,7 +20,7 @@
     "content-definitions": "./bin/cli.mjs"
   },
   "scripts": {
-    "test": "mocha --recursive --require ./test/fixture.mjs"
+    "test": "mocha --recursive --timeout 5000 --require ./test/fixture.mjs"
   },
   "dependencies": {
     "commander": "^6.2.0",

@@ -21,7 +21,7 @@
   "scripts": {
     "build": "npx tsc",
     "watch": "npx tsc --watch",
-    "test": "mocha --recursive --require ./test/fixture.mjs"
+    "test": "mocha --recursive --timeout 5000 --require ./test/fixture.mjs" 
   },
   "devDependencies": {
     "@types/chai": "^4.2.17",
