@@ -86,14 +86,14 @@ describe('SiteLoader', () => {
   });
 
   describe('getSite', () => {
-    it('should reject when site doesn\'t exist', () => {
-      siteLoader.getSite('01010101-0101-0101-0101-010101010101').catch((error) => {
+    it('should reject when site doesn\'t exist', async () => {
+      await siteLoader.getSite('01010101-0101-0101-0101-010101010101').catch((error) => {
         error.errorCode.should.equal(404);
       });
     });
 
-    it('should reject when invalid id', () => {
-      siteLoader.getSite('@').catch((error) => {
+    it('should reject when invalid id', async () => {
+      await siteLoader.getSite('@').catch((error) => {
         error.errorCode.should.equal(400);
       });
     });
