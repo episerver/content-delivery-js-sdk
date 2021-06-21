@@ -1,4 +1,4 @@
-# Episerver Content Delivery JavaScript SDK - Content Loader and Resolver
+# Episerver Content Delivery JavaScript SDK - Content Loader, Content Resolver and Site Loader
 
 SDK for loading and resolving content from an Episerver application running the [Content Delivery API](https://world.episerver.com/documentation/developer-guides/content-delivery-api/). The SDK is written in TypeScript and includes types.
 
@@ -209,6 +209,39 @@ The second parameter, `matchExact`, defines whether the URL should be a partial 
 {
   errorMessage: '',
 }
+```
+
+### Site Loader
+
+Given we have imported the site loader and instantiated it:
+
+```js
+import { SiteLoader } from '@episerver/content-delivery';
+
+const siteLoader = new SiteLoader();
+```
+
+The constructor takes a [`ContentDeliveryConfig`](#contentdeliveryconfig-schema) object.
+
+Loading site by an identifier:
+
+```js
+siteLoader.getSite('45872cd5-e63c-363e-caa4-35e6ab1ad6d4')
+  .then((site) => {
+    // Site was successfully loaded
+  })
+  .catch((siteLoaderError) => {
+    console.error('Site not loaded', siteLoaderError.errorMessage);
+  });
+```
+
+Loading all sites:
+
+```js
+siteLoader.getSites()
+  .then((sites) => {
+    // Sites was successfully listed
+  });
 ```
 
 ## Configuration
