@@ -12,6 +12,9 @@ describe('Content Definitions CLI', () => {
   describe('import', () => {
     const pathNew = './test/manifests/new.json';
     const pathMajorUpdate = './test/manifests/major-update.json';
+    const pathMajorDowngrade = './test/manifests/major-downgrade.json';
+    const pathEmptyJson = './test/manifests/empty-json.json';
+    const pathNoJson = './test/manifests/no-json.json';
 
     it('should require \'source\'', async () => {
       try {
@@ -70,6 +73,106 @@ describe('Content Definitions CLI', () => {
           ]);
       } catch (error) {
         error.should.include('required option \'--client-secret <clientSecret>\'');
+      }
+    });
+
+    it('should fail with non-URI \'source\'', async () => {
+      try {
+        await execute(CLI,
+          [
+            'import',
+            pathNew,
+            '-s',
+            'incorrect-source',
+            '--authority',
+            authority,
+            '--client-id',
+            clientId,
+            '--client-secret',
+            clientSecret,
+          ]);
+      } catch (error) {
+        error.should.include('Invalid URL');
+      }
+    });
+
+    it('should fail with invalid \'source\'', async () => {
+      try {
+        await execute(CLI,
+          [
+            'import',
+            pathNew,
+            '-s',
+            'http://example.com',
+            '--authority',
+            authority,
+            '--client-id',
+            clientId,
+            '--client-secret',
+            clientSecret,
+          ]);
+      } catch (error) {
+        error.should.include('Invalid JSON or not a valid source.');
+      }
+    });
+
+    it('should fail when file doesn\'t exist', async () => {
+      try {
+        await execute(CLI,
+          [
+            'import',
+            'do not exist.json',
+            '-s',
+            baseUrl,
+            '--authority',
+            authority,
+            '--client-id',
+            clientId,
+            '--client-secret',
+            clientSecret,
+          ]);
+      } catch (error) {
+        error.should.include('no such file or directory');
+      }
+    });
+
+    it('should not import no JSON', async () => {
+      try {
+        await execute(CLI,
+          [
+            'import',
+            pathNoJson,
+            '-s',
+            baseUrl,
+            '--authority',
+            authority,
+            '--client-id',
+            clientId,
+            '--client-secret',
+            clientSecret,
+          ]);
+      } catch (error) {
+        error.should.include('A non-empty request body is required.');
+      }
+    });
+
+    it('should not import empty JSON', async () => {
+      try {
+        await execute(CLI,
+          [
+            'import',
+            pathEmptyJson,
+            '-s',
+            baseUrl,
+            '--authority',
+            authority,
+            '--client-id',
+            clientId,
+            '--client-secret',
+            clientSecret,
+          ]);
+      } catch (error) {
+        error.should.include('The manifest doesn\'t contain any sections.');
       }
     });
 
@@ -132,7 +235,50 @@ describe('Content Definitions CLI', () => {
         result.should.include('Imported 1 content type.');
       });
     });
+
+    describe('without \'--allowed-downgrades major\'', () => {
+      it('should not import manifest with major downgrades', async () => {
+        const result = await execute(CLI,
+          [
+            'import',
+            pathMajorDowngrade,
+            '-s',
+            baseUrl,
+            '--authority',
+            authority,
+            '--client-id',
+            clientId,
+            '--client-secret',
+            clientSecret,
+          ]);
+  
+        result.should.include('The version transition is not allowed');
+      });
+    });
+
+    describe('with \'--allowed-downgrades major\'', () => {
+      it('should import manifest with major downgrades', async () => {
+        const result = await execute(CLI,
+          [
+            'import',
+            pathMajorDowngrade,
+            '-s',
+            baseUrl,
+            '--authority',
+            authority,
+            '--client-id',
+            clientId,
+            '--client-secret',
+            clientSecret,
+            '--allowed-downgrades',
+            'major',
+          ]);
+
+        result.should.include('Imported 1 content type.');
+      });
+    });
   });
+
 
   describe('export', () => {
     it('should require \'source\'', async () => {
@@ -188,6 +334,44 @@ describe('Content Definitions CLI', () => {
           ]);
       } catch (error) {
         error.should.include('required option \'--client-secret <clientSecret>\'');
+      }
+    });
+
+    it('should fail with non-URI \'source\'', async () => {
+      try {
+        await execute(CLI,
+          [
+            'export',
+            '-s',
+            'incorrect-source',
+            '--authority',
+            authority,
+            '--client-id',
+            clientId,
+            '--client-secret',
+            clientSecret,
+          ]);
+      } catch (error) {
+        error.should.include('Invalid URL');
+      }
+    });
+
+    it('should fail with invalid \'source\'', async () => {
+      try {
+        await execute(CLI,
+          [
+            'export',
+            '-s',
+            'http://example.com',
+            '--authority',
+            authority,
+            '--client-id',
+            clientId,
+            '--client-secret',
+            clientSecret,
+          ]);
+      } catch (error) {
+        error.should.include('Invalid JSON or not a valid source.');
       }
     });
 

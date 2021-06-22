@@ -7,7 +7,12 @@ import { getAccessToken } from "./authService.mjs";
 const basePath = '/api/episerver/v2.0/contentmanifest';
 
 export async function importManifest(path, source, options, login) {
-  const manifest = fs.readFileSync(path, 'utf8');
+  let manifest;
+  try {
+    manifest = fs.readFileSync(path, 'utf8');
+  } catch (error) {
+    return Promise.reject(error.message);
+  }
 
   return new Promise(async (resolve, reject) => {
     const accessToken = await getAccessToken(login)
@@ -41,10 +46,12 @@ export async function importManifest(path, source, options, login) {
       streamToJSON(response).then(data => {
         if (response.statusCode == 200 && data.messages) {
           resolve(data.messages);
+        } else if (response.statusCode == 400) {
+          reject(mapErrorDetailsToString(data));
         } else {
           reject(data);
         }
-      }).catch(error => reject(error));
+      }).catch(() => reject('Invalid JSON or not a valid source.'));
     });
 
     request.on('error', error => reject(error));
@@ -91,7 +98,7 @@ export async function exportManifest(path, source, login) {
         } else {
           reject(data);
         }
-      }).catch(error => reject(error));
+      }).catch(() => reject('Invalid JSON or not a valid source.'));
     });
 
     request.on('error', error => reject(error));
@@ -114,4 +121,42 @@ async function streamToJSON(stream) {
       resolve(JSON.parse(data));
     }).catch(error => reject(error))
   });
+}
+
+function mapErrorDetailsToString(errorDetails)
+{
+  // Example error details response.
+  // {
+  //   "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+  //   "title": "400",
+  //   "status": 400,
+  //   "detail": "InvalidModel",
+  //   "instance": "/api/episerver/v2.0/contentmanifest",
+  //   "traceId": "00-656349ad11f24d44835626c129c82415-dc922327f69d0a46-00",
+  //   "code": "InvalidModel",
+  //   "error":
+  //   {
+  //       "":
+  //       [
+  //           "A non-empty request body is required."
+  //       ]
+  //   }
+  // }
+
+  // Check whether error contains validation errors
+  if (errorDetails.error) {
+    let result = `${errorDetails.detail}.`;
+
+    for (const key in errorDetails.error) {
+      if (key === '') {
+        result = `${result} ${errorDetails.error[key].join(", ")}`;
+      } else {
+        result = `${result} ${key}: ${errorDetails.error[key].join(", ")}`;
+      }
+    }
+
+    return result;
+  } else {
+    return errorDetails.detail;
+  }
 }
