@@ -33,6 +33,14 @@
       "systemGroup": true
     }
   ],
+  "editorDefinitions": [
+    {
+      "dataType": "PropertyLongString",
+      "uiHint": "ValidatableTextarea",
+      "editor": "epi/shell/widget/ValidationTextarea",
+      "custom1": "Custom setting"
+    }
+  ],
   "contentTypes": [
     {
       "id": "ac096c4f-56ab-4396-9f5c-cfa923875c18",

@@ -5,6 +5,7 @@ app_data
 packages
 bin
 obj
+modules
 
 # local env files
 .env.local

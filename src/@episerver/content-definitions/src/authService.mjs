@@ -28,6 +28,6 @@ export async function getAccessToken(login) {
       scope: 'epi_content_definitions',
     }).catch(error => reject(error));
 
-    resolve(grant.access_token);
+    resolve(grant?.access_token);
   });
 }

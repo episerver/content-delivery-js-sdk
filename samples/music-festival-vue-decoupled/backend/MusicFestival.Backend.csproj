@@ -6,11 +6,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EPiServer.CMS.Web" Version="12.0.0-inte-021134" />
-    <PackageReference Include="EPiServer.ContentDefinitionsApi" Version="3.0.0-ci-001435" />
-    <PackageReference Include="EPiServer.ContentDeliveryApi.Cms" Version="3.0.0-ci-001435" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.5" />
+    <PackageReference Include="EPiServer.CMS" Version="12.0.0-pre-021601" />
+    
+    <!-- Temporary references -->
+    <PackageReference Include="EPiServer.CMS.UI" Version="12.0.1-inte-021866" />
+    <PackageReference Include="EPiServer.CMS.UI.Admin" Version="12.0.1-inte-021866" />
+    <PackageReference Include="EPiServer.CMS.UI.Settings" Version="12.0.1-inte-021866" />
+    <PackageReference Include="EPiServer.CMS.UI.VisitorGroups" Version="12.0.1-inte-021866" />
+    <PackageReference Include="EPiServer.CMS.AspNetCore.HtmlHelpers" Version="12.0.1-inte-020665" />
+    <PackageReference Include="EPiServer.Hosting" Version="12.0.1-inte-020665" />
+    <PackageReference Include="EPiServer.Framework" Version="12.0.1-inte-020665" />
+    <!-- /Temporary references -->
+
+    <PackageReference Include="EPiServer.ContentDefinitionsApi" Version="3.0.0-ci-001823" />
+    <PackageReference Include="EPiServer.ContentDefinitionsApi.UI" Version="3.0.0-ci-001823" />
+    <PackageReference Include="EPiServer.ContentDeliveryApi.Cms" Version="3.0.0-ci-001823" />
+    <PackageReference Include="EPiServer.ContentDeliveryApi.OpenIDConnect" Version="3.0.0-ci-001823" />
   </ItemGroup>
 
 </Project>
