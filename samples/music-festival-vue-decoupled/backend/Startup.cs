@@ -22,7 +22,7 @@ namespace MusicFestival.Backend
     public class Startup
     {
         private readonly IWebHostEnvironment _environment;
-        private readonly Uri _frontendUri = new Uri("https://localhost:8080");
+        private readonly Uri _frontendUri = new Uri("http://localhost:8080");
 
         public Startup(IWebHostEnvironment environment)
         {
@@ -74,6 +74,8 @@ namespace MusicFestival.Backend
             services.AddHostedService<OpenIdDictDatabaseTableCreator>(); // TODO: Should not be needed
             services.AddContentApiOpenIDConnect<OpenIDConnectDbContext, ApplicationUser>(options =>
             {
+                options.RequireHttps = false; // Do not use in production
+
                 options.Applications.Add(new OpenIDConnectApplication
                 {
                     ClientId = "frontend",
@@ -120,7 +122,7 @@ namespace MusicFestival.Backend
 
             // TODO: Enable CORS for all APIs with our method
             app.UseCors(b => b
-                .WithOrigins(new[] { "https://localhost:8080" })
+                .WithOrigins(new[] { "http://localhost:8080" })
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials());
