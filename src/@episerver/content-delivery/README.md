@@ -2,20 +2,29 @@
 
 SDK for loading and resolving content from an Episerver application running the [Content Delivery API](https://world.episerver.com/documentation/developer-guides/content-delivery-api/). The SDK is written in TypeScript and includes types.
 
-Please visit [Episerver World](https://world.episerver.com/) for full documentation of the APIs. 
+Please visit [Episerver World](https://world.episerver.com/) for full documentation of the APIs.
+
+> Note that this SDK requires you to use the flattened JSON format, see code example below how to configure the API to use this format.
+
+```cs
+services.AddContentDeliveryApi(options => 
+{
+    options.FlattenPropertyModel = true;
+});
+```
 
 ## Installing
 
 Using npm:
 
 ```bash
-$ npm install @episerver/content-delivery
+$ npm install @episerver/content-delivery@latest
 ````
 
 using yarn:
 
 ```bash
-$ yarn install @episerver/content-delivery
+$ yarn install @episerver/content-delivery@latest
 ````
 
 ## Examples

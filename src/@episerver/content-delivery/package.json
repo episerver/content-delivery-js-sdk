@@ -1,14 +1,16 @@
 {
   "name": "@episerver/content-delivery",
-  "version": "1.0.0",
-  "description": "Episerver SDK for content delivery.",
-  "author": "Johan Petersson <johan.petersson@episerver.com>",
+  "version": "1.0.0-pre.1",
+  "description": "SDK for the Episerver Content Delivery API.",
+  "author": "Johan Petersson <johan.petersson@optimizely.com>",
   "license": "Apache-2.0",
   "keywords": [
     "episerver",
+    "optimizely",
     "content delivery",
     "headless",
-    "sdk"
+    "sdk",
+    "client"
   ],
   "homepage": "https://www.episerver.com",
   "repository": {
@@ -21,7 +23,7 @@
   "scripts": {
     "build": "npx tsc",
     "watch": "npx tsc --watch",
-    "test": "mocha --recursive --timeout 5000 --require ./test/fixture.mjs" 
+    "test": "mocha --recursive --timeout 5000 --require ./test/fixture.mjs"
   },
   "devDependencies": {
     "@types/chai": "^4.2.17",

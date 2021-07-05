@@ -5,6 +5,8 @@
 
 This repository contains the source code for the Content Delivery SDKs and samples.
 
+> Note the SDK is in preview. Please provide feedback and report issues.
+
 Visit [Episerver World](https://world.episerver.com/documentation/developer-guides/content-delivery-api/) for full documentation of the REST APIs.
 
 ## Content Definitions

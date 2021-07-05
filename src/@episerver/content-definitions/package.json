@@ -1,11 +1,12 @@
 {
   "name": "@episerver/content-definitions",
-  "version": "1.0.0",
-  "description": "Episerver tool for managing content definitions manifest files.",
-  "author": "Johan Petersson <johan.petersson@episerver.com>",
+  "version": "1.0.0-pre.1",
+  "description": "CLI tool for managing content definitions manifest files.",
+  "author": "Johan Petersson <johan.petersson@optimizely.com>",
   "license": "Apache-2.0",
   "keywords": [
     "episerver",
+    "optimizely",
     "manifest",
     "definitions"
   ],

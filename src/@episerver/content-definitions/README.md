@@ -9,13 +9,13 @@ Please visit [Episerver World](https://world.episerver.com/) for full documentat
 Using npm:
 
 ```bash
-$ npm install @episerver/content-definitions
+$ npm install @episerver/content-definitions@latest --save-dev
 ````
 
 using yarn:
 
 ```bash
-$ yarn install @episerver/content-definitions
+$ yarn install @episerver/content-definitions@latest --save-dev
 ````
 
 ## Examples
