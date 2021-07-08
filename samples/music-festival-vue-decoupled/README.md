@@ -9,7 +9,7 @@ Content is fetched from Episerver using the Content Delivery API: https://world.
 ## Prerequisites
 
 This project uses:
-* Node.js 12+
+* Node.js 14+
 * npm 6+
 * .NET SDK 5+
 * SQL Server 2016 Express LocalDB ([download here](https://www.microsoft.com/en-us/sql-server/sql-server-downloads))
