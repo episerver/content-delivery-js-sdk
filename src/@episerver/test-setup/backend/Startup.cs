@@ -1,22 +1,21 @@
 using EPiServer.DependencyInjection;
-using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace Backend
 {
     public class Startup
     {
+        internal static readonly string ConnectionString = $"Data Source=(localdb)\\MSSQLLocalDB;Database=db{Guid.NewGuid()};Integrated Security=true;MultipleActiveResultSets=true";
+        
         private readonly IWebHostEnvironment _environment;
-        private readonly IConfiguration _configuration;
 
-        public Startup(IWebHostEnvironment environment, IConfiguration configuration)
+        public Startup(IWebHostEnvironment environment)
         {
-            _configuration = configuration;
             _environment = environment;
         }
 
@@ -43,7 +42,10 @@ namespace Backend
             //services.AddHostedService<ProvisionDatabase>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(
+            IApplicationBuilder app, 
+            IWebHostEnvironment env, 
+            Microsoft.Extensions.Hosting.IHostApplicationLifetime lifetime)
         {
             if (env.IsDevelopment())
             {
@@ -60,6 +62,13 @@ namespace Backend
             {
                 endpoints.MapContent();
             });
+
+            lifetime.ApplicationStopping.Register(OnShutdown);
+        }
+
+        private void OnShutdown()
+        {
+            DatabaseHelper.Drop(ConnectionString);
         }
     }
 }

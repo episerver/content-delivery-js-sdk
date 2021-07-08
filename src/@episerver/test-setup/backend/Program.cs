@@ -8,6 +8,8 @@ namespace Backend
     {
         public static void Main(string[] args)
         {
+            DatabaseHelper.Ensure(Startup.ConnectionString);
+            
             CreateHostBuilder(args).Build().Run();
         }
 

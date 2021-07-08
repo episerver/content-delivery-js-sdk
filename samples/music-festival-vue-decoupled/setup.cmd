@@ -14,6 +14,5 @@ REM Copy the database files to the site.
 SET Data=data
 XCOPY /y/i %Data%\DefaultSiteContent.episerverdata %Backend%\App_Data\ || Exit /B 1
 XCOPY /y/i/k %Data%\musicfestival.mdf %Backend%\App_Data\ || Exit /B 1
-XCOPY /y/i/k %Data%\GeoLiteCity.dat %Backend%\App_Data\ || Exit /B 1
 
 EXIT /B %ERRORLEVEL%

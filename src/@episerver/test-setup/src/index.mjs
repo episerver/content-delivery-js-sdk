@@ -81,8 +81,4 @@ function newData() {
   fs.copyFileSync(
     path.join(basePath, '/data/DefaultSiteContent.episerverdata'),
     path.join(appDataPath, 'DefaultSiteContent.episerverdata'));
-
-  fs.copyFileSync(
-    path.join(basePath, '/data/musicfestival.mdf'),
-    path.join(appDataPath, 'musicfestival.mdf'));
 }

@@ -20,7 +20,7 @@ Visit [Episerver World](https://world.episerver.com/documentation/developer-guid
 ## Prerequisites for building and testing the SDKs
 
 This project uses:
-* Node.js 12+
+* Node.js 14+
 * npm 6+
 * .NET SDK 5+
 * SQL Server 2016 Express LocalDB ([download here](https://www.microsoft.com/en-us/sql-server/sql-server-downloads))

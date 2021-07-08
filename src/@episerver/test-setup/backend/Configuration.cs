@@ -1,5 +1,4 @@
 ﻿using EPiServer.Cms.UI.AspNetIdentity;
-using EPiServer.ContentApi.Cms.Configuration;
 using EPiServer.ContentApi.Core.Configuration;
 using EPiServer.Core.Internal;
 using EPiServer.Data;
@@ -13,7 +12,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
-using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -27,12 +25,10 @@ namespace Backend
 
         public static IServiceCollection ConfigureDataAccess(this IServiceCollection services, string contentRootPath)
         {
-            var dbPath = Path.Combine(contentRootPath, "App_Data\\musicfestival.mdf");
-            var connectionstring = $"Data Source=(LocalDb)\\MSSQLLocalDB;AttachDbFilename={dbPath};Initial Catalog=musicfestival;Integrated Security=True;Connect Timeout=30;MultipleActiveResultSets=True";
-
             services.Configure<DataAccessOptions>(options =>
             {
-                options.SetConnectionString(connectionstring);
+                options.SetConnectionString(Startup.ConnectionString);
+                options.CreateDatabaseSchema = true;
             });
 
             // Temporary until we have OIDC 
@@ -42,7 +38,7 @@ namespace Backend
                 {
                     o.ConnectionStringOptions = new ConnectionStringOptions()
                     {
-                        ConnectionString = connectionstring
+                        ConnectionString = Startup.ConnectionString
                     };
                 }
             });

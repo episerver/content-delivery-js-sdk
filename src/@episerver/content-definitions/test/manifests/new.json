@@ -2,7 +2,7 @@
   "contentTypes": [
     {
       "id": "ac0a6c4f-56ab-4596-9f5c-cfa923875c18",
-      "name": "TestPage",
+      "name": "NewPage",
       "baseType": "Page",
       "properties": [
         {
