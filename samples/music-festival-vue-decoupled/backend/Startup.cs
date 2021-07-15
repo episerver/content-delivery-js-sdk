@@ -15,7 +15,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
-using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace MusicFestival.Backend
 {
@@ -31,36 +30,11 @@ namespace MusicFestival.Backend
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-
-            var dbPath = Path.Combine(_environment.ContentRootPath, "App_Data\\musicfestival.mdf");
-            var connectionstring = $"Data Source=(LocalDb)\\MSSQLLocalDB;AttachDbFilename={dbPath};Initial Catalog=musicfestival;Integrated Security=True;Connect Timeout=30;MultipleActiveResultSets=True";
-
-            services.AddCms();
-            services.AddEmbeddedLocalization<Startup>();
-            services.Configure<DataAccessOptions>(options => options.SetConnectionString(connectionstring));
-            services.Configure<ExternalApplicationOptions>(options => options.OptimizeForDelivery = true);
-            services.ConfigureForExternalTemplates();
-
-            services.Configure<DisplayOptions>(options =>
-            {
-                options
-                    .Add("full", "Full", "u-md-sizeFull", string.Empty, "epi-icon__layout--full")
-                    .Add("wide", "Wide", "u-md-size2of3", string.Empty, "epi -icon__layout--two-thirds")
-                    .Add("half", "Half", "u-md-size1of2", string.Empty, "epi-icon__layout--half")
-                    .Add("narrow", "Narrow", "u-md-size1of3", string.Empty, "epi-icon__layout--one-third");
-            });
+            var connectionstring = $"Data Source=(LocalDb)\\MSSQLLocalDB;AttachDbFilename={Path.Combine(_environment.ContentRootPath, "App_Data\\musicfestival.mdf")};Initial Catalog=musicfestival;Integrated Security=True;Connect Timeout=30;MultipleActiveResultSets=True";
 
             services.AddCmsAspNetIdentity<ApplicationUser>(configureIdentity: options =>
             {
-                // Use sane claim types
-                // TODO: Should we configure this automatically?
-                options.ClaimsIdentity.EmailClaimType = Claims.Email;
-                options.ClaimsIdentity.RoleClaimType = Claims.Role;
-                options.ClaimsIdentity.UserNameClaimType = Claims.Name;
-                options.ClaimsIdentity.UserIdClaimType = Claims.Subject;
-
-                // Use sane passwords.
+                // Use sane passwords
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
@@ -69,40 +43,57 @@ namespace MusicFestival.Backend
                 options.Password.RequiredLength = 3; // Do not use in production
             });
 
-
-            services.AddDbContext<OpenIDConnectDbContext>(); // TODO: Should not be needed
-            services.AddHostedService<OpenIdDictDatabaseTableCreator>(); // TODO: Should not be needed
-            services.AddContentApiOpenIDConnect<OpenIDConnectDbContext, ApplicationUser>(options =>
-            {
-                options.RequireHttps = false; // Do not use in production
-
-                options.Applications.Add(new OpenIDConnectApplication
+            services
+                .AddCms()
+                .AddEmbeddedLocalization<Startup>()
+                .ConfigureForExternalTemplates()
+                .Configure<DataAccessOptions>(options => options.SetConnectionString(connectionstring))
+                .Configure<ExternalApplicationOptions>(options => options.OptimizeForDelivery = true)
+                .Configure<DisplayOptions>(options =>
                 {
-                    ClientId = "frontend",
-                    Scopes = { "openid", "offline_access", "profile", "email", "roles", ContentDeliveryAuthorizationOptionsDefaults.Scope },
-                    PostLogoutRedirectUris = { _frontendUri },
-                    RedirectUris =
+                    options
+                        .Add("full", "Full", "u-md-sizeFull", string.Empty, "epi-icon__layout--full")
+                        .Add("wide", "Wide", "u-md-size2of3", string.Empty, "epi -icon__layout--two-thirds")
+                        .Add("half", "Half", "u-md-size1of2", string.Empty, "epi-icon__layout--half")
+                        .Add("narrow", "Narrow", "u-md-size1of3", string.Empty, "epi-icon__layout--one-third");
+                });
+
+            services.AddContentApiOpenIDConnect<ApplicationUser>(
+                useDevelopmentCertificate: true, 
+                signingCertificate: null, 
+                encryptionCertificate: null, 
+                createSchema: true, 
+                options =>
+                {
+                    options.RequireHttps = false; // Do not use in production
+
+                    options.Applications.Add(new OpenIDConnectApplication
                     {
-                        new Uri(_frontendUri, "/login-callback"),
-                        new Uri(_frontendUri, "/login-renewal"),
-                    },
+                        ClientId = "frontend",
+                        Scopes = { "openid", "offline_access", "profile", "email", "roles", ContentDeliveryAuthorizationOptionsDefaults.Scope },
+                        PostLogoutRedirectUris = { _frontendUri },
+                        RedirectUris =
+                        {
+                            new Uri(_frontendUri, "/login-callback"),
+                            new Uri(_frontendUri, "/login-renewal"),
+                        },
+                    });
+
+                    options.Applications.Add(new OpenIDConnectApplication
+                    {
+                        ClientId = "cli",
+                        ClientSecret = "cli",
+                        Scopes = { ContentDefinitionsApiOptionsDefaults.Scope },
+                    });
                 });
 
-                options.Applications.Add(new OpenIDConnectApplication
-                {
-                    ClientId = "cli",
-                    ClientSecret = "cli",
-                    Scopes = { ContentDefinitionsApiOptionsDefaults.Scope },
-                });
-            });
+            services.AddContentApiOpenIDConnectUI();
 
             services.AddContentDeliveryApi(OpenIDConnectOptionsDefaults.AuthenticationScheme, options =>
             {
                 options.ExpandedBehavior = ExpandedLanguageBehavior.RequestedLanguage;
-                options.EnablePreviewMode = true;
                 options.FlattenPropertyModel = true;
                 options.ForceAbsolute = true;
-                options.ValidateTemplateForContentUrl = false;
             });
 
             services.AddContentDefinitionsApi(OpenIDConnectOptionsDefaults.AuthenticationScheme);
@@ -120,14 +111,14 @@ namespace MusicFestival.Backend
             app.UseStaticFiles();
             app.UseRouting();
 
-            // TODO: Enable CORS for all APIs with our method
+            // TODO: Enable CORS for all APIs with our own method
             app.UseCors(b => b
                 .WithOrigins(new[] { "http://localhost:8080" })
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials());
 
-            app.UseAuthentication(); 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

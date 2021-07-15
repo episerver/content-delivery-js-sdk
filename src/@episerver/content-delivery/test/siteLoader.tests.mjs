@@ -94,9 +94,7 @@ describe('SiteLoader', () => {
 
     it('should reject when invalid id', async () => {
       await siteLoader.getSite('@').catch((error) => {
-        // TODO: This is probably just a temporary issue
-        // with outdated dependencies. Will be fixed in another PR.
-        error.errorCode.should.equal(500);
+        error.errorCode.should.equal(400);
       });
     });
 
