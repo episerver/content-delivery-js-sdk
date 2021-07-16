@@ -63,7 +63,7 @@ describe('ContentResolver', () => {
       });
 
       it('should resolve content when path exist in edit mode', async () => {
-        var result = await contentResolver.resolveContent(baseUrl + '/EPiServer/CMS/en/7540f704c5fe4d779dee7fbe77bc3b6f,,6/?epieditmode=true', true);
+        var result = await contentResolver.resolveContent(baseUrl + '/EPiServer/CMS/Content/en/artists,,6/?epieditmode=true', true);
 
         result.mode.should.equal('EDIT');
         result.status.should.equal('RESOLVED');

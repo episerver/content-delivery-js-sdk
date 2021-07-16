@@ -5,6 +5,7 @@ app_data
 packages
 bin
 obj
+modules
 
 # local env files
 .env.local
@@ -25,6 +26,3 @@ pnpm-debug.log*
 *.njsproj
 *.sw?
 *.user
-
-*.key
-*.pem

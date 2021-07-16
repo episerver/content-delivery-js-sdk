@@ -4,7 +4,7 @@ import https from 'https';
 import { isLocal } from "./utils.mjs";
 import { getAccessToken } from "./authService.mjs";
 
-const basePath = '/api/episerver/v2.0/contentmanifest';
+const basePath = '/api/episerver/v3.0/contentmanifest';
 
 export async function importManifest(path, source, options, login) {
   let manifest;
@@ -144,14 +144,15 @@ function mapErrorDetailsToString(errorDetails)
   // }
 
   // Check whether error contains validation errors
-  if (errorDetails.error) {
+  const errors = errorDetails.error || errorDetails.errors;
+  if (errors) {
     let result = `${errorDetails.detail}.`;
 
-    for (const key in errorDetails.error) {
+    for (const key in errors) {
       if (key === '') {
-        result = `${result} ${errorDetails.error[key].join(", ")}`;
+        result = `${result} ${errors[key].join(", ")}`;
       } else {
-        result = `${result} ${key}: ${errorDetails.error[key].join(", ")}`;
+        result = `${result} ${key}: ${errors[key].join(", ")}`;
       }
     }
 

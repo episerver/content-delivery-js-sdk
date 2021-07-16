@@ -17,11 +17,9 @@ This project uses:
 ## Setup and Run
 
 1. Run `setup.cmd`. You can re-run `setup.cmd` at any time to reset the backend with a fresh database.
-2. Trust developer certificates by running `dotnet dev-certs https --trust`, if you haven't done this before.
-3. Open terminal for `./login` and run `dotnet run`.
-4. Open terminal for `./backend` and run `dotnet run`.
-    * Login with either `bob/bob` (admin) or `alice/alice` (editor).
-5. Open terminal for `./frontend` and run `npm install` (only needed first run) and then `npm run serve`.
+2. Open terminal for `./backend` and run `dotnet run`.
+    * sign in with either `bob/bob` (admin) or `alice/alice` (editor).
+3. Open terminal for `./frontend` and run `npm install` (only needed first run) and then `npm run serve`.
 
 ## Notable files
 

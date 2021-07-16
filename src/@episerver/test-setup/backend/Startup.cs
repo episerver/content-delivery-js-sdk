@@ -1,4 +1,9 @@
+using EPiServer.Cms.UI.AspNetIdentity;
+using EPiServer.ContentApi.Core.Configuration;
+using EPiServer.Core;
+using EPiServer.Data;
 using EPiServer.DependencyInjection;
+using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,41 +16,50 @@ namespace Backend
     public class Startup
     {
         internal static readonly string ConnectionString = $"Data Source=(localdb)\\MSSQLLocalDB;Database=db{Guid.NewGuid()};Integrated Security=true;MultipleActiveResultSets=true";
-        
-        private readonly IWebHostEnvironment _environment;
 
-        public Startup(IWebHostEnvironment environment)
-        {
-            _environment = environment;
-        }
+        public Startup()
+        { }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.ConfigureDataAccess(_environment.ContentRootPath);
-            services.ConfigureDisplayOptions();
-
-            // services.AddAuthentication(
-            //     _configuration.GetValue<string>("Login:Authority"),
-            //     _configuration.GetValue<string>("Login:ClientId"),
-            //     _configuration.GetValue<string>("Login:ClientSecret"));
-
-            services.AddMvc();
-
-            services.AddCms();
-            services.AddTinyMce();
-            services.AddEmbeddedLocalization<Startup>();
-            services.AddContentDeliveryApi();
-            services.AddContentDefinitionsApi(options => 
+            services.AddCmsAspNetIdentity<ApplicationUser>(configureIdentity: options =>
             {
-                options.DisableScopeValidation = true;
+                // Use sane passwords
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredUniqueChars = 0;
+                options.Password.RequiredLength = 3;
             });
-            //services.AddHostedService<ProvisionDatabase>();
+
+            services
+                .AddCms()
+                .AddEmbeddedLocalization<Startup>()
+                .ConfigureForExternalTemplates()
+                .Configure<ExternalApplicationOptions>(options => options.OptimizeForDelivery = true)
+                .Configure<DataAccessOptions>(options =>
+                {
+                    options.SetConnectionString(ConnectionString);
+                    options.CreateDatabaseSchema = true;
+                });
+
+            services.AddContentDeliveryApi(options =>
+            {
+                options.EnablePreviewFeatures = true;
+                options.EnablePreviewMode = true;
+                options.ExpandedBehavior = ExpandedLanguageBehavior.RequestedLanguage;
+                options.FlattenPropertyModel = true;
+                options.ForceAbsolute = true;
+                options.IncludeSiteHosts = true;
+            });
+
+            services.AddContentDefinitionsApi(options => options.DisableScopeValidation = true);
+
+            services.AddHostedService<ProvisionDatabase>();
         }
 
-        public void Configure(
-            IApplicationBuilder app, 
-            IWebHostEnvironment env, 
-            Microsoft.Extensions.Hosting.IHostApplicationLifetime lifetime)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime lifetime)
         {
             if (env.IsDevelopment())
             {
@@ -55,7 +69,7 @@ namespace Backend
             app.UseStaticFiles();
             app.UseRouting();
             app.UseCors();
-            app.UseAuthenticationWithMultipleSchemes();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

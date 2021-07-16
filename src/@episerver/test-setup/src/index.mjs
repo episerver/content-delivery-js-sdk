@@ -4,7 +4,7 @@ import http from 'http';
 import { spawn } from 'child_process';
 
 export const baseUrl = 'http://localhost:8080';
-export const apiUrl = `${baseUrl}/api/episerver/v2.0/`;
+export const apiUrl = `${baseUrl}/api/episerver/v3.0/`;
 export const tempPath = './temp';
 
 const basePath = '../test-setup/'; 

@@ -46,7 +46,7 @@ export default {
     },
   },
   mounted() {
-    defaultConfig.apiUrl = `${process.env.VUE_APP_CONTENT_DELIVERY_API}/api/episerver/v2.0`;
+    defaultConfig.apiUrl = `${process.env.VUE_APP_CONTENT_DELIVERY_API}/api/episerver/v3.0`;
     defaultConfig.getAccessToken = () => authService.getAccessToken();
     defaultConfig.selectAllProperties = true;
     defaultConfig.expandAllProperties = true;
