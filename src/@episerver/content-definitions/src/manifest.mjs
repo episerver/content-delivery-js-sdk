@@ -16,12 +16,7 @@ export async function importManifest(path, source, options, login) {
 
   return new Promise(async (resolve, reject) => {
     const accessToken = await getAccessToken(login)
-      .catch(error => {
-        // TODO: Remove if-statement when we have OIDC support in tests
-        if (process?.env.NODE_ENV !== 'test') {
-          reject(error);
-        }
-      });
+      .catch(error => reject(error));
 
     const url = new URL(basePath, source);
     if (options.allowedUpgrades) url.searchParams.append('allowedUpgrades', options.allowedUpgrades);
@@ -63,12 +58,7 @@ export async function importManifest(path, source, options, login) {
 export async function exportManifest(path, source, login) {
   return new Promise(async (resolve, reject) => {
     const accessToken = await getAccessToken(login)
-      .catch(error => {
-        // TODO: Remove if-statement when we have OIDC support in tests
-        if (process?.env.NODE_ENV !== 'test') {
-          reject(error);
-        }
-      });
+      .catch(error => reject(error));
 
     const url = new URL(basePath, source);
 

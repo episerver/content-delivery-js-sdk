@@ -5,8 +5,8 @@ import { baseUrl, tempPath } from 'test-setup';
 
 const CLI = './bin/cli.mjs';
 const authority = baseUrl;
-const clientId = 'id';
-const clientSecret = 'secret';
+const clientId = 'cli';
+const clientSecret = 'cli';
 
 describe('Content Definitions CLI', () => {
   describe('import', () => {
@@ -133,6 +133,26 @@ describe('Content Definitions CLI', () => {
           ]);
       } catch (error) {
         error.should.include('no such file or directory');
+      }
+    });
+
+    it('should fail when invalid credentials', async () => {
+      try {
+        await execute(CLI,
+          [
+            'import',
+            pathNew,
+            '-s',
+            baseUrl,
+            '--authority',
+            authority,
+            '--client-id',
+            'xxx',
+            '--client-secret',
+            'xxx',
+          ]);
+      } catch (error) {
+        error.should.include('invalid_client');
       }
     });
 
@@ -372,6 +392,25 @@ describe('Content Definitions CLI', () => {
           ]);
       } catch (error) {
         error.should.include('Invalid JSON or not a valid source.');
+      }
+    });
+
+    it('should fail when invalid credentials', async () => {
+      try {
+        await execute(CLI,
+          [
+            'export',
+            '-s',
+            baseUrl,
+            '--authority',
+            authority,
+            '--client-id',
+            'xxx',
+            '--client-secret',
+            'xxx',
+          ]);
+      } catch (error) {
+        error.should.include('invalid_client');
       }
     });
 
