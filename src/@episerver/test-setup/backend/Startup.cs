@@ -1,5 +1,7 @@
 using EPiServer.Cms.UI.AspNetIdentity;
 using EPiServer.ContentApi.Core.Configuration;
+using EPiServer.ContentApi.OpenIDConnect;
+using EPiServer.ContentDefinitionsApi;
 using EPiServer.Core;
 using EPiServer.Data;
 using EPiServer.DependencyInjection;
@@ -44,7 +46,23 @@ namespace Backend
                     options.CreateDatabaseSchema = true;
                 });
 
-            services.AddContentDeliveryApi(options =>
+            services.AddContentApiOpenIDConnect<ApplicationUser>(
+                useDevelopmentCertificate: true, 
+                signingCertificate: null, 
+                encryptionCertificate: null, 
+                createSchema: true, 
+                options =>
+                {
+                    options.RequireHttps = false;
+                    options.Applications.Add(new OpenIDConnectApplication
+                    {
+                        ClientId = "cli",
+                        ClientSecret = "cli",
+                        Scopes = { ContentDefinitionsApiOptionsDefaults.Scope },
+                    });
+                });
+
+            services.AddContentDeliveryApi(OpenIDConnectOptionsDefaults.AuthenticationScheme, options =>
             {
                 options.EnablePreviewFeatures = true;
                 options.EnablePreviewMode = true;
@@ -54,7 +72,7 @@ namespace Backend
                 options.IncludeSiteHosts = true;
             });
 
-            services.AddContentDefinitionsApi(options => options.DisableScopeValidation = true);
+            services.AddContentDefinitionsApi(OpenIDConnectOptionsDefaults.AuthenticationScheme);
 
             services.AddHostedService<ProvisionDatabase>();
         }
