@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { UPDATE_MODEL_BY_URL } from '@/store/modules/epiDataModel';
+import { ResolvedContentStatus } from '@episerver/content-delivery';
 import store from '@/store';
 import authService from '@/authService';
 import PageComponentSelector from '@/components/EpiPageComponentSelector.vue';
@@ -45,10 +46,10 @@ router.beforeEach((to, from, next) => {
   if (to.name === 'page-component-selector' && store.state.epiDataModel.model.url !== to.fullPath) {
     store.dispatch(UPDATE_MODEL_BY_URL, to.fullPath).then(() => {
       switch (store.state.epiDataModel.status) {
-        case 'NOTFOUND':
+        case ResolvedContentStatus.NotFound:
           router.replace('/not-found');
           break;
-        case 'UNAUTHORIZED':
+        case ResolvedContentStatus.Unauthorized:
           // Prevent redirect loop.
           authService.getUser().then((user) => {
             if (!user || user.expired) {
@@ -58,7 +59,7 @@ router.beforeEach((to, from, next) => {
             }
           });
           break;
-        case 'ACCESSDENIED':
+        case ResolvedContentStatus.AccessDenied:
           router.replace('/access-denied');
           break;
         default:
