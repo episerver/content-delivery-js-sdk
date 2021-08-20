@@ -6,12 +6,16 @@ using EPiServer.Core;
 using EPiServer.Data;
 using EPiServer.DependencyInjection;
 using EPiServer.ServiceLocation;
+using EPiServer.Web;
 using EPiServer.Web.Routing;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using System;
+using static Microsoft.Extensions.DependencyInjection.ServiceDescriptor;
 
 namespace Backend
 {
@@ -62,7 +66,14 @@ namespace Backend
                     });
                 });
 
-            services.AddContentDeliveryApi(OpenIDConnectOptionsDefaults.AuthenticationScheme, options =>
+            services.Configure<AuthenticationOptions>(options =>
+            {
+                options.AddScheme<UsernameAuthenticationHandler>(
+                    UsernameAuthenticationHandler.SchemeName,
+                    UsernameAuthenticationHandler.DisplayName);
+            });
+
+            services.AddContentDeliveryApi(UsernameAuthenticationHandler.SchemeName, options =>
             {
                 options.EnablePreviewFeatures = true;
                 options.EnablePreviewMode = true;
@@ -75,6 +86,7 @@ namespace Backend
             services.AddContentDefinitionsApi(OpenIDConnectOptionsDefaults.AuthenticationScheme);
 
             services.AddHostedService<ProvisionDatabase>();
+            services.TryAddEnumerable(Singleton(typeof(IFirstRequestInitializer), typeof(CreateTestContentFirstRequestInitializer)));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime lifetime)

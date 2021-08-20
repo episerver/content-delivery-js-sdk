@@ -5,7 +5,7 @@
  * site.
  */
 
-import { ContentResolver } from '@episerver/content-delivery';
+import { ContentResolver, ResolvedContentStatus, ContextMode } from '@episerver/content-delivery';
 import { UPDATE_CONTEXT } from './epiContext';
 
 export const UPDATE_MODEL_BY_URL = 'epiDataModel/UPDATE_MODEL_BY_URL';
@@ -15,13 +15,13 @@ const UPDATE_MODEL = 'epiDataModel/UPDATE_MODEL';
 const state = {
   model: {},
   modelLoaded: false,
-  status: 'UNKNOWN',
+  status: ResolvedContentStatus.Unknown,
 };
 
 const mutations = {
   [UPDATE_MODEL](state, payload) {
     state.model = payload.model || {};
-    state.modelLoaded = (payload.status === 'RESOLVED');
+    state.modelLoaded = (payload.status === ResolvedContentStatus.Resolved);
     state.status = payload.status;
   },
 };
@@ -34,12 +34,12 @@ const actions = {
       commit(UPDATE_MODEL, { model: resolvedContent.content, status: resolvedContent.status });
 
       const context = {
-        isEditable: resolvedContent.mode === 'EDIT',
-        inEditMode: resolvedContent.mode === 'EDIT',
+        isEditable: resolvedContent.mode === ContextMode.Edit,
+        inEditMode: resolvedContent.mode === ContextMode.Edit,
       };
 
       commit(UPDATE_CONTEXT, context);
-    }).catch(() => commit(UPDATE_MODEL, { status: 'UNKNOWN' }));
+    }).catch(() => commit(UPDATE_MODEL, { status: ResolvedContentStatus.Unknown }));
   },
 };
 
