@@ -1,8 +1,8 @@
 # Episerver Content Delivery JavaScript SDK - Content Loader, Content Resolver and Site Loader
 
-SDK for loading and resolving content from an Episerver application running the [Content Delivery API](https://world.episerver.com/documentation/developer-guides/content-delivery-api/). The SDK is written in TypeScript and includes types.
+SDK for loading and resolving content from an Episerver application running the [Content Delivery API](https://world.optimizely.com/documentation/developer-guides/content-delivery-api/). The SDK is written in TypeScript and includes types.
 
-Please visit [Episerver World](https://world.episerver.com/) for full documentation of the APIs.
+Please visit [Optimizely World](https://world.optimizely.com/) for full documentation of the APIs.
 
 > Note that this SDK requires you to use the flattened JSON format, see code example below how to configure the API to use this format.
 
@@ -80,7 +80,7 @@ contentLoader.getContent('38963a25-b6ec-493b-aca4-f4fbce1aed4d', { expand: ['tea
   });
 ```
 
-Reference properties (content areas and content references) only includes the reference to the content by default. By expanding these properties the content of the referenced content is also included in the response. See the [Content API documentation](https://world.episerver.com/documentation/developer-guides/content-delivery-api/api-fundamentals/contentapi/) for more information.
+Reference properties (content areas and content references) only includes the reference to the content by default. By expanding these properties the content of the referenced content is also included in the response. See the [Content API documentation](https://world.optimizely.com/documentation/developer-guides/content-delivery-api/api-fundamentals/contentapi/) for more information.
 
 Loading children by a parent identifier:
 

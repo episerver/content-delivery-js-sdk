@@ -20,4 +20,4 @@
 
 ## Do you have questions about the source code?
 
-* Ask any question about how to use this code on the [Episerver World forum](https://world.episerver.com/forum/).
+* Ask any question about how to use this code on the [Optimizely World forum](https://world.optimizely.com/forum/).

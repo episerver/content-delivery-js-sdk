@@ -4,7 +4,7 @@ This sample site demonstrates one approach to render Episerver content in a clie
 
 This particular solution uses [Vue CLI](https://cli.vuejs.org/) with [Vuex](https://next.vuex.vuejs.org/) to handle the state of the app in a `single source of truth`. Most of the techniques are framework agnostic and can be used with any other framework, such as React or Angular.
 
-Content is fetched from Episerver using the Content Delivery API: https://world.episerver.com/documentation/developer-guides/cms/content/content-delivery-api/
+Content is fetched from Episerver using the Content Delivery API: https://world.optimizely.com/documentation/developer-guides/cms/content/content-delivery-api/
 
 ## Prerequisites
 
