@@ -9,7 +9,7 @@ const clientId = 'cli';
 const clientSecret = 'cli';
 
 describe('Content Definitions CLI', () => {
-  describe('import', () => {
+  describe('push', () => {
     const pathNew = './test/manifests/new.json';
     const pathMajorUpdate = './test/manifests/major-update.json';
     const pathMajorDowngrade = './test/manifests/major-downgrade.json';
@@ -20,7 +20,7 @@ describe('Content Definitions CLI', () => {
       try {
         await execute(CLI,
           [
-            'import',
+            'push',
             pathNew,
           ]);
       } catch (error) {
@@ -32,7 +32,7 @@ describe('Content Definitions CLI', () => {
       try {
         await execute(CLI,
           [
-            'import',
+            'push',
             pathNew,
             '-s',
             baseUrl,
@@ -46,7 +46,7 @@ describe('Content Definitions CLI', () => {
       try {
         await execute(CLI,
           [
-            'import',
+            'push',
             pathNew,
             '-s',
             baseUrl,
@@ -62,7 +62,7 @@ describe('Content Definitions CLI', () => {
       try {
         await execute(CLI,
           [
-            'import',
+            'push',
             pathNew,
             '-s',
             baseUrl,
@@ -80,7 +80,7 @@ describe('Content Definitions CLI', () => {
       try {
         await execute(CLI,
           [
-            'import',
+            'push',
             pathNew,
             '-s',
             'incorrect-source',
@@ -100,7 +100,7 @@ describe('Content Definitions CLI', () => {
       try {
         await execute(CLI,
           [
-            'import',
+            'push',
             pathNew,
             '-s',
             'http://example.com',
@@ -120,7 +120,7 @@ describe('Content Definitions CLI', () => {
       try {
         await execute(CLI,
           [
-            'import',
+            'push',
             'do not exist.json',
             '-s',
             baseUrl,
@@ -140,7 +140,7 @@ describe('Content Definitions CLI', () => {
       try {
         await execute(CLI,
           [
-            'import',
+            'push',
             pathNew,
             '-s',
             baseUrl,
@@ -160,7 +160,7 @@ describe('Content Definitions CLI', () => {
       try {
         await execute(CLI,
           [
-            'import',
+            'push',
             pathNoJson,
             '-s',
             baseUrl,
@@ -180,7 +180,7 @@ describe('Content Definitions CLI', () => {
       try {
         await execute(CLI,
           [
-            'import',
+            'push',
             pathEmptyJson,
             '-s',
             baseUrl,
@@ -200,7 +200,7 @@ describe('Content Definitions CLI', () => {
       it('should import manifest', async () => {
         const result = await execute(CLI,
           [
-            'import',
+            'push',
             pathNew,
             '-s',
             baseUrl,
@@ -218,7 +218,7 @@ describe('Content Definitions CLI', () => {
       it('should not import manifest with major upgrades', async () => {
         const result = await execute(CLI,
           [
-            'import',
+            'push',
             pathMajorUpdate,
             '-s',
             baseUrl,
@@ -238,7 +238,7 @@ describe('Content Definitions CLI', () => {
       it('should import manifest with major upgrades', async () => {
         const result = await execute(CLI,
           [
-            'import',
+            'push',
             pathMajorUpdate,
             '-s',
             baseUrl,
@@ -260,7 +260,7 @@ describe('Content Definitions CLI', () => {
       it('should not import manifest with major downgrades', async () => {
         const result = await execute(CLI,
           [
-            'import',
+            'push',
             pathMajorDowngrade,
             '-s',
             baseUrl,
@@ -280,7 +280,7 @@ describe('Content Definitions CLI', () => {
       it('should import manifest with major downgrades', async () => {
         const result = await execute(CLI,
           [
-            'import',
+            'push',
             pathMajorDowngrade,
             '-s',
             baseUrl,
@@ -300,12 +300,12 @@ describe('Content Definitions CLI', () => {
   });
 
 
-  describe('export', () => {
+  describe('pull', () => {
     it('should require \'source\'', async () => {
       try {
         await execute(CLI,
           [
-            'export',
+            'pull',
           ]);
       } catch (error) {
         error.should.include('required option \'-s, --source <source>\'');
@@ -316,7 +316,7 @@ describe('Content Definitions CLI', () => {
       try {
         await execute(CLI,
           [
-            'export',
+            'pull',
             '-s',
             baseUrl,
           ]);
@@ -329,7 +329,7 @@ describe('Content Definitions CLI', () => {
       try {
         await execute(CLI,
           [
-            'export',
+            'pull',
             '-s',
             baseUrl,
             '--authority',
@@ -344,7 +344,7 @@ describe('Content Definitions CLI', () => {
       try {
         await execute(CLI,
           [
-            'export',
+            'pull',
             '-s',
             baseUrl,
             '--authority',
@@ -361,7 +361,7 @@ describe('Content Definitions CLI', () => {
       try {
         await execute(CLI,
           [
-            'export',
+            'pull',
             '-s',
             'incorrect-source',
             '--authority',
@@ -380,7 +380,7 @@ describe('Content Definitions CLI', () => {
       try {
         await execute(CLI,
           [
-            'export',
+            'pull',
             '-s',
             'http://example.com',
             '--authority',
@@ -399,7 +399,7 @@ describe('Content Definitions CLI', () => {
       try {
         await execute(CLI,
           [
-            'export',
+            'pull',
             '-s',
             baseUrl,
             '--authority',
@@ -417,7 +417,7 @@ describe('Content Definitions CLI', () => {
     it('should export to stdout when no path is provided', async () => {
       const result = await execute(CLI,
         [
-          'export',
+          'pull',
           '-s',
           baseUrl,
           '--authority',
@@ -437,7 +437,7 @@ describe('Content Definitions CLI', () => {
 
       const result = await execute(CLI,
         [
-          'export',
+          'pull',
           path,
           '-s',
           baseUrl,

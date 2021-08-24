@@ -6,7 +6,7 @@ import { getAccessToken } from "./authService.mjs";
 
 const basePath = '/api/episerver/v3.0/contentmanifest';
 
-export async function importManifest(path, source, options, login) {
+export async function pushManifest(path, source, options, login) {
   let manifest;
   try {
     manifest = fs.readFileSync(path, 'utf8');
@@ -55,7 +55,7 @@ export async function importManifest(path, source, options, login) {
   });
 }
 
-export async function exportManifest(path, source, login) {
+export async function pullManifest(path, source, login) {
   return new Promise(async (resolve, reject) => {
     const accessToken = await getAccessToken(login)
       .catch(error => reject(error));

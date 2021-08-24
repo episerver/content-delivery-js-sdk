@@ -1,8 +1,8 @@
 # Episerver Content Delivery JavaScript SDK - Content Definitions
 
-SDK and CLI for managing content definitions and modelling of data in an Episerver application running the [Content Definitions API](https://world.episerver.com/documentation/developer-guides/content-definitions-api/).
+SDK and CLI for managing content definitions and modelling of data in an Episerver application running the [Content Definitions API](https://world.optimizely.com/documentation/developer-guides/content-definitions-api/).
 
-Please visit [Episerver World](https://world.episerver.com/) for full documentation of the APIs. 
+Please visit [Optimizely World](https://world.optimizely.com/) for full documentation of the APIs. 
 
 ## Installing
 
@@ -34,21 +34,21 @@ Options:
   -h, --help               display help for command
 
 Commands:
-  import [options] <path>  Import a manifest with content definitions from the specified path to a management application.
-  export [options] [path]  Export a manifest with content definitions to the specified path from a management application.
+  push [options] <path>  Push a manifest with content definitions to a management application from the specified path.
+  pull [options] [path]  Pull a manifest with content definitions from a management application to the specified path.
   help [command]           display help for command
 ```
 
-Importing of content definitions manifest:
+Push content definitions manifest:
 
 ```bash
-$ npx content-definitions import manifest.json -s https://site.com --allowed-upgrades major --authority https://login.com --client-id definitions-cli --client-secret definitions-cli
+$ npx content-definitions push manifest.json -s https://example.com --allowed-upgrades major --authority https://example.com --client-id xxx --client-secret xxx
 ```
 
 ```bash
-Usage: cli import [options] <path>
+Usage: cli push [options] <path>
 
-Import a manifest with content definitions from the specified path to a management application.
+Push a manifest with content definitions to a management application from the specified path.
 
 Options:
   -s, --source <source>                     URL to the management application.
@@ -59,18 +59,18 @@ Options:
   --allowed-downgrades [allowedDowngrades]  Which semantic downgrades of definitions should be allowed. Allowed values are "none", "patch", "minor", and "major".
   -h, --help                                display help for command
 ```
-Exporting of content definitions manifest:
+Pull content definitions manifest:
 
 ```bash
-$ npx content-definitions export manifest.json -s https://site.com --authority https://login.com --client-id definitions-cli --client-secret definitions-cli
+$ npx content-definitions pull manifest.json -s https://example.com --authority https://example.com --client-id xxx --client-secret xxx
 ```
 
 Note that path is optional, if left empty the manifest will be displayed in the output instead. 
 
 ```bash
-Usage: cli export [options] [path]
+Usage: cli pull [options] [path]
 
-Export a manifest with content definitions to the specified path from a management application.
+Pull a manifest with content definitions from a management application to the specified path.
 
 Options:
   -s, --source <source>           URL to the management application.

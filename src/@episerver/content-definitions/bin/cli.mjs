@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander';
-import { importManifest, exportManifest } from '../src/manifest.mjs';
+import { pushManifest, pullManifest } from '../src/manifest.mjs';
 
 const program = new Command();
 
@@ -10,8 +10,8 @@ program
   .usage('<command> [options]');
 
 program
-  .command('import <path>')
-  .description('Import a manifest with content definitions from the specified path to a management application.')
+  .command('push <path>')
+  .description('Push a manifest with content definitions to a management application from the specified path.')
   .requiredOption('-s, --source <source>', 'URL to the management application.')
   .requiredOption('--authority <authority>', 'Login authority.')
   .requiredOption('--client-id <clientId>', 'Login client ID.')
@@ -30,7 +30,7 @@ program
       clientSecret: cmd.clientSecret
     };
 
-    importManifest(path, cmd.source, options, login)
+    pushManifest(path, cmd.source, options, login)
       .then(result => {
         result.forEach(message => {
           console.log(message.severity, message.message);
@@ -40,8 +40,8 @@ program
   });
 
 program
-  .command('export [path]')
-  .description('Export a manifest with content definitions to the specified path from a management application.')
+  .command('pull [path]')
+  .description('Pull a manifest with content definitions from a management application to the specified path.')
   .requiredOption('-s, --source <source>', 'URL to the management application.')
   .requiredOption('--authority <authority>', 'Login authority.')
   .requiredOption('--client-id <clientId>', 'Login client ID.')
@@ -53,7 +53,7 @@ program
       clientSecret: cmd.clientSecret
     };
 
-    exportManifest(path, cmd.source, login)
+    pullManifest(path, cmd.source, login)
       .then(result => console.log(result))
       .catch(error => console.error(error))
   });
