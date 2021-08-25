@@ -6,8 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "content-definitions:import": "content-definitions import manifest.json -s http://localhost:8081 --authority http://localhost:8081 --client-id cli --client-secret cli --allowed-upgrades major",
-    "content-definitions:export": "content-definitions export manifest.json -s http://localhost:8081 --authority http://localhost:8081 --client-id cli --client-secret cli"
+    "content-definitions:push": "content-definitions push manifest.json -s http://localhost:8081 --authority http://localhost:8081 --client-id cli --client-secret cli --allowed-upgrades major",
+    "content-definitions:pull": "content-definitions pull manifest.json -s http://localhost:8081 --authority http://localhost:8081 --client-id cli --client-secret cli"
   },
   "dependencies": {
     "@episerver/content-delivery": "file:../../../src/@episerver/content-delivery",

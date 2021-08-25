@@ -27,8 +27,8 @@
 </style>
 
 <script>
-import authService from '@/authService';
 import { defaultConfig } from '@episerver/content-delivery';
+import authService from '@/authService';
 
 export default {
   data() {

@@ -18,8 +18,8 @@
 </template>
 
 <script>
-import EpiProperty from '@/components/EpiProperty.vue';
 import { mapState } from 'vuex';
+import EpiProperty from '@/components/EpiProperty.vue';
 
 export default {
   props: ['title', 'subtitle', 'heroimage'],

@@ -23,9 +23,9 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import BlockComponentSelector from '@/components/EpiBlockComponentSelector.vue';
 import { DISPLAY_OPTIONS } from '@/constants';
-import { mapState } from 'vuex';
 
 export default {
   props: ['model'],

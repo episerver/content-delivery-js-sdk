@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { UPDATE_MODEL_BY_URL } from '@/store/modules/epiDataModel';
 import { ResolvedContentStatus } from '@episerver/content-delivery';
+import { UPDATE_MODEL_BY_URL } from '@/store/modules/epiDataModel';
 import store from '@/store';
 import authService from '@/authService';
 import PageComponentSelector from '@/components/EpiPageComponentSelector.vue';
