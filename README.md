@@ -3,19 +3,21 @@
 [![Npm publish](https://github.com/episerver/content-delivery-js-sdk/actions/workflows/npm-publish.yml/badge.svg)](https://github.com/episerver/content-delivery-js-sdk/actions/workflows/npm-publish.yml) [![Continuous integration](https://github.com/episerver/content-delivery-js-sdk/actions/workflows/ci.yml/badge.svg)](https://github.com/episerver/content-delivery-js-sdk/actions/workflows/ci.yml)
 
 
-This repository contains the source code for the Content Delivery SDKs and samples.
-
-> Note the SDK is in preview. Please provide feedback and report issues.
-
-Visit [Optimizely World](https://world.optimizely.com/documentation/developer-guides/content-delivery-api/) for full documentation of the REST APIs.
+This repository contains the source code for the Content Delivery JavaScript SDKs and samples.
 
 ## Content Definitions
 
-[Source code and documentation](https://github.com/episerver/content-delivery-js-sdk/tree/master/src/%40episerver/content-definitions).
+* [Source code and documentation](https://github.com/episerver/content-delivery-js-sdk/tree/master/src/%40episerver/content-definitions)
+* [REST API documentation](https://world.optimizely.com/documentation/developer-guides/content-delivery-api/)
 
 ## Content Delivery
 
-[Source code and documentation](https://github.com/episerver/content-delivery-js-sdk/tree/master/src/%40episerver/content-delivery).
+* [Source code and documentation](https://github.com/episerver/content-delivery-js-sdk/tree/master/src/%40episerver/content-delivery)
+* [REST API documentation](https://world.optimizely.com/documentation/developer-guides/content-definitions-api/)
+
+## Samples
+
+* [Vue.js](https://github.com/episerver/content-delivery-js-sdk/tree/master/samples/music-festival-vue-decoupled)
 
 ## Prerequisites for building and testing the SDKs
 
