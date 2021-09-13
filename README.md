@@ -27,14 +27,15 @@ This project uses:
 * .NET SDK 5+
 * SQL Server 2016 Express LocalDB ([download here](https://www.microsoft.com/en-us/sql-server/sql-server-downloads))
 
-## Creating a release
+## Create a release
 
- 1. Update version in all SDK package.json files.
- 2. Merge to master branch.
- 3. Create new Github release based of master branch.
- 4. Tag version with following format: v1.2.0.
- 5. Give the release a title and write an optional description.
- 6. Publish.
+ 1. Update the version in all modules with `npm version 1.2.3`.
+ 2. Run `npm install` in all samples to update their package-lock.json files.
+ 3. Commit, push, and create PR to `master` branch.
+ 4. Create new Github release based of `master` branch.
+ 5. Tag version with following format `v1.2.3`.
+ 6. Give the release a title and write an optional description.
+ 7. Publish.
 
 ## Contributing
 
