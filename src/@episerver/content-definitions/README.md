@@ -30,13 +30,13 @@ $ npx content-definitions --help
 Usage: cli <command> [options]
 
 Options:
-  -V, --version            output the version number
-  -h, --help               display help for command
+  -V, --version          Output the version number
+  -h, --help             Display help for command
 
 Commands:
   push [options] <path>  Push a manifest with content definitions to a management application from the specified path.
   pull [options] [path]  Pull a manifest with content definitions from a management application to the specified path.
-  help [command]           display help for command
+  help [command]         Display help for command
 ```
 
 Push content definitions manifest:
@@ -56,8 +56,8 @@ Options:
   --client-id <clientId>                    Login client ID.
   --client-secret <clientSecret>            Login client secret.
   --allowed-upgrades [allowedUpgrades]      Which semantic upgrades of definitions should be allowed. Allowed values are "none", "patch", "minor", and "major".  
-  --allowed-downgrades [allowedDowngrades]  Which semantic downgrades of definitions should be allowed. Allowed values are "none", "patch", "minor", and "major".
-  -h, --help                                display help for command
+  -f, --force [force]                       Should the push proceed even though there are warnings or the changes are not allowed.
+  -h, --help                                Display help for command
 ```
 Pull content definitions manifest:
 
@@ -77,5 +77,5 @@ Options:
   --authority <authority>         Login authority.
   --client-id <clientId>          Login client ID.
   --client-secret <clientSecret>  Login client secret.
-  -h, --help                      display help for command
+  -h, --help                      Display help for command
 ```

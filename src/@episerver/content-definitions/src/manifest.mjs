@@ -20,7 +20,7 @@ export async function pushManifest(path, source, options, login) {
 
     const url = new URL(basePath, source);
     if (options.allowedUpgrades) url.searchParams.append('allowedUpgrades', options.allowedUpgrades);
-    if (options.allowedDowngrades) url.searchParams.append('allowedDowngrades', options.allowedDowngrades);
+    if (options.force) url.searchParams.append('force', 'true');
 
     const requestOptions = {
       host: url.hostname,

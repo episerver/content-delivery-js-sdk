@@ -1,10 +1,10 @@
 using EPiServer.Cms.UI.AspNetIdentity;
 using EPiServer.ContentApi.Core.Configuration;
-using EPiServer.ContentApi.OpenIDConnect;
 using EPiServer.ContentDefinitionsApi;
 using EPiServer.Core;
 using EPiServer.Data;
 using EPiServer.DependencyInjection;
+using EPiServer.OpenIDConnect;
 using EPiServer.ServiceLocation;
 using EPiServer.Web;
 using EPiServer.Web.Routing;
@@ -50,7 +50,7 @@ namespace Backend
                     options.CreateDatabaseSchema = true;
                 });
 
-            services.AddContentApiOpenIDConnect<ApplicationUser>(
+            services.AddOpenIDConnect<ApplicationUser>(
                 useDevelopmentCertificate: true, 
                 signingCertificate: null, 
                 encryptionCertificate: null, 
