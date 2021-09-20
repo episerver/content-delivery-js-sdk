@@ -256,7 +256,7 @@ describe('Content Definitions CLI', () => {
       });
     });
 
-    describe('without \'--allowed-downgrades major\'', () => {
+    describe('without \'--force\'', () => {
       it('should not import manifest with major downgrades', async () => {
         const result = await execute(CLI,
           [
@@ -276,7 +276,7 @@ describe('Content Definitions CLI', () => {
       });
     });
 
-    describe('with \'--allowed-downgrades major\'', () => {
+    describe('with \'--force\'', () => {
       it('should import manifest with major downgrades', async () => {
         const result = await execute(CLI,
           [
@@ -290,7 +290,7 @@ describe('Content Definitions CLI', () => {
             clientId,
             '--client-secret',
             clientSecret,
-            '--allowed-downgrades',
+            '--force',
             'major',
           ]);
 

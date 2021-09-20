@@ -1,11 +1,11 @@
 using EPiServer.Cms.UI.AspNetIdentity;
 using EPiServer.ContentApi.Cms.Configuration;
 using EPiServer.ContentApi.Core.Configuration;
-using EPiServer.ContentApi.OpenIDConnect;
 using EPiServer.ContentDefinitionsApi;
 using EPiServer.Core;
 using EPiServer.Data;
 using EPiServer.DependencyInjection;
+using EPiServer.OpenIDConnect;
 using EPiServer.ServiceLocation;
 using EPiServer.Web;
 using EPiServer.Web.Routing;
@@ -58,7 +58,7 @@ namespace MusicFestival.Backend
                         .Add("narrow", "Narrow", "u-md-size1of3", string.Empty, "epi-icon__layout--one-third");
                 });
 
-            services.AddContentApiOpenIDConnect<ApplicationUser>(
+            services.AddOpenIDConnect<ApplicationUser>(
                 useDevelopmentCertificate: true, 
                 signingCertificate: null, 
                 encryptionCertificate: null, 
@@ -86,8 +86,6 @@ namespace MusicFestival.Backend
                         Scopes = { ContentDefinitionsApiOptionsDefaults.Scope },
                     });
                 });
-
-            services.AddContentApiOpenIDConnectUI();
 
             services.AddContentDeliveryApi(OpenIDConnectOptionsDefaults.AuthenticationScheme, options =>
             {

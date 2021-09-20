@@ -17,11 +17,11 @@ program
   .requiredOption('--client-id <clientId>', 'Login client ID.')
   .requiredOption('--client-secret <clientSecret>', 'Login client secret.')
   .option('--allowed-upgrades [allowedUpgrades]', 'Which semantic upgrades of definitions should be allowed. Allowed values are "none", "patch", "minor", and "major".')
-  .option('--allowed-downgrades [allowedDowngrades]', 'Which semantic downgrades of definitions should be allowed. Allowed values are "none", "patch", "minor", and "major".')
+  .option('-f, --force [force]', 'Should the push proceed even though there are warnings or the changes are not allowed.')
   .action(async (path, cmd) => {
     const options = {
       allowedUpgrades: cmd.allowedUpgrades,
-      allowedDowngrades: cmd.allowedDowngrades
+      force: cmd.force
     };
 
     const login = {
