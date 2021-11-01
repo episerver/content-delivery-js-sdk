@@ -5,6 +5,7 @@
       "dotnetRunMessages": "true",
       "launchBrowser": true,
       "applicationUrl": "http://localhost:8081",
+      "launchUrl": "episerver/cms",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
