@@ -26,5 +26,4 @@ pnpm-debug.log*
 *.njsproj
 *.sw?
 *.user
-package-lock.json
 
