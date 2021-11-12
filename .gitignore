@@ -26,3 +26,4 @@ pnpm-debug.log*
 *.njsproj
 *.sw?
 *.user
+samples/music-festival-vue-decoupled/frontend/package-lock.json
