@@ -68,7 +68,7 @@ export default {
       document.body.appendChild(domainScript);
 
       const communicationScript = document.createElement('script');
-      communicationScript.src = `${process.env.VUE_APP_CONTENT_DELIVERY_API}/episerver/cms/latest/clientresources/epi-cms/communicationinjector.js`;
+      communicationScript.src = 'http://localhost:8081/EPiServer/CMS/12.0.2/ClientResources/epi-cms/communicationinjector.js';
       document.body.appendChild(communicationScript);
     }
   },

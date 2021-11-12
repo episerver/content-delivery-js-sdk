@@ -30,7 +30,7 @@ namespace MusicFestival.Backend
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionstring = $"Data Source=(LocalDb)\\MSSQLLocalDB;AttachDbFilename={Path.Combine(_environment.ContentRootPath, "App_Data\\musicfestival.mdf")};Initial Catalog=musicfestival;Integrated Security=True;Connect Timeout=30;MultipleActiveResultSets=True";
+            var connectionstring = $"Server=localhost;Database=EPiServerDB_4a713259;User Id=EPiServerDB_4a713259User;Password=9ul5TsYeS%P1WuAULf7$juuuu;MultipleActiveResultSets=True";
 
             services.AddCmsAspNetIdentity<ApplicationUser>(configureIdentity: options =>
             {

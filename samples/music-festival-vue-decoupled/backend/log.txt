@@ -1,0 +1,4 @@
+2021-11-11 12:41:34.945 +01:00 [INF] Running create-cms-database command.
+2021-11-11 12:41:35.904 +01:00 [INF] create-cms-database has completed.
+2021-11-12 11:56:19.927 +01:00 [INF] Running create-cms-database command.
+2021-11-12 11:56:21.530 +01:00 [INF] create-cms-database has completed.
