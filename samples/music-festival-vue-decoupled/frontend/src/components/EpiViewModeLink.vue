@@ -1,6 +1,6 @@
 <!--
     This should be used for links when they should be completely disabled when in
-    an Episerver CMS UI editing context. One example is language selection links,
+    an Optimizely CMS UI editing context. One example is language selection links,
     because language selection should be done in the CMS UI instead.
 -->
 

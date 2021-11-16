@@ -29,7 +29,7 @@ export default {
       //      There is an open feature-request for making 'router-link' support absolute links.
       //      https://github.com/vuejs/vue-router/issues/1280
       //
-      //      Always user an 'a' tag in edit mode to update the Episerver UI
+      //      Always user an 'a' tag in edit mode to update the Optimizely UI
 
       if (state.epiContext.inEditMode) {
         return 'a';

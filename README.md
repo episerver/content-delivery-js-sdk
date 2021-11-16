@@ -8,12 +8,12 @@ This repository contains the source code for the Content Delivery JavaScript SDK
 ## Content Definitions
 
 * [Source code and documentation](https://github.com/episerver/content-delivery-js-sdk/tree/master/src/%40episerver/content-definitions)
-* [REST API documentation](https://world.optimizely.com/documentation/developer-guides/content-delivery-api/)
+* [REST API documentation](https://world.optimizely.com/documentation/developer-guides/content-definitions-api/)
 
 ## Content Delivery
 
 * [Source code and documentation](https://github.com/episerver/content-delivery-js-sdk/tree/master/src/%40episerver/content-delivery)
-* [REST API documentation](https://world.optimizely.com/documentation/developer-guides/content-definitions-api/)
+* [REST API documentation](https://world.optimizely.com/documentation/developer-guides/content-delivery-api/)
 
 ## Samples
 

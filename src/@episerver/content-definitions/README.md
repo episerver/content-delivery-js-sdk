@@ -1,6 +1,6 @@
-# Episerver Content Delivery JavaScript SDK - Content Definitions
+# Optimizely Content Delivery JavaScript SDK - Content Definitions
 
-SDK and CLI for managing content definitions and modelling of data in an Episerver application running the [Content Definitions API](https://world.optimizely.com/documentation/developer-guides/content-definitions-api/).
+SDK and CLI for managing content definitions and modelling of data in an Optimizely application running the [Content Definitions API](https://world.optimizely.com/documentation/developer-guides/content-definitions-api/).
 
 Please visit [Optimizely World](https://world.optimizely.com/) for full documentation of the APIs. 
 

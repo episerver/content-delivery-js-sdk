@@ -1,6 +1,6 @@
-# Episerver Content Delivery JavaScript SDK - Content Loader, Content Resolver and Site Loader
+# Optimizely Content Delivery JavaScript SDK - Content Loader, Content Resolver and Site Loader
 
-SDK for loading and resolving content from an Episerver application running the [Content Delivery API](https://world.optimizely.com/documentation/developer-guides/content-delivery-api/). The SDK is written in TypeScript and includes types.
+SDK for loading and resolving content from an Optimizely application running the [Content Delivery API](https://world.optimizely.com/documentation/developer-guides/content-delivery-api/). The SDK is written in TypeScript and includes types.
 
 Please visit [Optimizely World](https://world.optimizely.com/) for full documentation of the APIs.
 

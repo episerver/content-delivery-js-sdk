@@ -2,7 +2,7 @@
 
 ## Did you find a bug?
 
-* Do not open up a GitHub issue if the bug is a security vulnerability, instead contact support@episerver.com.
+* Do not open up a GitHub issue if the bug is a security vulnerability, instead contact support@optimizely.com.
 
 * Ensure the bug was not already reported by searching on GitHub under [Issues](https://github.com/episerver/content-delivery-js-sdk/issues).
 

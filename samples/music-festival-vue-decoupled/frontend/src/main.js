@@ -11,7 +11,7 @@ const app = createApp(App)
   .use(store)
   .use(router);
 
-// Register all Episerver view components globally. This requires webpack!
+// Register all Optimizely view components globally. This requires webpack!
 // Otherwise we need to register all components manually here in main.js.
 const requireComponent = require.context('./views', true, /.vue$/);
 
