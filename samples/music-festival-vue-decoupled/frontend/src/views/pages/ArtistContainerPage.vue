@@ -32,11 +32,11 @@
 
 <script>
 import { ContentLoader } from '@episerver/content-delivery';
+import _ from 'lodash';
+import { mapState } from 'vuex';
 import BackButton from '@/components/widgets/BackButton.vue';
 import Card from '@/components/widgets/Card.vue';
 import LanguageSelector from '@/components/widgets/LanguageSelector.vue';
-import _ from 'lodash';
-import { mapState } from 'vuex';
 
 export default {
   props: ['model'],

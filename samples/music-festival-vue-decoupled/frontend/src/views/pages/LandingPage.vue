@@ -50,6 +50,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
 import ContentArea from '@/components/EpiContentArea.vue';
 import EpiLink from '@/components/EpiLink.vue';
 import Hero from '@/components/widgets/Hero.vue';
@@ -57,7 +58,6 @@ import LanguageSelector from '@/components/widgets/LanguageSelector.vue';
 import Modal from '@/components/widgets/Modal.vue';
 import BuyTicketBlock from '@/views/blocks/BuyTicketBlock.vue';
 import { SHOW_MODAL } from '@/store/modules/appContext';
-import { mapMutations } from 'vuex';
 
 export default {
   components: {
