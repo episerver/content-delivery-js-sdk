@@ -5,7 +5,7 @@
 
 import { createStore } from 'vuex';
 import appContext from './modules/appContext'; // Module handling app specific state
-import epiContext from './modules/epiContext'; // Module handling Episerver specific state
+import epiContext from './modules/epiContext'; // Module handling Optimizely specific state
 import epiDataModel from './modules/epiDataModel'; // Module handling model state
 
 export default createStore({

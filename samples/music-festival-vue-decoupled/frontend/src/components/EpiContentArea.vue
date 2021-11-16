@@ -4,7 +4,7 @@
 
     By setting the `data-epi-block-id` attribute the block becomes editable
     during On-Page Edit. It will not be set in View mode to not leak out too
-    much info about Episerver to visitors.
+    much info about Optimizely to visitors.
 
     The model property is provided by the page or block that owns the
     ContentArea.

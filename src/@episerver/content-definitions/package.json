@@ -1,6 +1,6 @@
 {
   "name": "@episerver/content-definitions",
-  "version": "1.0.0-pre.1",
+  "version": "1.0.0",
   "description": "CLI tool for managing content definitions manifest files.",
   "author": "Johan Petersson <johan.petersson@optimizely.com>",
   "license": "Apache-2.0",
@@ -10,7 +10,7 @@
     "manifest",
     "definitions"
   ],
-  "homepage": "https://www.episerver.com",
+  "homepage": "https://www.optimizely.com",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/episerver/content-delivery-js-sdk.git"

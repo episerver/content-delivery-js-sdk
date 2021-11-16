@@ -1,10 +1,10 @@
-# Episerver Content Delivery - Decoupled
+# Optimizely Content Delivery - Decoupled
 
-This sample site demonstrates one approach to render Episerver content in a client side framework that is using client side routing for navigation with a working On Page Edit (OPE) mode in the Episerver UI, where the frontend and backend are hosted separately.
+This sample site demonstrates one approach to render Optimizely content in a client side framework that is using client side routing for navigation with a working On Page Edit (OPE) mode in the Optimizely UI, where the frontend and backend are hosted separately.
 
 This particular solution uses [Vue CLI](https://cli.vuejs.org/) with [Vuex](https://next.vuex.vuejs.org/) to handle the state of the app in a `single source of truth`. Most of the techniques are framework agnostic and can be used with any other framework, such as React or Angular.
 
-Content is fetched from Episerver using the Content Delivery API: https://world.optimizely.com/documentation/developer-guides/cms/content/content-delivery-api/
+Content is fetched from Optimizely using the Content Delivery API: https://world.optimizely.com/documentation/developer-guides/cms/content/content-delivery-api/
 
 ## Prerequisites
 
@@ -19,7 +19,10 @@ This project uses:
 1. Run `setup.cmd`. You can re-run `setup.cmd` at any time to reset the backend with a fresh database.
 2. Open terminal for `./backend` and run `dotnet run`.
     * sign in with either `bob/bob` (admin) or `alice/alice` (editor).
-3. Open terminal for `./frontend` and run `npm install` (only needed first run) and then `npm run serve`.
+3. Since we reference two NPM modules locally, we need to install them first. Note that this is not needed if you install the modules from npmjs.com.
+    * Open terminal for `../../src/@episerver/content-definitions` and run `npm install` (only needed first run).
+    * Open terminal for `../../src/@episerver/content-delivery` and run `npm install` (only needed first run).
+4. Open terminal for `./frontend` and run `npm install` (only needed first run) and then `npm run serve`.
 
 ## Notable files
 
@@ -43,4 +46,4 @@ This project uses:
 
 ## Debugging Vuex state
 
-Using the [Vue-devtools](https://github.com/vuejs/vue-devtools) to see the state changes in the store in view mode works as expected. There are however some limitations to follow state changes when you are editing in Episerver edit mode because of the site is running inside an iframe. To be able to see the vuex state while editing you need to run the stand alone electron app as described on the github page: [Vue standalone Electron app](https://github.com/vuejs/vue-devtools/blob/master/shells/electron/README.md).
+Using the [Vue-devtools](https://github.com/vuejs/vue-devtools) to see the state changes in the store in view mode works as expected. There are however some limitations to follow state changes when you are editing in Optimizely edit mode because of the site is running inside an iframe. To be able to see the vuex state while editing you need to run the stand alone electron app as described on the github page: [Vue standalone Electron app](https://github.com/vuejs/vue-devtools/blob/master/shells/electron/README.md).

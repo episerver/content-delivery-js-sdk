@@ -3,19 +3,21 @@
 [![Npm publish](https://github.com/episerver/content-delivery-js-sdk/actions/workflows/npm-publish.yml/badge.svg)](https://github.com/episerver/content-delivery-js-sdk/actions/workflows/npm-publish.yml) [![Continuous integration](https://github.com/episerver/content-delivery-js-sdk/actions/workflows/ci.yml/badge.svg)](https://github.com/episerver/content-delivery-js-sdk/actions/workflows/ci.yml)
 
 
-This repository contains the source code for the Content Delivery SDKs and samples.
-
-> Note the SDK is in preview. Please provide feedback and report issues.
-
-Visit [Optimizely World](https://world.optimizely.com/documentation/developer-guides/content-delivery-api/) for full documentation of the REST APIs.
+This repository contains the source code for the Content Delivery JavaScript SDKs and samples.
 
 ## Content Definitions
 
-[Source code and documentation](https://github.com/episerver/content-delivery-js-sdk/tree/master/src/%40episerver/content-definitions).
+* [Source code and documentation](https://github.com/episerver/content-delivery-js-sdk/tree/master/src/%40episerver/content-definitions)
+* [REST API documentation](https://world.optimizely.com/documentation/developer-guides/content-definitions-api/)
 
 ## Content Delivery
 
-[Source code and documentation](https://github.com/episerver/content-delivery-js-sdk/tree/master/src/%40episerver/content-delivery).
+* [Source code and documentation](https://github.com/episerver/content-delivery-js-sdk/tree/master/src/%40episerver/content-delivery)
+* [REST API documentation](https://world.optimizely.com/documentation/developer-guides/content-delivery-api/)
+
+## Samples
+
+* [Vue.js](https://github.com/episerver/content-delivery-js-sdk/tree/master/samples/music-festival-vue-decoupled)
 
 ## Prerequisites for building and testing the SDKs
 
@@ -25,14 +27,15 @@ This project uses:
 * .NET SDK 5+
 * SQL Server 2016 Express LocalDB ([download here](https://www.microsoft.com/en-us/sql-server/sql-server-downloads))
 
-## Creating a release
+## Create a release
 
- 1. Update version in all SDK package.json files.
- 2. Merge to master branch.
- 3. Create new Github release based of master branch.
- 4. Tag version with following format: v1.2.0.
- 5. Give the release a title and write an optional description.
- 6. Publish.
+ 1. Update the version in all modules with `npm version 1.2.3`.
+ 2. Run `npm install` in all samples to update their package-lock.json files.
+ 3. Commit, push, and create PR to `master` branch.
+ 4. Create new Github release based of `master` branch.
+ 5. Tag version with following format `v1.2.3`.
+ 6. Give the release a title and write an optional description.
+ 7. Publish.
 
 ## Contributing
 

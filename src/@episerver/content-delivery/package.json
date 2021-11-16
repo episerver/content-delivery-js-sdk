@@ -1,6 +1,6 @@
 {
   "name": "@episerver/content-delivery",
-  "version": "1.0.0-pre.1",
+  "version": "1.0.0",
   "description": "SDK for the Episerver Content Delivery API.",
   "author": "Johan Petersson <johan.petersson@optimizely.com>",
   "license": "Apache-2.0",
@@ -12,7 +12,7 @@
     "sdk",
     "client"
   ],
-  "homepage": "https://www.episerver.com",
+  "homepage": "https://www.optimizely.com",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/episerver/content-delivery-js-sdk.git"

@@ -64,7 +64,7 @@ describe('SiteLoader', () => {
       const language = site.languages[0];
 
       language.name.should.equal("en");
-      language.isMasterLanguage.should.equal(false);
+      language.isMasterLanguage.should.equal(true);
       language.urlSegment.should.equal("en");
     }); 
 
