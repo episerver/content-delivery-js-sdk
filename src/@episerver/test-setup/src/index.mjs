@@ -17,7 +17,7 @@ export async function start() {
   newData();
 
   return new Promise((resolve, reject) => {
-    dotnet = spawn('dotnet', [ 'run', '-p', path.join(basePath, 'backend')], { stdio: 'inherit', })
+    dotnet = spawn('dotnet', [ 'run', '--project', path.join(basePath, 'backend')], { stdio: 'inherit', })
       .on('error', (error) => reject(error))
       .on('exit', (code) => process.exit(code));
 

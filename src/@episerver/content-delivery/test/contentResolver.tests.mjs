@@ -85,7 +85,7 @@ describe('ContentResolver', () => {
       it('should not expand properties', async () => {
         var result = await contentResolver.resolveContent(baseUrl, true);
 
-        result.content.mainContentArea[0].should.have.property('contentLink').which.has.not.property('expanded');
+        result.content.mainContentArea[0].should.have.property('contentLink').with.property('expanded').that.is.null;
       });
 
       it('should only select \'title\' property when specified', async () => {
@@ -98,7 +98,7 @@ describe('ContentResolver', () => {
       it('should only expand \'mainContentArea\' property when specified', async () => {
         var result = await contentResolver.resolveContent(baseUrl, true, { expand: ['mainContentArea'] });
 
-        result.content.mainContentArea[0].should.have.property('contentLink').with.property('expanded');
+        result.content.mainContentArea[0].should.have.property('contentLink').with.property('expanded').that.is.not.null;
       });
     });
 
@@ -117,7 +117,7 @@ describe('ContentResolver', () => {
         const cr = new ContentResolver({ expandAllProperties: true });
         const result = await cr.resolveContent(baseUrl);
 
-        result.content.mainContentArea[0].should.have.property('contentLink').with.property('expanded');
+        result.content.mainContentArea[0].should.have.property('contentLink').with.property('expanded').that.is.not.null;
       });
     });
 

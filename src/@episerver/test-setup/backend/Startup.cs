@@ -1,9 +1,10 @@
 using EPiServer.Cms.UI.AspNetIdentity;
+using EPiServer.ContentApi.Cms;
 using EPiServer.ContentApi.Core.Configuration;
+using EPiServer.ContentApi.Core.DependencyInjection;
 using EPiServer.ContentDefinitionsApi;
 using EPiServer.Core;
 using EPiServer.Data;
-using EPiServer.DependencyInjection;
 using EPiServer.OpenIDConnect;
 using EPiServer.ServiceLocation;
 using EPiServer.Web;
@@ -73,7 +74,10 @@ namespace Backend
                     UsernameAuthenticationHandler.DisplayName);
             });
 
-            services.AddContentDeliveryApi(UsernameAuthenticationHandler.SchemeName, options =>
+            services.AddContentDefinitionsApi(OpenIDConnectOptionsDefaults.AuthenticationScheme);
+            services.AddContentDeliveryApi(UsernameAuthenticationHandler.SchemeName);
+
+            services.ConfigureContentApiOptions(options  =>
             {
                 options.EnablePreviewFeatures = true;
                 options.EnablePreviewMode = true;
@@ -82,8 +86,6 @@ namespace Backend
                 options.ForceAbsolute = true;
                 options.IncludeSiteHosts = true;
             });
-
-            services.AddContentDefinitionsApi(OpenIDConnectOptionsDefaults.AuthenticationScheme);
 
             services.AddHostedService<ProvisionDatabase>();
             services.TryAddEnumerable(Singleton(typeof(IFirstRequestInitializer), typeof(CreateTestContentFirstRequestInitializer)));

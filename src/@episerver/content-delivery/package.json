@@ -12,7 +12,7 @@
     "sdk",
     "client"
   ],
-  "homepage": "https://www.episerver.com",
+  "homepage": "https://www.optimizely.com",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/episerver/content-delivery-js-sdk.git"

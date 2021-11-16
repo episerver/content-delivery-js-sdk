@@ -1,10 +1,9 @@
 using EPiServer.Cms.UI.AspNetIdentity;
-using EPiServer.ContentApi.Cms.Configuration;
-using EPiServer.ContentApi.Core.Configuration;
+using EPiServer.ContentApi.Cms;
+using EPiServer.ContentApi.Core.DependencyInjection;
 using EPiServer.ContentDefinitionsApi;
 using EPiServer.Core;
 using EPiServer.Data;
-using EPiServer.DependencyInjection;
 using EPiServer.OpenIDConnect;
 using EPiServer.ServiceLocation;
 using EPiServer.Web;
@@ -70,7 +69,7 @@ namespace MusicFestival.Backend
                     options.Applications.Add(new OpenIDConnectApplication
                     {
                         ClientId = "frontend",
-                        Scopes = { "openid", "offline_access", "profile", "email", "roles", ContentDeliveryAuthorizationOptionsDefaults.Scope },
+                        Scopes = { "openid", "offline_access", "profile", "email", "roles", ContentDeliveryApiOptionsDefaults.Scope },
                         PostLogoutRedirectUris = { _frontendUri },
                         RedirectUris =
                         {
@@ -87,14 +86,9 @@ namespace MusicFestival.Backend
                     });
                 });
 
-            services.AddContentDeliveryApi(OpenIDConnectOptionsDefaults.AuthenticationScheme, options =>
-            {
-                options.ExpandedBehavior = ExpandedLanguageBehavior.RequestedLanguage;
-                options.FlattenPropertyModel = true;
-                options.ForceAbsolute = true;
-            });
-
             services.AddContentDefinitionsApi(OpenIDConnectOptionsDefaults.AuthenticationScheme);
+            services.AddContentDeliveryApi(OpenIDConnectOptionsDefaults.AuthenticationScheme);
+            services.ConfigureForContentDeliveryClient();
 
             services.AddHostedService<ProvisionDatabase>();
         }
@@ -109,10 +103,11 @@ namespace MusicFestival.Backend
             app.UseStaticFiles();
             app.UseRouting();
 
-            // TODO: Enable CORS for all APIs with our own method
             app.UseCors(b => b
                 .WithOrigins(new[] { "http://localhost:8080" })
-                .AllowAnyHeader()
+                .WithExposedContentDeliveryApiHeaders()
+                .WithExposedContentDefinitionApiHeaders()
+                .WithHeaders("Authorization")
                 .AllowAnyMethod()
                 .AllowCredentials());
 

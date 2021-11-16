@@ -49,7 +49,7 @@ describe('ContentLoader', () => {
       it('should not expand properties', async () => {
         const content = await contentLoader.getContent(startPageId);
 
-        content.mainContentArea[0].should.have.property('contentLink').which.has.not.property('expanded');
+        content.mainContentArea[0].should.have.property('contentLink').with.property('expanded').that.is.null;
       });
 
       it('should load default branch when non specified', async () => {
@@ -80,7 +80,7 @@ describe('ContentLoader', () => {
       it('should only expand \'mainContentArea\' property when specified', async () => {
         const content = await contentLoader.getContent(startPageId, { expand: ['mainContentArea'] });
 
-        content.mainContentArea[0].should.have.property('contentLink').with.property('expanded');
+        content.mainContentArea[0].should.have.property('contentLink').with.property('expanded').that.is.not.null;
       });
     });
 
@@ -99,7 +99,7 @@ describe('ContentLoader', () => {
         const cl = new ContentLoader({ expandAllProperties: true });
         const content = await cl.getContent(startPageId);
 
-        content.mainContentArea[0].should.have.property('contentLink').with.property('expanded');
+        content.mainContentArea[0].should.have.property('contentLink').with.property('expanded').that.is.not.null;
       });
     });
   });
@@ -170,7 +170,7 @@ describe('ContentLoader', () => {
       it('should only expand \'mainContentArea\' property when specified', async () => {
         const children = await contentLoader.getChildren(rootPageId, { expand: ['mainContentArea'] });
 
-        children[3].mainContentArea[0].should.have.property('contentLink').with.property('expanded');
+        children[3].mainContentArea[0].should.have.property('contentLink').with.property('expanded').that.is.not.null;
       });
     });
 
@@ -189,7 +189,7 @@ describe('ContentLoader', () => {
         const cl = new ContentLoader({ expandAllProperties: true });
         const children = await cl.getChildren(rootPageId);
 
-        children[3].mainContentArea[0].should.have.property('contentLink').with.property('expanded');
+        children[3].mainContentArea[0].should.have.property('contentLink').with.property('expanded').that.is.not.null;
       });
     });
 
@@ -296,7 +296,7 @@ describe('ContentLoader', () => {
       it('should only expand \'mainContentArea\' property when specified', async () => {
         const ancestors = await contentLoader.getAncestors(listPageId, { expand: ['mainContentArea'] });
 
-        ancestors[0].mainContentArea[0].should.have.property('contentLink').with.property('expanded');
+        ancestors[0].mainContentArea[0].should.have.property('contentLink').with.property('expanded').that.is.not.null;
       });
     });
 
@@ -315,7 +315,7 @@ describe('ContentLoader', () => {
         const cl = new ContentLoader({ expandAllProperties: true });
         const ancestors = await cl.getAncestors(listPageId);
 
-        ancestors[0].mainContentArea[0].should.have.property('contentLink').with.property('expanded');
+        ancestors[0].mainContentArea[0].should.have.property('contentLink').with.property('expanded').that.is.not.null;
       });
     });
   });
