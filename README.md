@@ -1,4 +1,4 @@
-# Episerver Content Delivery JavaScript SDKs and samples
+# Optimizely Content Delivery JavaScript SDKs and samples
 
 [![Npm publish](https://github.com/episerver/content-delivery-js-sdk/actions/workflows/npm-publish.yml/badge.svg)](https://github.com/episerver/content-delivery-js-sdk/actions/workflows/npm-publish.yml) [![Continuous integration](https://github.com/episerver/content-delivery-js-sdk/actions/workflows/ci.yml/badge.svg)](https://github.com/episerver/content-delivery-js-sdk/actions/workflows/ci.yml)
 
