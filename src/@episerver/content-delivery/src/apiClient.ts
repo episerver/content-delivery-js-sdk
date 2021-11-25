@@ -94,7 +94,7 @@ export class ApiClient {
 
   /**
    * Constructs an instance of ApiClient.
-   * 
+   *
    * @param config Configuration to use.
    */
   constructor(config: ContentDeliveryConfig) {
@@ -103,9 +103,9 @@ export class ApiClient {
 
   /**
    * Make a GET request.
-   * 
+   *
    * @param path - Path to request.
-   * @param parameters - Parameters to include in the request. 
+   * @param parameters - Parameters to include in the request.
    * @param headers - Headers to include in the request.
    * @returns A promise with an ApiRespone if the request was successful, otherwise rejected with an ApiError.
    */
@@ -141,7 +141,7 @@ export class ApiClient {
 
   /**
    * Get default API parameters to use when making requests.
-   * 
+   *
    * @param select - Properties to include in the response. All by default, unless configured differently.
    * @param expand - Properties to expand in the response. None by default, unless configured differently.
    * @returns Default parameters combined with the default configuration.
@@ -155,7 +155,7 @@ export class ApiClient {
 
   /**
    * Get default API headers to use when making requests.
-   * 
+   *
    * @param branch - Branch of the content.
    * @returns Default headers combined with the default configuration.
    */

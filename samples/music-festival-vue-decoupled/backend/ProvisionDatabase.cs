@@ -113,7 +113,7 @@ namespace MusicFestival.Backend
                 site.Hosts.Add(new HostDefinition
                 {
                     Type = HostDefinitionType.Primary,
-                    Name = "localhost:8080"
+                    Name = "localhost:3000"
                 });
             }
 

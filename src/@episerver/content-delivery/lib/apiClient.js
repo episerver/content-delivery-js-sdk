@@ -141,7 +141,7 @@ function mapToError(error) {
             result.data = jsonError;
         }).catch((errorResponse) => {
             result.status = errorResponse.status;
-            result.statusText = errorResponse.statusText;
+            result.statusText = errorRespose.statusText;
         });
     }
     else {

@@ -21,7 +21,7 @@ namespace MusicFestival.Backend
     public class Startup
     {
         private readonly IWebHostEnvironment _environment;
-        private readonly Uri _frontendUri = new Uri("http://localhost:8080");
+        private readonly Uri _frontendUri = new Uri("http://localhost:3000");
 
         public Startup(IWebHostEnvironment environment)
         {
@@ -111,7 +111,7 @@ namespace MusicFestival.Backend
 
             // TODO: Enable CORS for all APIs with our own method
             app.UseCors(b => b
-                .WithOrigins(new[] { "http://localhost:8080" })
+                .WithOrigins(new[] { "http://localhost:3000" })
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials());
