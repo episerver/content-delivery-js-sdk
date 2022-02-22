@@ -1,3 +1,5 @@
+using EPiServer.Cms.Shell;
+using EPiServer.Cms.Shell.UI;
 using EPiServer.Cms.UI.AspNetIdentity;
 using EPiServer.ContentApi.Cms;
 using EPiServer.ContentApi.Core.DependencyInjection;
@@ -31,19 +33,10 @@ namespace MusicFestival.Backend
         {
             var connectionstring = $"Data Source=(LocalDb)\\MSSQLLocalDB;AttachDbFilename={Path.Combine(_environment.ContentRootPath, "App_Data\\musicfestival.mdf")};Initial Catalog=musicfestival;Integrated Security=True;Connect Timeout=30;MultipleActiveResultSets=True";
 
-            services.AddCmsAspNetIdentity<ApplicationUser>(configureIdentity: options =>
-            {
-                // Use sane passwords
-                options.Password.RequireDigit = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequiredUniqueChars = 0;
-                options.Password.RequiredLength = 3; // Do not use in production
-            });
-
             services
+                .AddCmsAspNetIdentity<ApplicationUser>()
                 .AddCms()
+                .AddAdminUserRegistration(o => o.Behavior = RegisterAdminUserBehaviors.Enabled | RegisterAdminUserBehaviors.LocalRequestsOnly)
                 .AddEmbeddedLocalization<Startup>()
                 .ConfigureForExternalTemplates()
                 .Configure<DataAccessOptions>(options => options.SetConnectionString(connectionstring))

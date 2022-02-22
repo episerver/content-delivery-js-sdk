@@ -18,11 +18,15 @@ This project uses:
 
 1. Run `setup.cmd`. You can re-run `setup.cmd` at any time to reset the backend with a fresh database.
 2. Open terminal for `./backend` and run `dotnet run`.
-    * sign in with either `bob/bob` (admin) or `alice/alice` (editor).
-3. Since we reference two NPM modules locally, we need to install them first. Note that this is not needed if you install the modules from npmjs.com.
+    * Navigate to http://localhost:8081/.
+    * Create an admin user. If the UI is not displayed automatically, navigate to http://localhost:8081/util/register.
+    * Now you can access http://localhost:8081/episerver/cms.
+3. Since we reference two NPM modules locally, we need to install them first (this is not needed if you install the modules from npmjs.com).
     * Open terminal for `../../src/@episerver/content-definitions` and run `npm install` (only needed first run).
     * Open terminal for `../../src/@episerver/content-delivery` and run `npm install` (only needed first run).
-4. Open terminal for `./frontend` and run `npm install` (only needed first run) and then `npm run serve`.
+4. Open terminal for `./frontend` and run `npm install` (only needed first run).
+    * Run `npm run serve`.
+    * Navigate to http://localhost:8080/.
 
 ## Notable files
 

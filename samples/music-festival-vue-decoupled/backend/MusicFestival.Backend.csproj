@@ -6,12 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EPiServer.CMS" Version="12.1.0" />
-    <PackageReference Include="EPiServer.Hosting" Version="12.1.0" />
-    <PackageReference Include="EPiServer.Framework" Version="12.1.0" />
-    <PackageReference Include="EPiServer.ContentDefinitionsApi" Version="3.0.0" />
-    <PackageReference Include="EPiServer.ContentDeliveryApi.Cms" Version="3.0.0" />
-    <PackageReference Include="EPiServer.OpenIDConnect" Version="3.0.0" />
+    <PackageReference Include="EPiServer.CMS" Version="12.3.1" />
+    <PackageReference Include="EPiServer.ContentDefinitionsApi" Version="3.0.1" />
+    <PackageReference Include="EPiServer.ContentDeliveryApi.Cms" Version="3.0.1" />
+    <PackageReference Include="EPiServer.OpenIDConnect" Version="3.0.1" />
   </ItemGroup>
 
 </Project>
