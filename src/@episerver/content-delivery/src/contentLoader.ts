@@ -1,6 +1,7 @@
 import { ApiClient, ApiResponse, ApiError } from './apiClient';
 import { ContentDeliveryConfig, defaultConfig } from './config';
 import { ContentData } from './models';
+import { DebugWriter } from './debugWriter';
 
 /**
  * Interface describing additional request parameters
@@ -125,6 +126,8 @@ export class ContentLoader {
    * or a 'continuationToken' is provided. Otherwise rejected with a ContentLoaderError.
    */
   getChildren<T extends ContentData>(id: string, request?: ContentCollectionRequest): Promise<Array<T> | ContentCollection<T>> {
+    const startTime = Date.now();
+    
     let parameters = this.#api.getDefaultParameters(request?.select, request?.expand);
     let headers = this.#api.getDefaultHeaders(request?.branch);
 
@@ -142,6 +145,8 @@ export class ContentLoader {
           } else {
             reject(mapResponseToError(response));
           }
+
+          new DebugWriter().write('----- Get Children -----', startTime, response);
         }).catch((error: ApiError) => {
           reject(mapToError(error));
         });
@@ -154,6 +159,8 @@ export class ContentLoader {
           } else {
             reject(mapResponseToError(response));
           }
+
+          new DebugWriter().write('----- Get Children -----', startTime, response);
         }).catch((error: ApiError) => {
           reject(mapToError(error));
         });

@@ -1,6 +1,8 @@
+import { Console } from 'console';
 import { ApiClient, ApiResponse, ApiError } from './apiClient';
 import { ContentDeliveryConfig, defaultConfig } from './config';
 import { ContentData, ContextMode } from './models';
+import { DebugWriter } from './debugWriter';
 
 /**
  * Interface describing additional request parameters
@@ -140,6 +142,8 @@ export class ContentResolver {
     };
 
     return new Promise<ResolvedContent<T>>((resolve, reject) => {
+      const startTime = Date.now();
+
       this.#api.get('/content', parameters).then((response: ApiResponse) => {
         const contentData = response.data as Array<T>;
         let status = ResolvedContentStatus.Unknown;
@@ -176,6 +180,8 @@ export class ContentResolver {
         };
 
         resolve(result);
+        
+        new DebugWriter().write('----- Resolve Content -----', startTime, response);
       }).catch((error: ApiError) => {
         reject(mapToError(error));
       });
