@@ -1,18 +1,16 @@
 "use strict";
-var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, privateMap, value) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
-    }
-    privateMap.set(receiver, value);
-    return value;
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
-    }
-    return privateMap.get(receiver);
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _api;
+var _ContentLoader_api;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ContentLoader = void 0;
 const apiClient_1 = require("./apiClient");
@@ -28,8 +26,8 @@ class ContentLoader {
      * combined with the default configuration specified in defaultConfig.
      */
     constructor(config) {
-        _api.set(this, void 0);
-        __classPrivateFieldSet(this, _api, new apiClient_1.ApiClient(Object.assign(Object.assign({}, config_1.defaultConfig), config)));
+        _ContentLoader_api.set(this, void 0);
+        __classPrivateFieldSet(this, _ContentLoader_api, new apiClient_1.ApiClient(Object.assign(Object.assign({}, config_1.defaultConfig), config)), "f");
     }
     /**
      * Get content by an identifier.
@@ -39,10 +37,10 @@ class ContentLoader {
      * @returns A promise with a ContentData if the content was found, otherwise rejected with a ContentLoaderError.
      */
     getContent(id, request) {
-        const parameters = __classPrivateFieldGet(this, _api).getDefaultParameters(request === null || request === void 0 ? void 0 : request.select, request === null || request === void 0 ? void 0 : request.expand);
-        const headers = __classPrivateFieldGet(this, _api).getDefaultHeaders(request === null || request === void 0 ? void 0 : request.branch);
+        const parameters = __classPrivateFieldGet(this, _ContentLoader_api, "f").getDefaultParameters(request === null || request === void 0 ? void 0 : request.select, request === null || request === void 0 ? void 0 : request.expand);
+        const headers = __classPrivateFieldGet(this, _ContentLoader_api, "f").getDefaultHeaders(request === null || request === void 0 ? void 0 : request.branch);
         return new Promise((resolve, reject) => {
-            __classPrivateFieldGet(this, _api).get(`/content/${encodeURIComponent(id)}`, parameters, headers).then((response) => {
+            __classPrivateFieldGet(this, _ContentLoader_api, "f").get(`/content/${encodeURIComponent(id)}`, parameters, headers).then((response) => {
                 if (response.ok) {
                     resolve(response.data);
                 }
@@ -63,15 +61,15 @@ class ContentLoader {
      * or a 'continuationToken' is provided. Otherwise rejected with a ContentLoaderError.
      */
     getChildren(id, request) {
-        let parameters = __classPrivateFieldGet(this, _api).getDefaultParameters(request === null || request === void 0 ? void 0 : request.select, request === null || request === void 0 ? void 0 : request.expand);
-        let headers = __classPrivateFieldGet(this, _api).getDefaultHeaders(request === null || request === void 0 ? void 0 : request.branch);
+        let parameters = __classPrivateFieldGet(this, _ContentLoader_api, "f").getDefaultParameters(request === null || request === void 0 ? void 0 : request.select, request === null || request === void 0 ? void 0 : request.expand);
+        let headers = __classPrivateFieldGet(this, _ContentLoader_api, "f").getDefaultHeaders(request === null || request === void 0 ? void 0 : request.branch);
         if ((request === null || request === void 0 ? void 0 : request.top) || (request === null || request === void 0 ? void 0 : request.continuationToken)) {
             if (request === null || request === void 0 ? void 0 : request.top)
                 parameters = Object.assign(Object.assign({}, parameters), { top: request === null || request === void 0 ? void 0 : request.top });
             if (request === null || request === void 0 ? void 0 : request.continuationToken)
                 headers = Object.assign(Object.assign({}, headers), { 'x-epi-continuation': request.continuationToken });
             return new Promise((resolve, reject) => {
-                __classPrivateFieldGet(this, _api).get(`/content/${encodeURIComponent(id)}/children`, parameters, headers).then((response) => {
+                __classPrivateFieldGet(this, _ContentLoader_api, "f").get(`/content/${encodeURIComponent(id)}/children`, parameters, headers).then((response) => {
                     if (response.ok) {
                         resolve({
                             items: response.data,
@@ -88,7 +86,7 @@ class ContentLoader {
         }
         else {
             return new Promise((resolve, reject) => {
-                __classPrivateFieldGet(this, _api).get(`/content/${encodeURIComponent(id)}/children`, parameters, headers).then((response) => {
+                __classPrivateFieldGet(this, _ContentLoader_api, "f").get(`/content/${encodeURIComponent(id)}/children`, parameters, headers).then((response) => {
                     if (response.ok) {
                         resolve(response.data);
                     }
@@ -109,10 +107,10 @@ class ContentLoader {
      * @returns A promise with an array of ContentData, otherwise rejected with a ContentLoaderError.
      */
     getAncestors(id, request) {
-        const parameters = __classPrivateFieldGet(this, _api).getDefaultParameters(request === null || request === void 0 ? void 0 : request.select, request === null || request === void 0 ? void 0 : request.expand);
-        const headers = __classPrivateFieldGet(this, _api).getDefaultHeaders(request === null || request === void 0 ? void 0 : request.branch);
+        const parameters = __classPrivateFieldGet(this, _ContentLoader_api, "f").getDefaultParameters(request === null || request === void 0 ? void 0 : request.select, request === null || request === void 0 ? void 0 : request.expand);
+        const headers = __classPrivateFieldGet(this, _ContentLoader_api, "f").getDefaultHeaders(request === null || request === void 0 ? void 0 : request.branch);
         return new Promise((resolve, reject) => {
-            __classPrivateFieldGet(this, _api).get(`/content/${encodeURIComponent(id)}/ancestors`, parameters, headers).then((response) => {
+            __classPrivateFieldGet(this, _ContentLoader_api, "f").get(`/content/${encodeURIComponent(id)}/ancestors`, parameters, headers).then((response) => {
                 if (response.ok) {
                     resolve(response.data);
                 }
@@ -126,7 +124,7 @@ class ContentLoader {
     }
 }
 exports.ContentLoader = ContentLoader;
-_api = new WeakMap();
+_ContentLoader_api = new WeakMap();
 function mapResponseToError(response) {
     return {
         errorCode: response.status,

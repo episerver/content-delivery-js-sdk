@@ -1,18 +1,16 @@
 "use strict";
-var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, privateMap, value) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
-    }
-    privateMap.set(receiver, value);
-    return value;
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
-    }
-    return privateMap.get(receiver);
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _api;
+var _ContentResolver_api;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ContentResolver = exports.ResolvedContentStatus = void 0;
 const apiClient_1 = require("./apiClient");
@@ -58,8 +56,8 @@ class ContentResolver {
      * combined with the default configuration specified in defaultConfig.
      */
     constructor(config) {
-        _api.set(this, void 0);
-        __classPrivateFieldSet(this, _api, new apiClient_1.ApiClient(Object.assign(Object.assign({}, config_1.defaultConfig), config)));
+        _ContentResolver_api.set(this, void 0);
+        __classPrivateFieldSet(this, _ContentResolver_api, new apiClient_1.ApiClient(Object.assign(Object.assign({}, config_1.defaultConfig), config)), "f");
     }
     /**
      * Resolve content from an URL.
@@ -72,9 +70,9 @@ class ContentResolver {
      * If the service returned a server error, the promise is rejected with a ContentResolverError.
      */
     resolveContent(url, matchExact, request) {
-        const parameters = Object.assign({ 'contentUrl': url, 'matchExact': matchExact }, __classPrivateFieldGet(this, _api).getDefaultParameters(request === null || request === void 0 ? void 0 : request.select, request === null || request === void 0 ? void 0 : request.expand));
+        const parameters = Object.assign({ 'contentUrl': url, 'matchExact': matchExact }, __classPrivateFieldGet(this, _ContentResolver_api, "f").getDefaultParameters(request === null || request === void 0 ? void 0 : request.select, request === null || request === void 0 ? void 0 : request.expand));
         return new Promise((resolve, reject) => {
-            __classPrivateFieldGet(this, _api).get('/content', parameters).then((response) => {
+            __classPrivateFieldGet(this, _ContentResolver_api, "f").get('/content', parameters).then((response) => {
                 var _a, _b;
                 const contentData = response.data;
                 let status = ResolvedContentStatus.Unknown;
@@ -117,7 +115,7 @@ class ContentResolver {
     }
 }
 exports.ContentResolver = ContentResolver;
-_api = new WeakMap();
+_ContentResolver_api = new WeakMap();
 function mapToError(error) {
     return {
         errorMessage: error.statusText,
