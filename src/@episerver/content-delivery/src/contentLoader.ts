@@ -101,12 +101,12 @@ export class ContentLoader {
    * @returns A promise with a ContentData if the content was found, otherwise rejected with a ContentLoaderError.
    */
   getContent<T extends ContentData>(id: string, request?: ContentRequest): Promise<T> {
+    const performanceTracker = new PerformanceTracker();
+    performanceTracker.begin('----- Get Content -----', id);
+
     const parameters = this.#api.getDefaultParameters(request?.select, request?.expand);
     const headers = this.#api.getDefaultHeaders(request?.branch);
     
-    const performanceTracker = new PerformanceTracker();
-    performanceTracker.begin('----- Get Content -----', Date.now(), parameters.contentUrl);
-
     return new Promise<T>((resolve, reject) => {
       this.#api.get(`/content/${encodeURIComponent(id)}`, parameters, headers).then((response: ApiResponse) => {
         if (response.ok) {
@@ -131,11 +131,11 @@ export class ContentLoader {
    * or a 'continuationToken' is provided. Otherwise rejected with a ContentLoaderError.
    */
   getChildren<T extends ContentData>(id: string, request?: ContentCollectionRequest): Promise<Array<T> | ContentCollection<T>> {
+    const performanceTracker = new PerformanceTracker();
+    performanceTracker.begin('----- Get Children -----', id);
+
     let parameters = this.#api.getDefaultParameters(request?.select, request?.expand);
     let headers = this.#api.getDefaultHeaders(request?.branch);
-    
-    const performanceTracker = new PerformanceTracker();
-    performanceTracker.begin('----- Get Children -----', Date.now(), id);
 
     if (request?.top || request?.continuationToken) {
       if (request?.top) parameters = { ...parameters, top: request?.top };

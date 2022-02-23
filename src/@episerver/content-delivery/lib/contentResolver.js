@@ -71,10 +71,10 @@ class ContentResolver {
      * If the service returned a server error, the promise is rejected with a ContentResolverError.
      */
     resolveContent(url, matchExact, request) {
+        const performanceTracker = new performanceTracker_1.PerformanceTracker();
+        performanceTracker.begin('----- Resolve Content -----', url);
         const parameters = Object.assign({ 'contentUrl': url, 'matchExact': matchExact }, __classPrivateFieldGet(this, _ContentResolver_api, "f").getDefaultParameters(request === null || request === void 0 ? void 0 : request.select, request === null || request === void 0 ? void 0 : request.expand));
         return new Promise((resolve, reject) => {
-            const performanceTracker = new performanceTracker_1.PerformanceTracker();
-            performanceTracker.begin('----- Resolve Content -----', Date.now(), parameters.contentUrl);
             __classPrivateFieldGet(this, _ContentResolver_api, "f").get('/content', parameters).then((response) => {
                 var _a, _b;
                 const contentData = response.data;

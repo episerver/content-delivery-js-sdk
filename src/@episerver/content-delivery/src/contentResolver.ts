@@ -135,16 +135,16 @@ export class ContentResolver {
    * If the service returned a server error, the promise is rejected with a ContentResolverError.
    */
   resolveContent<T extends ContentData>(url: string, matchExact: boolean, request?: ResolveContentRequest): Promise<ResolvedContent<T>> {
+    const performanceTracker = new PerformanceTracker();
+    performanceTracker.begin('----- Resolve Content -----', url);
+
     const parameters = {
       'contentUrl': url,
       'matchExact': matchExact,
       ... this.#api.getDefaultParameters(request?.select, request?.expand),
     };
-
+    
     return new Promise<ResolvedContent<T>>((resolve, reject) => {
-      const performanceTracker = new PerformanceTracker();
-      performanceTracker.begin('----- Resolve Content -----', Date.now(), parameters.contentUrl);
-
       this.#api.get('/content', parameters).then((response: ApiResponse) => {
         const contentData = response.data as Array<T>;
         let status = ResolvedContentStatus.Unknown;
@@ -181,7 +181,7 @@ export class ContentResolver {
         };
 
         resolve(result);
-        
+
         performanceTracker.end(response);
       }).catch((error: ApiError) => {
         reject(mapToError(error));
