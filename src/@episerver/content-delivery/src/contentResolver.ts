@@ -2,7 +2,7 @@ import { Console } from 'console';
 import { ApiClient, ApiResponse, ApiError } from './apiClient';
 import { ContentDeliveryConfig, defaultConfig } from './config';
 import { ContentData, ContextMode } from './models';
-import { DebugWriter } from './debugWriter';
+import { PerformanceTracker } from './performanceTracker';
 
 /**
  * Interface describing additional request parameters
@@ -142,7 +142,8 @@ export class ContentResolver {
     };
 
     return new Promise<ResolvedContent<T>>((resolve, reject) => {
-      const startTime = Date.now();
+      const performanceTracker = new PerformanceTracker();
+      performanceTracker.begin('----- Resolve Content -----', Date.now(), parameters.contentUrl);
 
       this.#api.get('/content', parameters).then((response: ApiResponse) => {
         const contentData = response.data as Array<T>;
@@ -181,7 +182,7 @@ export class ContentResolver {
 
         resolve(result);
         
-        new DebugWriter().write('----- Resolve Content -----', startTime, response);
+        performanceTracker.end(response);
       }).catch((error: ApiError) => {
         reject(mapToError(error));
       });

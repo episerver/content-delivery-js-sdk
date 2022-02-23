@@ -8,20 +8,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, privateMap, value) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
-    }
-    privateMap.set(receiver, value);
-    return value;
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
-    }
-    return privateMap.get(receiver);
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _config;
+var _ApiClient_config;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ApiClient = void 0;
 require("cross-fetch/polyfill");
@@ -35,8 +33,8 @@ class ApiClient {
      * @param config Configuration to use.
      */
     constructor(config) {
-        _config.set(this, void 0);
-        __classPrivateFieldSet(this, _config, config);
+        _ApiClient_config.set(this, void 0);
+        __classPrivateFieldSet(this, _ApiClient_config, config, "f");
     }
     /**
      * Make a GET request.
@@ -48,11 +46,11 @@ class ApiClient {
      */
     get(path, parameters = {}, headers = {}) {
         return __awaiter(this, void 0, void 0, function* () {
-            const requestUrl = getUrl(__classPrivateFieldGet(this, _config).apiUrl, path, parameters);
+            const requestUrl = getUrl(__classPrivateFieldGet(this, _ApiClient_config, "f").apiUrl, path, parameters);
             const request = {
                 method: 'get',
                 credentials: 'include',
-                headers: yield getHeaders(path, headers, __classPrivateFieldGet(this, _config)),
+                headers: yield getHeaders(path, headers, __classPrivateFieldGet(this, _ApiClient_config, "f")),
             };
             return new Promise((resolve, reject) => {
                 fetch(requestUrl, request).then((response) => __awaiter(this, void 0, void 0, function* () {
@@ -63,10 +61,6 @@ class ApiClient {
                         headers: new Map(),
                         data: yield response.json().catch(() => { }),
                     };
-                    // try {
-                    //   result.data = await response.json();
-                    // } catch (error) {
-                    // }
                     response.headers.forEach((value, key) => {
                         result.headers.set(key, value);
                     });
@@ -86,8 +80,8 @@ class ApiClient {
      */
     getDefaultParameters(select, expand) {
         return {
-            select: select ? select.join() : __classPrivateFieldGet(this, _config).selectAllProperties ? undefined : 'name',
-            expand: expand ? expand.join() : __classPrivateFieldGet(this, _config).expandAllProperties ? '*' : undefined,
+            select: select ? select.join() : __classPrivateFieldGet(this, _ApiClient_config, "f").selectAllProperties ? undefined : 'name',
+            expand: expand ? expand.join() : __classPrivateFieldGet(this, _ApiClient_config, "f").expandAllProperties ? '*' : undefined,
         };
     }
     /**
@@ -103,7 +97,7 @@ class ApiClient {
     }
 }
 exports.ApiClient = ApiClient;
-_config = new WeakMap();
+_ApiClient_config = new WeakMap();
 function getHeaders(path, headers = {}, config) {
     return __awaiter(this, void 0, void 0, function* () {
         let result = new Headers();

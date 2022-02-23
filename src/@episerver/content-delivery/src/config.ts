@@ -25,6 +25,11 @@ export type ContentDeliveryConfig = {
    * specified in each request to the Content Delivery API.
    */
   expandAllProperties: boolean,
+
+  /**
+   * Enable to output performance messages to the console.
+   */
+  enablePerformanceTracking: boolean
 };
 
 /**
@@ -35,4 +40,5 @@ export const defaultConfig: ContentDeliveryConfig = {
   apiUrl: '/',
   selectAllProperties: true,
   expandAllProperties: false,
+  enablePerformanceTracking: true
 }

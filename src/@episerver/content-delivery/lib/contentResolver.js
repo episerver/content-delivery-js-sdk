@@ -16,7 +16,7 @@ exports.ContentResolver = exports.ResolvedContentStatus = void 0;
 const apiClient_1 = require("./apiClient");
 const config_1 = require("./config");
 const models_1 = require("./models");
-const debugWriter_1 = require("./debugWriter");
+const performanceTracker_1 = require("./performanceTracker");
 /**
  * Enum describing the status of the resolved content.
  */
@@ -73,7 +73,8 @@ class ContentResolver {
     resolveContent(url, matchExact, request) {
         const parameters = Object.assign({ 'contentUrl': url, 'matchExact': matchExact }, __classPrivateFieldGet(this, _ContentResolver_api, "f").getDefaultParameters(request === null || request === void 0 ? void 0 : request.select, request === null || request === void 0 ? void 0 : request.expand));
         return new Promise((resolve, reject) => {
-            const startTime = Date.now();
+            const performanceTracker = new performanceTracker_1.PerformanceTracker();
+            performanceTracker.begin('----- Resolve Content -----', Date.now(), parameters.contentUrl);
             __classPrivateFieldGet(this, _ContentResolver_api, "f").get('/content', parameters).then((response) => {
                 var _a, _b;
                 const contentData = response.data;
@@ -110,7 +111,7 @@ class ContentResolver {
                     startPageId: response.headers.get('x-epi-startpageguid'),
                 };
                 resolve(result);
-                new debugWriter_1.DebugWriter().write('----- Resolve Content -----', startTime, response);
+                performanceTracker.end(response);
             }).catch((error) => {
                 reject(mapToError(error));
             });

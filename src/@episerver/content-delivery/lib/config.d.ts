@@ -22,6 +22,10 @@ export declare type ContentDeliveryConfig = {
      * specified in each request to the Content Delivery API.
      */
     expandAllProperties: boolean;
+    /**
+     * Enable to output performance messages to the console.
+     */
+    enablePerformanceTracking: boolean;
 };
 /**
  * Default configuration to use when making requests to the

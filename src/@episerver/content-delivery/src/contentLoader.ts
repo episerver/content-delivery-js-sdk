@@ -1,7 +1,7 @@
 import { ApiClient, ApiResponse, ApiError } from './apiClient';
 import { ContentDeliveryConfig, defaultConfig } from './config';
 import { ContentData } from './models';
-import { DebugWriter } from './debugWriter';
+import { PerformanceTracker } from './performanceTracker';
 
 /**
  * Interface describing additional request parameters
@@ -103,6 +103,9 @@ export class ContentLoader {
   getContent<T extends ContentData>(id: string, request?: ContentRequest): Promise<T> {
     const parameters = this.#api.getDefaultParameters(request?.select, request?.expand);
     const headers = this.#api.getDefaultHeaders(request?.branch);
+    
+    const performanceTracker = new PerformanceTracker();
+    performanceTracker.begin('----- Get Content -----', Date.now(), parameters.contentUrl);
 
     return new Promise<T>((resolve, reject) => {
       this.#api.get(`/content/${encodeURIComponent(id)}`, parameters, headers).then((response: ApiResponse) => {
@@ -111,6 +114,8 @@ export class ContentLoader {
         } else {
           reject(mapResponseToError(response));
         }
+
+        performanceTracker.end(response);
       }).catch((error: ApiError) => {
         reject(mapToError(error));
       });
@@ -126,10 +131,11 @@ export class ContentLoader {
    * or a 'continuationToken' is provided. Otherwise rejected with a ContentLoaderError.
    */
   getChildren<T extends ContentData>(id: string, request?: ContentCollectionRequest): Promise<Array<T> | ContentCollection<T>> {
-    const startTime = Date.now();
-    
     let parameters = this.#api.getDefaultParameters(request?.select, request?.expand);
     let headers = this.#api.getDefaultHeaders(request?.branch);
+    
+    const performanceTracker = new PerformanceTracker();
+    performanceTracker.begin('----- Get Children -----', Date.now(), id);
 
     if (request?.top || request?.continuationToken) {
       if (request?.top) parameters = { ...parameters, top: request?.top };
@@ -146,7 +152,7 @@ export class ContentLoader {
             reject(mapResponseToError(response));
           }
 
-          new DebugWriter().write('----- Get Children -----', startTime, response);
+          performanceTracker.end(response);
         }).catch((error: ApiError) => {
           reject(mapToError(error));
         });
@@ -160,7 +166,7 @@ export class ContentLoader {
             reject(mapResponseToError(response));
           }
 
-          new DebugWriter().write('----- Get Children -----', startTime, response);
+          performanceTracker.end(response);
         }).catch((error: ApiError) => {
           reject(mapToError(error));
         });

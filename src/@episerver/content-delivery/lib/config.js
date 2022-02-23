@@ -9,5 +9,6 @@ exports.defaultConfig = {
     apiUrl: '/',
     selectAllProperties: true,
     expandAllProperties: false,
+    enablePerformanceTracking: true
 };
 //# sourceMappingURL=config.js.map

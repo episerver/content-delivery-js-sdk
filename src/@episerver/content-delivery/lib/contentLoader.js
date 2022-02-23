@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ContentLoader = void 0;
 const apiClient_1 = require("./apiClient");
 const config_1 = require("./config");
-const debugWriter_1 = require("./debugWriter");
+const performanceTracker_1 = require("./performanceTracker");
 /**
  * Class for loading content.
  */
@@ -40,6 +40,8 @@ class ContentLoader {
     getContent(id, request) {
         const parameters = __classPrivateFieldGet(this, _ContentLoader_api, "f").getDefaultParameters(request === null || request === void 0 ? void 0 : request.select, request === null || request === void 0 ? void 0 : request.expand);
         const headers = __classPrivateFieldGet(this, _ContentLoader_api, "f").getDefaultHeaders(request === null || request === void 0 ? void 0 : request.branch);
+        const performanceTracker = new performanceTracker_1.PerformanceTracker();
+        performanceTracker.begin('----- Get Content -----', Date.now(), parameters.contentUrl);
         return new Promise((resolve, reject) => {
             __classPrivateFieldGet(this, _ContentLoader_api, "f").get(`/content/${encodeURIComponent(id)}`, parameters, headers).then((response) => {
                 if (response.ok) {
@@ -48,6 +50,7 @@ class ContentLoader {
                 else {
                     reject(mapResponseToError(response));
                 }
+                performanceTracker.end(response);
             }).catch((error) => {
                 reject(mapToError(error));
             });
@@ -62,9 +65,10 @@ class ContentLoader {
      * or a 'continuationToken' is provided. Otherwise rejected with a ContentLoaderError.
      */
     getChildren(id, request) {
-        const startTime = Date.now();
         let parameters = __classPrivateFieldGet(this, _ContentLoader_api, "f").getDefaultParameters(request === null || request === void 0 ? void 0 : request.select, request === null || request === void 0 ? void 0 : request.expand);
         let headers = __classPrivateFieldGet(this, _ContentLoader_api, "f").getDefaultHeaders(request === null || request === void 0 ? void 0 : request.branch);
+        const performanceTracker = new performanceTracker_1.PerformanceTracker();
+        performanceTracker.begin('----- Get Children -----', Date.now(), id);
         if ((request === null || request === void 0 ? void 0 : request.top) || (request === null || request === void 0 ? void 0 : request.continuationToken)) {
             if (request === null || request === void 0 ? void 0 : request.top)
                 parameters = Object.assign(Object.assign({}, parameters), { top: request === null || request === void 0 ? void 0 : request.top });
@@ -81,7 +85,7 @@ class ContentLoader {
                     else {
                         reject(mapResponseToError(response));
                     }
-                    new debugWriter_1.DebugWriter().write('----- Get Children -----', startTime, response);
+                    performanceTracker.end(response);
                 }).catch((error) => {
                     reject(mapToError(error));
                 });
@@ -96,7 +100,7 @@ class ContentLoader {
                     else {
                         reject(mapResponseToError(response));
                     }
-                    new debugWriter_1.DebugWriter().write('----- Get Children -----', startTime, response);
+                    performanceTracker.end(response);
                 }).catch((error) => {
                     reject(mapToError(error));
                 });
