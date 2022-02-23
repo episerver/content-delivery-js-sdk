@@ -45,12 +45,12 @@ class ContentLoader {
         return new Promise((resolve, reject) => {
             __classPrivateFieldGet(this, _ContentLoader_api, "f").get(`/content/${encodeURIComponent(id)}`, parameters, headers).then((response) => {
                 if (response.ok) {
+                    performanceTracker.end(response);
                     resolve(response.data);
                 }
                 else {
                     reject(mapResponseToError(response));
                 }
-                performanceTracker.end(response);
             }).catch((error) => {
                 reject(mapToError(error));
             });
@@ -77,6 +77,7 @@ class ContentLoader {
             return new Promise((resolve, reject) => {
                 __classPrivateFieldGet(this, _ContentLoader_api, "f").get(`/content/${encodeURIComponent(id)}/children`, parameters, headers).then((response) => {
                     if (response.ok) {
+                        performanceTracker.end(response);
                         resolve({
                             items: response.data,
                             continuationToken: response.headers.get('x-epi-continuation')
@@ -85,7 +86,6 @@ class ContentLoader {
                     else {
                         reject(mapResponseToError(response));
                     }
-                    performanceTracker.end(response);
                 }).catch((error) => {
                     reject(mapToError(error));
                 });
@@ -95,12 +95,12 @@ class ContentLoader {
             return new Promise((resolve, reject) => {
                 __classPrivateFieldGet(this, _ContentLoader_api, "f").get(`/content/${encodeURIComponent(id)}/children`, parameters, headers).then((response) => {
                     if (response.ok) {
+                        performanceTracker.end(response);
                         resolve(response.data);
                     }
                     else {
                         reject(mapResponseToError(response));
                     }
-                    performanceTracker.end(response);
                 }).catch((error) => {
                     reject(mapToError(error));
                 });

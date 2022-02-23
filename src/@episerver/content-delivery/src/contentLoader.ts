@@ -110,12 +110,11 @@ export class ContentLoader {
     return new Promise<T>((resolve, reject) => {
       this.#api.get(`/content/${encodeURIComponent(id)}`, parameters, headers).then((response: ApiResponse) => {
         if (response.ok) {
+          performanceTracker.end(response);
           resolve(response.data as T);
         } else {
           reject(mapResponseToError(response));
         }
-
-        performanceTracker.end(response);
       }).catch((error: ApiError) => {
         reject(mapToError(error));
       });
@@ -144,6 +143,7 @@ export class ContentLoader {
       return new Promise<ContentCollection<T>>((resolve, reject) => {
         this.#api.get(`/content/${encodeURIComponent(id)}/children`, parameters, headers).then((response: ApiResponse) => {
           if (response.ok) {
+            performanceTracker.end(response);
             resolve({
               items: response.data,
               continuationToken: response.headers.get('x-epi-continuation')
@@ -151,8 +151,6 @@ export class ContentLoader {
           } else {
             reject(mapResponseToError(response));
           }
-
-          performanceTracker.end(response);
         }).catch((error: ApiError) => {
           reject(mapToError(error));
         });
@@ -161,12 +159,11 @@ export class ContentLoader {
       return new Promise<Array<T>>((resolve, reject) => {
         this.#api.get(`/content/${encodeURIComponent(id)}/children`, parameters, headers).then((response: ApiResponse) => {
           if (response.ok) {
+            performanceTracker.end(response);
             resolve(response.data);
           } else {
             reject(mapResponseToError(response));
           }
-
-          performanceTracker.end(response);
         }).catch((error: ApiError) => {
           reject(mapToError(error));
         });

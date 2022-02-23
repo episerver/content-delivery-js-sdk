@@ -180,9 +180,8 @@ export class ContentResolver {
           startPageId: response.headers.get('x-epi-startpageguid'),
         };
 
-        resolve(result);
-
         performanceTracker.end(response);
+        resolve(result);
       }).catch((error: ApiError) => {
         reject(mapToError(error));
       });

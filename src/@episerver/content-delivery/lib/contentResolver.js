@@ -110,8 +110,8 @@ class ContentResolver {
                     siteId: response.headers.get('x-epi-siteid'),
                     startPageId: response.headers.get('x-epi-startpageguid'),
                 };
-                resolve(result);
                 performanceTracker.end(response);
+                resolve(result);
             }).catch((error) => {
                 reject(mapToError(error));
             });
