@@ -27,7 +27,7 @@ export type ContentDeliveryConfig = {
   expandAllProperties: boolean,
 
   /**
-   * Enable to output performance messages to the console.
+   * Set to true to output performance messages to the console.
    */
   enablePerformanceTracking: boolean
 };
