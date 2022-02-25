@@ -1,18 +1,14 @@
 @ECHO OFF
 SETLOCAL
 
-REM Set up database
-SET Backend=backend
-IF EXIST %Backend%\App_Data (
-    ECHO Remove all files from the App_Data folder
-    DEL %Backend%\App_Data\*.* /F /Q || Exit /B 1
-) ELSE (
-    MKDIR %Backend%\App_Data || Exit /B 1
-)
+SET BASE=.\backend\App_Data
 
-REM Copy the database files to the site.
-SET Data=data
-XCOPY /y/i %Data%\DefaultSiteContent.episerverdata %Backend%\App_Data\ || Exit /B 1
-XCOPY /y/i/k %Data%\musicfestival.mdf %Backend%\App_Data\ || Exit /B 1
+ECHO Removed all files from the App_Data folder
+IF EXIST %BASE%\blobs\ RMDIR %BASE%\blobs\ /S/Q || EXIT /B 1
+IF EXIST %BASE%\musicfestival.mdf DEL %BASE%\musicfestival.mdf /F/Q || EXIT /B 1
+IF EXIST %BASE%\musicfestival_log.ldf DEL %BASE%\musicfestival_log.ldf /F/Q || EXIT /B 1
+
+ECHO Created new database
+XCOPY %BASE%\db.mdf %BASE%\musicfestival.mdf* /Y/C || EXIT /B 1
 
 EXIT /B %ERRORLEVEL%

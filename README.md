@@ -17,14 +17,15 @@ This repository contains the source code for the Content Delivery JavaScript SDK
 
 ## Samples
 
-* [Vue.js](https://github.com/episerver/content-delivery-js-sdk/tree/master/samples/music-festival-vue-decoupled)
+* [Vue.js - Coupled](samples/music-festival-vue-coupled)
+* [Vue.js - Decoupled](samples/music-festival-vue-decoupled)
 
 ## Prerequisites for building and testing the SDKs
 
 This project uses:
 * Node.js 14+
 * npm 6+
-* .NET SDK 5+
+* .NET SDK 6+
 * SQL Server 2016 Express LocalDB ([download here](https://www.microsoft.com/en-us/sql-server/sql-server-downloads))
 
 ## Create a release

@@ -21,17 +21,17 @@ namespace MusicFestival.Backend
 {
     public class Startup
     {
-        private readonly IWebHostEnvironment _environment;
+        private readonly IWebHostEnvironment _webHostingEnvironment;
         private readonly Uri _frontendUri = new Uri("http://localhost:8080");
 
-        public Startup(IWebHostEnvironment environment)
+        public Startup(IWebHostEnvironment webHostingEnvironment)
         {
-            _environment = environment;
+            _webHostingEnvironment = webHostingEnvironment;
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionstring = $"Data Source=(LocalDb)\\MSSQLLocalDB;AttachDbFilename={Path.Combine(_environment.ContentRootPath, "App_Data\\musicfestival.mdf")};Initial Catalog=musicfestival;Integrated Security=True;Connect Timeout=30;MultipleActiveResultSets=True";
+            AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(_webHostingEnvironment.ContentRootPath, "App_Data"));
 
             services
                 .AddCmsAspNetIdentity<ApplicationUser>()
@@ -39,7 +39,6 @@ namespace MusicFestival.Backend
                 .AddAdminUserRegistration(o => o.Behavior = RegisterAdminUserBehaviors.Enabled | RegisterAdminUserBehaviors.LocalRequestsOnly)
                 .AddEmbeddedLocalization<Startup>()
                 .ConfigureForExternalTemplates()
-                .Configure<DataAccessOptions>(options => options.SetConnectionString(connectionstring))
                 .Configure<ExternalApplicationOptions>(options => options.OptimizeForDelivery = true)
                 .Configure<DisplayOptions>(options =>
                 {
@@ -51,10 +50,10 @@ namespace MusicFestival.Backend
                 });
 
             services.AddOpenIDConnect<ApplicationUser>(
-                useDevelopmentCertificate: true, 
-                signingCertificate: null, 
-                encryptionCertificate: null, 
-                createSchema: true, 
+                useDevelopmentCertificate: true,
+                signingCertificate: null,
+                encryptionCertificate: null,
+                createSchema: true,
                 options =>
                 {
                     options.RequireHttps = false; // Do not use in production

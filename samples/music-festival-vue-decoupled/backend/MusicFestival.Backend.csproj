@@ -10,6 +10,12 @@
     <PackageReference Include="EPiServer.ContentDefinitionsApi" Version="3.0.1" />
     <PackageReference Include="EPiServer.ContentDeliveryApi.Cms" Version="3.0.1" />
     <PackageReference Include="EPiServer.OpenIDConnect" Version="3.0.1" />
+
+    <!-- Temporary dependencies until new OPE is released -->
+    <PackageReference Include="EPiServer.CMS.UI" Version="12.3.2-feature-CMS-21044-025223" />
+    <PackageReference Include="EPiServer.CMS.UI.Core" Version="12.3.2-feature-CMS-21044-025223"/>
+    <PackageReference Include="EPiServer.CMS.UI.VisitorGroups" Version="12.3.2-feature-CMS-21044-025223"/>
+    <PackageReference Include="EPiServer.CMS.UI.AspNetIdentity" Version="12.3.2-feature-CMS-21044-025223"/>
   </ItemGroup>
 
 </Project>

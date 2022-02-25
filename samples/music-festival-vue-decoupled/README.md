@@ -1,8 +1,8 @@
 # Optimizely Content Delivery - Decoupled
 
-This sample site demonstrates one approach to render Optimizely content in a client side framework that is using client side routing for navigation with a working On Page Edit (OPE) mode in the Optimizely UI, where the frontend and backend are hosted separately.
+This sample site demonstrates one approach to render Optimizely content in a client side framework that is using client side routing for navigation with a working On-Page Edit (OPE) mode in the Optimizely UI, where the frontend and backend are hosted as separate apps.
 
-This particular solution uses [Vue CLI](https://cli.vuejs.org/) with [Vuex](https://next.vuex.vuejs.org/) to handle the state of the app in a `single source of truth`. Most of the techniques are framework agnostic and can be used with any other framework, such as React or Angular.
+The frontend app uses [Vue CLI](https://cli.vuejs.org/) with [Vuex](https://next.vuex.vuejs.org/) to handle the state of the app in a `single source of truth`. Most of the techniques are framework agnostic and can be used with any other framework, such as React or Angular.
 
 Content is fetched from Optimizely using the Content Delivery API: https://world.optimizely.com/documentation/developer-guides/cms/content/content-delivery-api/
 
@@ -47,7 +47,3 @@ This project uses:
 * [EpiBlockComponentSelector.vue](frontend/src/components/EpiBlockComponentSelector.vue): loads the Vue block component.
 * [EpiLink.vue](frontend/src/components/EpiLink.vue): regular links when in OPE and Vue router links otherwise.
 * [EpiViewModeLink.vue](frontend/src/components/EpiViewModeLink.vue): disables links completely when in OPE.
-
-## Debugging Vuex state
-
-Using the [Vue-devtools](https://github.com/vuejs/vue-devtools) to see the state changes in the store in view mode works as expected. There are however some limitations to follow state changes when you are editing in Optimizely edit mode because of the site is running inside an iframe. To be able to see the vuex state while editing you need to run the stand alone electron app as described on the github page: [Vue standalone Electron app](https://github.com/vuejs/vue-devtools/blob/master/shells/electron/README.md).
