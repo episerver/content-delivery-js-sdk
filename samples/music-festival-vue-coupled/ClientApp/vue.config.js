@@ -26,17 +26,18 @@ module.exports = {
     },
     proxy: {
       '/api': {
-        target,
-        secure: true,
+        target: target,
+        secure: false,
       },
       // Do not expect everything to work through the proxy.
       // Access the CMS from the target/origin directly.
       '/(episerver|Episerver|EPiServer)': {
         target: target,
-        ws: true,
         cookieDomainRewrite: true,
+        followRedirects: true,
         hostRewrite: target,
-        secure: true,
+        secure: false,
+        ws: true,
         bypass: (req, res, proxyOptions) => {
           // Do not proxy content preview URLs, these do also start with 'episerver'.
           if (req.query['epieditmode']) {
@@ -45,15 +46,16 @@ module.exports = {
         },
       },
       '/(util|Util)': {
-        target,
+        target: target,
         cookieDomainRewrite: true,
+        followRedirects: true,
         hostRewrite: target,
-        secure: true,
+        secure: false,
       },
       '/_framework': {
-        target,
+        target: target,
+        secure: false,
         ws: true,
-        secure: true,
       },
     },
   },

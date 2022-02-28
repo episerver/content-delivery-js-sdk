@@ -14,9 +14,9 @@ export default {
     defaultConfig.expandAllProperties = true;
 
     /*
-      * If the `epieditmode` parameter is present we know we're
-      * in either edit- or preview mode and should include following scripts.
-      */
+     * If the `epieditmode` parameter is present we know we're
+     * in either edit- or preview mode and should include following scripts.
+     */
     if (this.$route.query.epieditmode || document.location.search.includes('epieditmode')) {
       const communicationScript = document.createElement('script');
       communicationScript.src = '/episerver/cms/latest/clientresources/communicationinjector.js';
