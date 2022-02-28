@@ -4,24 +4,6 @@
   </div>
 </template>
 
-<style lang="less" scoped>
-  .LoginBar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    z-index: 99;
-    align-items: center;
-  }
-
-    .LoginBar .btn {
-      position: absolute;
-      top: 30px;
-      right: 180px;
-    }
-</style>
-
 <script>
 import { defaultConfig } from '@episerver/content-delivery';
 
