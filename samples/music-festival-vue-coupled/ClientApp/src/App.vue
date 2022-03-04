@@ -15,7 +15,7 @@ export default {
 
     /*
      * If the `epieditmode` parameter is present we know we're
-     * in either edit- or preview mode and should include following scripts.
+     * in either edit- or preview mode and should include following script.
      */
     if (this.$route.query.epieditmode || document.location.search.includes('epieditmode')) {
       const communicationScript = document.createElement('script');

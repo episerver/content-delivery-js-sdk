@@ -8,11 +8,11 @@
     <IsPackable>false</IsPackable>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
-    <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
 
     <SpaRoot>ClientApp\</SpaRoot>
     <SpaProxyServerUrl>http://localhost:8080</SpaProxyServerUrl>
     <SpaProxyLaunchCommand>npm run serve</SpaProxyLaunchCommand>
+    <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
   </PropertyGroup>
 
   <ItemGroup>
