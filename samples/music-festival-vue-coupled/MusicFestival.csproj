@@ -21,10 +21,10 @@
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="6.0.0" />
 
     <!-- Temporary dependencies until new OPE is released -->
-    <PackageReference Include="EPiServer.CMS.UI" Version="12.3.2-feature-CMS-21044-025223" />
-    <PackageReference Include="EPiServer.CMS.UI.Core" Version="12.3.2-feature-CMS-21044-025223" />
-    <PackageReference Include="EPiServer.CMS.UI.VisitorGroups" Version="12.3.2-feature-CMS-21044-025223" />
-    <PackageReference Include="EPiServer.CMS.UI.AspNetIdentity" Version="12.3.2-feature-CMS-21044-025223" />
+    <PackageReference Include="EPiServer.CMS.UI" Version="12.4.0-ci-025641" />
+    <PackageReference Include="EPiServer.CMS.UI.Core" Version="12.4.0-ci-025641" />
+    <PackageReference Include="EPiServer.CMS.UI.VisitorGroups" Version="12.4.0-ci-025641" />
+    <PackageReference Include="EPiServer.CMS.UI.AspNetIdentity" Version="12.4.0-ci-025641" />
     <!-- Temporary dependencies until CMS has full .NET6 -->
     <PackageReference Include="EPiServer.CMS.AspNetCore.HtmlHelpers" Version="12.4.0" />
     <PackageReference Include="EPiServer.Hosting" Version="12.4.0" />
