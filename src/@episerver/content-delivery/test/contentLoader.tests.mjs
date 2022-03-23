@@ -319,4 +319,17 @@ describe('ContentLoader', () => {
       });
     });
   });
+
+  describe("with custom headers", () => {
+    it("should pass custom headers in request when applied", async () => {
+      const customHeaderValue = "CustomHeaderValue";
+      var cl = new ContentLoader({
+        getHeaders: () =>
+          Promise.resolve({ CustomHeaderName: customHeaderValue }),
+      });
+      const content = await cl.getContent(startPageId);
+
+      content.customHeader.should.equal(customHeaderValue);
+    });
+  });
 });

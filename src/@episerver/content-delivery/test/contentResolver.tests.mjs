@@ -150,4 +150,17 @@ describe('ContentResolver', () => {
       });
     });
   });
+
+  describe("with custom headers", () => {
+    it("should pass custom headers in request when applied", async () => {
+      const customHeaderValue = "CustomHeaderValue";
+      var cr = new ContentResolver({
+        getHeaders: () =>
+          Promise.resolve({ CustomHeaderName: customHeaderValue }),
+      });
+      var result = await cr.resolveContent(baseUrl, true);
+
+      result.content.customHeader.should.equal(customHeaderValue);
+    });
+  });
 });
