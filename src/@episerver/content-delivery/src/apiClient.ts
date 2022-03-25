@@ -175,6 +175,17 @@ async function getHeaders(path: string, headers: ApiHeaders = {}, config: Conten
     }
   }
 
+  if (config.getHeaders) {
+    const configHeaders = await config.getHeaders(path);
+    if (configHeaders) {
+      for (const name in configHeaders) {
+        if (configHeaders[name] !== undefined) {
+          result.set(name, configHeaders[name])
+        }
+      }
+    }
+  }
+
   if (config.getAccessToken) {
     const accessToken = await config.getAccessToken(path);
     if (accessToken) {

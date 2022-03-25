@@ -13,6 +13,11 @@ export declare type ContentDeliveryConfig = {
      */
     getAccessToken?: (path?: string) => Promise<string>;
     /**
+     * Function to call to include custom headers in
+     * requests to the Content Delivery API.
+     */
+    getHeaders?: (path?: string) => Promise<Record<string, any>>;
+    /**
      * Select all properties by default, unless otherwise
      * specified in each request to the Content Delivery API.
      */

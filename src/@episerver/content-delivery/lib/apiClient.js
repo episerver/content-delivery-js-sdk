@@ -106,6 +106,16 @@ function getHeaders(path, headers = {}, config) {
                 result.set(name, headers[name]);
             }
         }
+        if (config.getHeaders) {
+            const configHeaders = yield config.getHeaders(path);
+            if (configHeaders) {
+                for (const name in configHeaders) {
+                    if (configHeaders[name] !== undefined) {
+                        result.set(name, configHeaders[name]);
+                    }
+                }
+            }
+        }
         if (config.getAccessToken) {
             const accessToken = yield config.getAccessToken(path);
             if (accessToken) {
