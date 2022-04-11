@@ -15,7 +15,6 @@ import { UPDATE_CONTEXT } from '@/store/modules/epiContext';
 import { UPDATE_MODEL_BY_URL } from '@/store/modules/epiDataModel';
 
 function setContext() {
-  // The `epiReady` event only has `isEditable`, but the epi object has both.
   const context = {
     inEditMode: window.epi.inEditMode,
     isEditable: window.epi.isEditable,
@@ -24,7 +23,7 @@ function setContext() {
   // Make the context available to all Vue components.
   store.commit(UPDATE_CONTEXT, context);
 
-  // If we're in an editable context we want to update the model on every change by the editor
+  // If we're in an editable context we want to update the model on every change by the editor.
   if (window.epi.isEditable) {
     window.epi.subscribe('contentSaved', (message) => {
       const previewUrl = new URL(message.previewUrl);
@@ -33,7 +32,6 @@ function setContext() {
   }
 }
 
-// Listen to the `epiReady` event to update the `context` property.
 window.addEventListener('load', () => {
   // Expect `epi` to be there after the `load` event. If it's not then we're
   // not in any editing context.
@@ -41,14 +39,9 @@ window.addEventListener('load', () => {
     return;
   }
 
-  // Check that ready is an actual true value (not just truthy).
   if (window.epi.ready === true) {
-    // `epiReady` already fired.
     setContext();
-
-  // The subscribe method won't be available in View mode.
   } else if (window.epi.subscribe) {
-    // Subscribe if the `epiReady` event hasn't happened yet.
     window.epi.subscribe('epiReady', () => setContext());
   }
 });

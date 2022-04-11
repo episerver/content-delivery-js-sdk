@@ -16,21 +16,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EPiServer.CMS" Version="12.3.1" />
-    <PackageReference Include="EPiServer.ContentDeliveryApi.Cms" Version="3.0.1" />
+    <PackageReference Include="EPiServer.CMS" Version="12.4.0" />
+    <PackageReference Include="EPiServer.ContentDeliveryApi.Cms" Version="3.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="6.0.0" />
-
-    <!-- Temporary dependencies until new OPE is released -->
-    <PackageReference Include="EPiServer.CMS.UI" Version="12.4.0-ci-025641" />
-    <PackageReference Include="EPiServer.CMS.UI.Core" Version="12.4.0-ci-025641" />
-    <PackageReference Include="EPiServer.CMS.UI.VisitorGroups" Version="12.4.0-ci-025641" />
-    <PackageReference Include="EPiServer.CMS.UI.AspNetIdentity" Version="12.4.0-ci-025641" />
-    <!-- Temporary dependencies until CMS has full .NET6 -->
-    <PackageReference Include="EPiServer.CMS.AspNetCore.HtmlHelpers" Version="12.4.0" />
-    <PackageReference Include="EPiServer.Hosting" Version="12.4.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0" />
-    <!-- / -->
   </ItemGroup>
 
   <ItemGroup>

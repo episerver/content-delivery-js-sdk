@@ -32,37 +32,6 @@ function setContext() {
   }
 }
 
-// function attachSubscriber() {
-//   // Expect `epi` to be there after the `load` event. If it's not then we're
-//   // not in any editing context or we have to wait for a while.
-//   let attempt = 0;
-//   const interval = setInterval(() => {
-//     if (attempt >= 5) {
-//       clearInterval(interval);
-//     } else {
-//       if (window.epi) {
-//         attempt = 5;
-//       } else {
-//         attempt += 1;
-
-//         console.error('Communication with On-Page Editing is not ready yet...');
-//         console.error(`Attempt ${attempt}. Trying again in 1 second.`);
-
-//         return;
-//       }
-
-//       if (window.epi.ready === true) {
-//         // `epiReady` already fired.
-//         setContext();
-//       } else if (window.epi.subscribe) {
-//         window.epi.subscribe('epiReady', () => setContext());
-//       }
-//     }
-//   }, 2000);
-// }
-
-// window.addEventListener('load', () => attachSubscriber());
-
 window.addEventListener('load', () => {
   // Expect `epi` to be there after the `load` event. If it's not then we're
   // not in any editing context.
