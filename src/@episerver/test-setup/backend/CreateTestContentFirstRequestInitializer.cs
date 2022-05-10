@@ -1,44 +1,40 @@
 using EPiServer.Web;
-using Microsoft.Extensions.DependencyInjection;
 using EPiServer;
 using EPiServer.DataAnnotations;
 using EPiServer.Core;
 using EPiServer.DataAccess;
 using EPiServer.Security;
 using EPiServer.DataAbstraction;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 
-namespace Backend
+namespace Backend;
+
+public class CreateTestContentFirstRequestInitializer : IBlockingFirstRequestInitializer
 {
-    public class CreateTestContentFirstRequestInitializer : IBlockingFirstRequestInitializer
+    private IContentSecurityRepository? _contentSecurityRepository;
+    private IContentRepository? _contentRepository;
+
+    public bool CanRunInParallel => false;
+
+    public Task InitializeAsync(HttpContext httpContext)
     {
-        private IContentSecurityRepository _contentSecurityRepository;
-        private IContentRepository _contentRepository;
+        _contentSecurityRepository = httpContext.RequestServices.GetService<IContentSecurityRepository>();
+        _contentRepository = httpContext.RequestServices.GetService<IContentRepository>();
 
-        public bool CanRunInParallel => false;
+        var page = _contentRepository!.GetDefault<TestPage>(ContentReference.StartPage);
+        page.Name = "Protected";
 
-        public Task InitializeAsync(HttpContext httpContext)
-        {
-            _contentSecurityRepository = httpContext.RequestServices.GetService<IContentSecurityRepository>();
-            _contentRepository = httpContext.RequestServices.GetService<IContentRepository>();
+        var contentReference = _contentRepository.Save(page, SaveAction.Publish, AccessLevel.NoAccess);
 
-            var page = _contentRepository.GetDefault<TestPage>(ContentReference.StartPage);
-            page.Name = "Protected";
+        var permissions = (IContentSecurityDescriptor)_contentSecurityRepository!.Get(contentReference).CreateWritableClone();
+        permissions.ToLocal(false);
+        permissions.AddEntry(new AccessControlEntry("bob", AccessLevel.FullAccess, SecurityEntityType.User));
 
-            var contentReference = _contentRepository.Save(page, SaveAction.Publish, AccessLevel.NoAccess);
+        _contentSecurityRepository.Save(contentReference, permissions, SecuritySaveType.Replace);
 
-            var permissions = (IContentSecurityDescriptor)_contentSecurityRepository.Get(contentReference).CreateWritableClone();
-            permissions.ToLocal(false);
-            permissions.AddEntry(new AccessControlEntry("bob", AccessLevel.FullAccess, SecurityEntityType.User));
-
-            _contentSecurityRepository.Save(contentReference, permissions, SecuritySaveType.Replace);
-
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
     }
-
-    [ContentType]
-    public class TestPage : PageData
-    { }
 }
+
+[ContentType]
+public class TestPage : PageData
+{ }

@@ -16,9 +16,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EPiServer.CMS" Version="12.4.0" />
-    <PackageReference Include="EPiServer.ContentDeliveryApi.Cms" Version="3.2.0" />
+    <PackageReference Include="EPiServer.CMS" Version="12.6.0" />
+    <PackageReference Include="EPiServer.ContentDeliveryApi.Cms" Version="3.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="6.0.0" />
+
+    <!-- Temporary to resolve incompatible transitive dependencies -->
+    <PackageReference Include="EPiServer.CMS.AspNetCore.HtmlHelpers" Version="12.5.0" />
+    <PackageReference Include="EPiServer.Hosting" Version="12.5.0" />
   </ItemGroup>
 
   <ItemGroup>
