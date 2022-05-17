@@ -1,4 +1,4 @@
-# Optimizely Content Delivery - Decoupled
+# Optimizely Content Delivery - Coupled
 
 This sample site demonstrates one approach to render Optimizely content in a client side framework that is using client side routing for navigation with a working On-Page Edit (OPE) mode in the Optimizely UI, where the frontend and backend are hosted in the same application.
 
