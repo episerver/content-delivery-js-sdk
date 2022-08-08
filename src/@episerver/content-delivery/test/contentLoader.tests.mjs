@@ -23,13 +23,13 @@ describe('ContentLoader', () => {
 
       it('should reject when invalid id', async () => {
         await contentLoader.getContent('@').catch((error) => {
-          error.errorCode.should.equal(400);
+          error.errorCode.should.equal(404);
         });
       });
 
       it('should reject when invalid id', async () => {
         await contentLoader.getContent('<b>html</b>').catch((error) => {
-          error.errorCode.should.equal(400);
+          error.errorCode.should.equal(404);
         });
       });
 
@@ -132,13 +132,13 @@ describe('ContentLoader', () => {
 
       it('should reject when parent is invalid', async () => {
         await contentLoader.getChildren('@').catch((error) => {
-          error.errorCode.should.equal(400);
+          error.errorCode.should.equal(404);
         });
       });
 
       it('should reject when parent is invalid', async () => {
         await contentLoader.getChildren('<b>html</b>').catch((error) => {
-          error.errorCode.should.equal(400);
+          error.errorCode.should.equal(404);
         });
       });
 
@@ -258,13 +258,13 @@ describe('ContentLoader', () => {
 
       it('should reject when parent is invalid', async () => {
         await contentLoader.getAncestors('@').catch((error) => {
-          error.errorCode.should.equal(400);
+          error.errorCode.should.equal(404);
         });
       });
 
       it('should reject when parent is invalid', async () => {
         await contentLoader.getAncestors('<b>html</b>').catch((error) => {
-          error.errorCode.should.equal(400);
+          error.errorCode.should.equal(404);
         });
       });
 

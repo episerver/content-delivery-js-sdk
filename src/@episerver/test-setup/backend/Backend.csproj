@@ -8,14 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EPiServer.CMS" Version="12.6.0" />
-    <PackageReference Include="EPiServer.ContentDefinitionsApi" Version="3.3.0" />
-    <PackageReference Include="EPiServer.ContentDeliveryApi.Cms" Version="3.3.0" />
-    <PackageReference Include="EPiServer.OpenIDConnect" Version="3.3.0" />
-
-    <!-- Temporary to resolve incompatible transitive dependencies -->
-    <PackageReference Include="EPiServer.CMS.AspNetCore.HtmlHelpers" Version="12.5.0" />
-    <PackageReference Include="EPiServer.Hosting" Version="12.5.0" />
+    <PackageReference Include="EPiServer.CMS" Version="12.9.0" />
+    <PackageReference Include="EPiServer.ContentDefinitionsApi" Version="3.5.0" />
+    <PackageReference Include="EPiServer.ContentDeliveryApi.Cms" Version="3.5.0" />
+    <PackageReference Include="EPiServer.OpenIDConnect" Version="3.5.0" />
   </ItemGroup>
 
 </Project>

@@ -64,13 +64,13 @@ export function createTempDirectory() {
 export function removeTempDirectory() {
   console.log(`Removing temporary directory '${tempPath}'.`)
 
-  fs.rmdirSync(tempPath, { recursive: true, force: true });
+  fs.rmSync(tempPath, { recursive: true, force: true });
 }
 
 function cleanUpData() {
   console.log(`Removing directory '${appDataPath}'.`)
 
-  fs.rmdirSync(appDataPath, { recursive: true, force: true });
+  fs.rmSync(appDataPath, { recursive: true, force: true });
 }
 
 function newData() {

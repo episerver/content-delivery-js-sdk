@@ -204,6 +204,7 @@
             "id": "a736bc13-d17c-46e2-ad5d-e37bd3af086b",
             "name": "ImageFile",
             "baseType": "Image",
+            "supportedMediaExtensions": "jpg,jpeg,jpe,ico,gif,png",
             "properties": []
         },
         {
@@ -335,6 +336,22 @@
             "name": "DynamicBlocks",
             "sortOrder": 60,
             "systemGroup": true
+        }
+    ],
+    "languageBranches": [
+        {
+            "name": "en",
+            "displayName": "English",
+            "urlSegment": "en",
+            "sortOrder": 10,
+            "enabled": true
+        },
+        {
+            "name": "sv",
+            "displayName": "Svenska",
+            "urlSegment": "sv",
+            "sortOrder": 20,
+            "enabled": true
         }
     ]
 }
