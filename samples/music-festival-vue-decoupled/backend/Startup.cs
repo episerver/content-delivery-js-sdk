@@ -49,7 +49,7 @@ public class Startup
             createSchema: true,
             options =>
             {
-                options.RequireHttps = false; // Do not use in production
+                options.RequireHttps = !_webHostingEnvironment.IsDevelopment();
 
                 options.Applications.Add(new OpenIDConnectApplication
                 {
@@ -105,6 +105,18 @@ public class Startup
         {
             endpoints.MapControllers();
             endpoints.MapContent();
+        });
+
+        app.UseStatusCodePages(context =>
+        {
+            if (context.HttpContext.Response.HasStarted == false &&
+                context.HttpContext.Response.StatusCode == StatusCodes.Status404NotFound &&
+                context.HttpContext.Request.Path == "/")
+            {
+                context.HttpContext.Response.Redirect("/episerver/cms");
+            }
+
+            return Task.CompletedTask;
         });
     }
 }
