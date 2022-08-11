@@ -29,27 +29,27 @@
     margin: .25em 0;
 
     @media @bpMedium {
-        font-size: unit(@Heading-size1/@baseFontSize, em);
+        font-size: unit((@Heading-size1 / @baseFontSize), em);
     }
 }
 
 .Heading--h2, h2 {
     &:extend(.Heading all);
-    font-size: unit((@Heading-size2*.65)/@baseFontSize, em);
+    font-size: unit(((@Heading-size2*.65) / @baseFontSize), em);
     margin: 20px 0 10px;
 
     @media @bpMedium {
-        font-size: unit(@Heading-size2/@baseFontSize, em);
+        font-size: unit((@Heading-size2 / @baseFontSize), em);
     }
 }
 
 .Heading--h3, h3 {
     &:extend(.Heading all);
-    font-size: unit((@Heading-size3*.75)/@baseFontSize, em);
+    font-size: unit(((@Heading-size3*.75) / @baseFontSize), em);
     font-family: @fontSubHeading;
 
     @media @bpMedium {
-        font-size: unit(@Heading-size3/@baseFontSize, em);
+        font-size: unit((@Heading-size3 / @baseFontSize), em);
     }
 }
 
@@ -59,7 +59,7 @@
     font-size: 18px;
 
     @media @bpMedium {
-        font-size: unit(@Heading-size4/@baseFontSize, em);
+        font-size: unit((@Heading-size4 / @baseFontSize), em);
     }
 }
 
@@ -72,7 +72,7 @@
     font-size: 18px;
 
     @media @bpMedium {
-        font-size: unit(@Heading-size5/@baseFontSize, em);
+        font-size: unit((@Heading-size5 / @baseFontSize), em);
     }
 }
 
@@ -83,6 +83,6 @@
     font-size: 1em;
 
     @media @bpMedium {
-        font-size: unit(@Heading-size6/@baseFontSize, em);
+        font-size: unit((@Heading-size6 / @baseFontSize), em);
     }
 }

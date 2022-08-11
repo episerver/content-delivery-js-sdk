@@ -17,6 +17,8 @@ This repository contains the source code for the Content Delivery JavaScript SDK
 
 ## Samples
 
+The samples are using Vue CLI v5.
+
 * [Vue.js - Coupled](samples/music-festival-vue-coupled)
 * [Vue.js - Decoupled](samples/music-festival-vue-decoupled)
 

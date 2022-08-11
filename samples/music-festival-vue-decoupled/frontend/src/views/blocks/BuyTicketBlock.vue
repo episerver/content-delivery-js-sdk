@@ -11,8 +11,10 @@
     <div class="buyTickets-container">
         <h3 v-epi-edit="prefixPropertyName('Heading')">{{heading || model.heading}}</h3>
         <div>
-            <p v-epi-edit="prefixPropertyName('Message')">{{message || model.message}}</p>
-            <input type="email" />
+            <label for="tickets-email" v-epi-edit="prefixPropertyName('Message')">
+              {{message || model.message}}
+              <input id="tickets-email" type="email" />
+            </label>
         </div>
     </div>
 </template>

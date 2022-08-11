@@ -1,3 +1,4 @@
+const { defineConfig } = require('@vue/cli-service');
 const path = require('path');
 const { env } = require('process');
 
@@ -7,7 +8,8 @@ const target = env.ASPNETCORE_HTTPS_PORT
     ? env.ASPNETCORE_URLS.split(';')[0]
     : 'http://localhost:8081';
 
-module.exports = {
+module.exports = defineConfig({
+  transpileDependencies: true,
   chainWebpack: (config) => {
     // Add support for globbing import
     config.module
@@ -17,12 +19,18 @@ module.exports = {
       .loader('import-glob-loader');
   },
   devServer: {
-    // Make all requesets go to index so friendly URLs
-    // are working. But only if no static file is already being served.
-    after(app) {
-      app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, 'public/index.html'));
+    setupMiddlewares: (middlewares, devServer) => {
+      // Make all requesets go to index so friendly URLs
+      // are working. But only if no static file is already being served.
+      middlewares.push({
+        name: 'serve-app',
+        path: '*',
+        middleware: (req, res) => {
+          res.sendFile(path.join(__dirname, 'public/index.html'));
+        },
       });
+
+      return middlewares;
     },
     proxy: {
       '/api': {
@@ -59,4 +67,4 @@ module.exports = {
       },
     },
   },
-};
+});
