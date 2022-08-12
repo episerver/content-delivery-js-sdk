@@ -10,10 +10,7 @@ import AccessDenied from '@/views/403.vue';
 import NotFound from '@/views/404.vue';
 
 const router = createRouter({
-  // Use the HTML HistoryAPI so the # isn't needed in the URL, and
-  // Vue routing will work even when going directly to an URL.
   history: createWebHistory(),
-
   routes: [
     {
       path: '/login-callback',
