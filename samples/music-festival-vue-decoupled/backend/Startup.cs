@@ -1,5 +1,4 @@
 using EPiServer.Cms.Shell;
-using EPiServer.Cms.Shell.UI;
 using EPiServer.Cms.UI.AspNetIdentity;
 using EPiServer.ContentApi.Cms;
 using EPiServer.ContentApi.Core.DependencyInjection;
@@ -30,7 +29,7 @@ public class Startup
             .AddCmsAspNetIdentity<ApplicationUser>()
             .AddCms()
             .AddAdminUserRegistration()
-            .AddEmbeddedLocalization<Startup>()
+            .AddEmbeddedLocalization<Program>()
             .ConfigureForExternalTemplates()
             .Configure<ExternalApplicationOptions>(options => options.OptimizeForDelivery = true)
             .Configure<DisplayOptions>(options =>
