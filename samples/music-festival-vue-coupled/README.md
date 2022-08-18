@@ -1,9 +1,6 @@
 # Optimizely Content Delivery - Coupled
 
-This sample site demonstrates one approach to render Optimizely content in a client side framework that is using client side routing for navigation with a working On-Page Edit (OPE) mode in the Optimizely UI, where the frontend and backend are hosted in the same application.
-
-The client app is hosted in its own Noje.js process and proxied by dotnet.
-
+This sample site demonstrates one approach to render Optimizely content with a client-side framework that is using client side routing, with a working On-Page Edit (OPE) mode, and where the client app and backend are hosted in the same application. The client app is hosted in its own Noje.js process and then proxied by dotnet.
 
 The frontend uses [Vue CLI](https://cli.vuejs.org/) with [Vuex](https://next.vuex.vuejs.org/) to handle the state of the app in a `single source of truth`. Most of the techniques are framework agnostic and can be used with any other framework, such as React or Angular.
 
