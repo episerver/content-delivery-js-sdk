@@ -146,8 +146,6 @@ internal class NodeJsProcess : IDisposable
                 : ".cmd";
         }
 
-        _logger.LogInformation("Starting the '{Command}' with arguments '{Arguments}'.", command, arguments);
-
         var startInfo = new ProcessStartInfo
         {
             FileName = command,
@@ -163,6 +161,8 @@ internal class NodeJsProcess : IDisposable
 
         lock (_lock)
         {
+            _logger.LogInformation("Starting the '{Command}' with arguments '{Arguments}'.", command, arguments);
+
             _process ??= Process.Start(startInfo);
         }
 
