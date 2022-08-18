@@ -29,7 +29,7 @@ public class Startup
         services
             .AddCmsAspNetIdentity<ApplicationUser>()
             .AddCms()
-            .AddAdminUserRegistration(o => o.Behavior = RegisterAdminUserBehaviors.Enabled | RegisterAdminUserBehaviors.LocalRequestsOnly)
+            .AddAdminUserRegistration()
             .AddEmbeddedLocalization<Startup>()
             .ConfigureForExternalTemplates()
             .Configure<ExternalApplicationOptions>(options => options.OptimizeForDelivery = true)

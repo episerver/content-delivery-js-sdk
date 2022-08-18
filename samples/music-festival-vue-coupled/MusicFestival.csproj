@@ -6,50 +6,46 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <IsPackable>false</IsPackable>
-    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
-    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
 
-    <SpaRoot>ClientApp\</SpaRoot>
-    <SpaProxyServerUrl>http://localhost:8080</SpaProxyServerUrl>
-    <SpaProxyLaunchCommand>npm run serve</SpaProxyLaunchCommand>
-    <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
+    <ClientAppRoot>ClientApp\</ClientAppRoot>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="EPiServer.CMS" Version="12.9.0" />
     <PackageReference Include="EPiServer.ContentDeliveryApi.Cms" Version="3.5.0" />
-    <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="6.0.0" />
+
+    <!-- TODO: Remove -->
+    <PackageReference Include="EPiServer.Hosting" Version="12.9.1-inte-022691" />
+    <PackageReference Include="EPiServer.CMS.AspNetCore.HtmlHelpers" Version="12.9.1-inte-022691" />
+    <PackageReference Include="Yarp.ReverseProxy" Version="1.1.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <!-- Don't publish the SPA source files, but do show them in the project files list -->
-    <Content Remove="$(SpaRoot)**" />
-    <None Remove="$(SpaRoot)**" />
-    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+    <!--
+    Do not publish the client app source files, but do show them in the project files list.
+    We will publish them in the target 'BuildClientApp'.
+    -->
+    <Content Remove="$(ClientAppRoot)**" />
+    <None Remove="$(ClientAppRoot)**" />
+    <None Include="$(ClientAppRoot)**" Exclude="$(ClientAppRoot)node_modules\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ClientApp\dist\" />
-  </ItemGroup>
+  <Target Name="BuildClientApp" AfterTargets="ComputeFilesToPublish">
+    <!--
+    As part of publishing, ensure the client app is freshly built in production mode.
+    Alternatively, the client app can be built in a separate step in a CI/CD build pipeline,
+    then remove this target and make sure the client app files are included when deploying.
+    -->
+    <Exec WorkingDirectory="$(ClientAppRoot)" Command="npm install" />
+    <Exec WorkingDirectory="$(ClientAppRoot)" Command="npm run build" />
 
-  <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
-    <!-- Ensure Node.js is installed -->
-    <Exec Command="node --version" ContinueOnError="true">
-      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
-    </Exec>
-    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
-    <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
-  </Target>
-
-  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
-    <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
-
-    <!-- Include the newly-built files in the publish output -->
+    <!--
+    Move the production client app to wwwroot so dotnet can serve the static files.
+    This is not neccessary, but otherwise they will be served by Node.js proxied
+    through dotnet.
+    -->
     <ItemGroup>
-      <DistFiles Include="$(SpaRoot)dist\**" />
+      <DistFiles Include="$(ClientAppRoot)dist\**" />
       <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
         <RelativePath>wwwroot\%(RecursiveDir)%(FileName)%(Extension)</RelativePath>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
