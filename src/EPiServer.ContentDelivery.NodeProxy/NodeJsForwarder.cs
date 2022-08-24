@@ -1,12 +1,12 @@
+using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
 using System.Net;
 using Yarp.ReverseProxy.Forwarder;
 
-namespace MusicFestival.NodeJsMiddleware;
+namespace EPiServer.ContentDelivery.NodeProxy;
 
 /// <summary>
-/// This class acts as a simple wrapper around the <see cref="IHttpForwarder"/>
-/// from Yarp.ReverseProxy.
+/// This class acts as a simple wrapper around the <see cref="IHttpForwarder"/> from Yarp.
 /// </summary>
 internal class NodeJsForwarder
 {

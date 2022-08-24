@@ -1,7 +1,10 @@
 using EPiServer.ServiceLocation;
 
-namespace MusicFestival.NodeJsMiddleware;
+namespace EPiServer.ContentDelivery.NodeProxy;
 
+/// <summary>
+/// Options for Node.js proxy.
+/// </summary>
 [Options(ConfigurationSection = ConfigurationSectionConstants.Cms)]
 public class NodeJsOptions
 {
@@ -45,7 +48,7 @@ public class NodeJsOptions
     public int ProxyTimeout { get; set; } = 10;
 
     /// <summary>
-    /// Gets or sets whether the middleware should be disabled or not.
+    /// Gets or sets whether the proxy should be disabled or not.
     /// </summary>
     public bool Disabled { get; set; }
 }

@@ -1,7 +1,8 @@
 using System.Diagnostics;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace MusicFestival.NodeJsMiddleware;
+namespace EPiServer.ContentDelivery.NodeProxy;
 
 /// <summary>
 /// Basic sub-process governor to start the Node.js process and 
@@ -45,7 +46,7 @@ internal class NodeJsProcess : IDisposable
 
         if (_options.Disabled)
         {
-            throw new ApplicationException("The middleware is disabled.");
+            throw new ApplicationException("The proxy is disabled.");
         }
 
         var sw = Stopwatch.StartNew();

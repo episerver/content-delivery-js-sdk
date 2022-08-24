@@ -1,7 +1,12 @@
-using MusicFestival.NodeJsMiddleware;
+using EPiServer.ContentDelivery.NodeProxy;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.AspNetCore.Builder;
 
+/// <summary>
+/// Extensions for <see cref="IEndpointRouteBuilder"/>.
+/// </summary>
 public static class NodeJsEndpointRouteBuilderExtensions
 {
     /// <summary>
@@ -23,7 +28,7 @@ public static class NodeJsEndpointRouteBuilderExtensions
                 var forwarder = endpoints.ServiceProvider.GetRequiredService<NodeJsForwarder>();
                 await forwarder.ProxyRequest(context);
             }
-        }).WithDisplayName("Node.js middleware");
+        }).WithDisplayName("Node.js proxy");
 
         return endpoints;
     }

@@ -13,11 +13,10 @@
   <ItemGroup>
     <PackageReference Include="EPiServer.CMS" Version="12.9.0" />
     <PackageReference Include="EPiServer.ContentDeliveryApi.Cms" Version="3.5.0" />
+  </ItemGroup>
 
-    <!-- TODO: Remove -->
-    <PackageReference Include="EPiServer.Hosting" Version="12.9.1-inte-022691" />
-    <PackageReference Include="EPiServer.CMS.AspNetCore.HtmlHelpers" Version="12.9.1-inte-022691" />
-    <PackageReference Include="Yarp.ReverseProxy" Version="1.1.1" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\EPiServer.ContentDelivery.NodeProxy\EPiServer.ContentDelivery.NodeProxy.csproj" />
   </ItemGroup>
 
   <ItemGroup>

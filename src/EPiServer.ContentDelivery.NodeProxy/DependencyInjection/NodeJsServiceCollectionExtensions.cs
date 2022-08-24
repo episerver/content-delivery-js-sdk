@@ -1,12 +1,15 @@
 using System.Net.Http.Headers;
-using MusicFestival.NodeJsMiddleware;
+using EPiServer.ContentDelivery.NodeProxy;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
+/// <summary>
+/// Extensions for <see cref="IServiceCollection"/>.
+/// </summary>
 public static class NodeJsServiceCollectionExtensions
 {
     /// <summary>
-    /// Registers and configures services for the Node.js middleware.
+    /// Registers and configures services for the Node.js proxy.
     /// </summary>
     /// <param name="services">The <see cref="IServiceCollection" /> to add services to.</param>
     /// <param name="configureOptions">Registers an action used to configure <see cref="NodeJsOptions"/>.</param>
