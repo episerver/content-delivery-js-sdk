@@ -16,10 +16,11 @@ This project uses:
 
 ## Setup and Run
 
-1. Run `setup.cmd`. You can re-run `setup.cmd` at any time to reset the backend with a fresh database.
+1. Run `setup.cmd` or `setup.sh` depending on your operating system. You can re-run the setup at any time to reset the backend with a fresh database.
 2. Since we reference two NPM modules locally, we need to install them first (this is not needed if you install the modules from npmjs.com).
     * Open terminal for `../../src/@episerver/content-definitions` and run `npm install` (only needed first run).
     * Open terminal for `../../src/@episerver/content-delivery` and run `npm install` (only needed first run).
+    * Open terminal for `ClientApp` and run `npm install`.
 3. Open terminal and run `dotnet run`.
     * Navigate to http://localhost:8080.
     * Create an admin user.
