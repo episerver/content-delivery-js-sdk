@@ -17,6 +17,7 @@
     <Company>Episerver AB</Company>
     <Authors>Episerver AB</Authors>
     <Copyright>© 2003-2022 by Episerver AB. All rights reserved</Copyright>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
 
     <PackageProjectUrl>https://github.com/episerver/content-delivery-js-sdk</PackageProjectUrl>
     <PackageOutputPath>..\..\artifacts\</PackageOutputPath>
