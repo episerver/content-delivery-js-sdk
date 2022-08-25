@@ -44,13 +44,13 @@ public class Startup
                 options.DestinationServer = "http://localhost:8081";
                 options.LaunchCommand = "npm run serve";
                 options.WorkingDirectory = "./ClientApp/";
+                options.RedirectOutput = false;
             }
             else
             {
                 // Include destination as argument so we can use it in server.js
                 options.LaunchCommand = $"node server.js {options.DestinationServer}";
                 options.WorkingDirectory = "./wwwroot/";
-                options.RedirectOutput = true;
             }
         });
     }

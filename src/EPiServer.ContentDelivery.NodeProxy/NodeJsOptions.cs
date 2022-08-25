@@ -35,9 +35,13 @@ public class NodeJsOptions
 
     /// <summary>
     /// Gets or sets whether the output should be redirected
-    /// or the process should open in a separate window.
+    /// or open a separate terminal window. Only Windows supports
+    /// open the process in a separate window.
     /// </summary>
-    public bool RedirectOutput { get; set; }
+    /// <remarks>
+    /// Default is true.
+    /// </remarks>
+    public bool RedirectOutput { get; set; } = true;
 
     /// <summary>
     /// Gets or sets the timeout in seconds.
