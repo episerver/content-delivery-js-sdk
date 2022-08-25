@@ -70,4 +70,3 @@ jobs:
           name: packages
       - name: Publish to Github Packages
         run: dotnet nuget push "**/*.nupkg" --source $env:nugetSource --skip-duplicate --api-key ${{ secrets.GITHUB_TOKEN }}
-
