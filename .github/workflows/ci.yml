@@ -5,6 +5,7 @@ on:
     branches:
       - develop
       - master
+      - main
 
 jobs:
   build:
@@ -32,7 +33,7 @@ jobs:
     runs-on: windows-latest
     env:
       buildConfiguration: release
-      versionSuffix: ${{ github.ref == 'refs/heads/develop' && 'pre-' || 'ci-' }}${{github.RUN_NUMBER }}
+      versionSuffix: ci-${{github.RUN_NUMBER }}
       DOTNET_NOLOGO: 1
     steps:
       - uses: actions/checkout@v2
