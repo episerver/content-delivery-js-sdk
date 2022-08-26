@@ -1,8 +1,6 @@
 # Optimizely Content Delivery - Coupled
 
-This sample site demonstrates one approach to render Optimizely content in a client side framework that is using client side routing for navigation with a working On-Page Edit (OPE) mode in the Optimizely UI, where the frontend and backend are hosted in the same application.
-
-The ASP.NET Core SPA Proxy is being used, meaning during development the frontend is hosted in its own process, in this case by webpack's development server, and backend calls are proxied back to the dotnet process. In production, the frontend app will be hosted by the dotnet process.
+This sample site demonstrates one approach to render Optimizely content with a client-side framework that is using client side routing, with a working On-Page Edit (OPE) mode, and where the client app and backend are hosted in the same application. The client app is hosted in its own Noje.js process and then proxied by dotnet.
 
 The frontend uses [Vue CLI](https://cli.vuejs.org/) with [Vuex](https://next.vuex.vuejs.org/) to handle the state of the app in a `single source of truth`. Most of the techniques are framework agnostic and can be used with any other framework, such as React or Angular.
 
@@ -11,22 +9,22 @@ Content is fetched from Optimizely using the Content Delivery API: https://world
 ## Prerequisites
 
 This project uses:
-* Node.js 14+
+* Node.js 16+
 * npm 6+
 * .NET SDK 6+
 * SQL Server 2016 Express LocalDB ([download here](https://www.microsoft.com/en-us/sql-server/sql-server-downloads))
 
 ## Setup and Run
 
-1. Run `setup.cmd`. You can re-run `setup.cmd` at any time to reset the backend with a fresh database.
+1. Run `setup.cmd` or `setup.sh` depending on your operating system. You can re-run the setup at any time to reset the backend with a fresh database.
 2. Since we reference two NPM modules locally, we need to install them first (this is not needed if you install the modules from npmjs.com).
     * Open terminal for `../../src/@episerver/content-definitions` and run `npm install` (only needed first run).
     * Open terminal for `../../src/@episerver/content-delivery` and run `npm install` (only needed first run).
+    * Open terminal for `ClientApp` and run `npm install`.
 3. Open terminal and run `dotnet run`.
-    * Navigate to http://localhost:8081/episerver/cms.
-    * Create an admin user. If the UI is not displayed automatically, navigate to http://localhost:8081/util/register first.
-    * Navigate to http://localhost:8081/.
-    * The SPA proxy will automatically start the frontend and redirect to http://localhost:8080 when webpacks's server is ready.
+    * Navigate to http://localhost:8080.
+    * Create an admin user.
+    * The Node.js proxy will automatically start the client app and dotnet will serve it when it's ready.
 
 ## Notable files
 

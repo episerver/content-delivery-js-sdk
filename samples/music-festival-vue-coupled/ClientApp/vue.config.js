@@ -6,7 +6,7 @@ const target = env.ASPNETCORE_HTTPS_PORT
   ? `https://localhost:${env.ASPNETCORE_HTTPS_PORT}`
   : env.ASPNETCORE_URLS
     ? env.ASPNETCORE_URLS.split(';')[0]
-    : 'http://localhost:8081';
+    : 'http://localhost:8080';
 
 module.exports = defineConfig({
   transpileDependencies: true,
@@ -32,6 +32,8 @@ module.exports = defineConfig({
 
       return middlewares;
     },
+    // The proxy is only needed if we want to be able to access the
+    // client app via the Node.js process' host.
     proxy: {
       '/api': {
         target: target,

@@ -1,0 +1,33 @@
+name: NuGet release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build_test_pack:
+    name: Build, test & pack Node.js proxy
+    runs-on: windows-latest
+    env:
+      buildConfiguration: release
+      DOTNET_NOLOGO: 1
+    steps:
+      - uses: actions/checkout@v2
+      - name: Restore Node.js proxy
+        working-directory: ./src/EPiServer.ContentDelivery.NodeProxy
+        run: dotnet restore
+      - name: Build Node.js proxy
+        working-directory: ./src/EPiServer.ContentDelivery.NodeProxy
+        run: dotnet build --no-restore --configuration $env:buildConfiguration
+      - name: Test Node.js proxy
+        working-directory: ./src/EPiServer.ContentDelivery.NodeProxy
+        run: dotnet test --no-build --configuration $env:buildConfiguration
+      - name: Pack Node.js proxy
+        working-directory: ./src/EPiServer.ContentDelivery.NodeProxy
+        run: dotnet pack --no-build --configuration $env:buildConfiguration
+      - name: Archive packages
+        uses: actions/upload-artifact@v2
+        with:
+          name: packages
+          path: artifacts/**/*.nupkg
+          retention-days: 2

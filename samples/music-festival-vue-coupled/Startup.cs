@@ -1,5 +1,4 @@
 using EPiServer.Cms.Shell;
-using EPiServer.Cms.Shell.UI;
 using EPiServer.Cms.UI.AspNetIdentity;
 using EPiServer.ContentApi.Core.DependencyInjection;
 
@@ -21,8 +20,8 @@ public class Startup
         services
             .AddCmsAspNetIdentity<ApplicationUser>()
             .AddCms()
-            .AddAdminUserRegistration(o => o.Behavior = RegisterAdminUserBehaviors.Enabled | RegisterAdminUserBehaviors.LocalRequestsOnly)
-            .AddEmbeddedLocalization<ProvisionDatabase>()
+            .AddAdminUserRegistration()
+            .AddEmbeddedLocalization<Program>()
             .ConfigureForExternalTemplates()
             .Configure<ExternalApplicationOptions>(options => options.OptimizeForDelivery = true)
             .Configure<DisplayOptions>(options =>
@@ -35,9 +34,25 @@ public class Startup
             });
 
         services.AddContentDeliveryApi();
+
         services.ConfigureForContentDeliveryClient();
 
-        services.AddHostedService<ProvisionDatabase>();
+        services.AddNodeJs(options =>
+        {
+            if (_webHostingEnvironment.IsDevelopment())
+            {
+                options.DestinationServer = "http://localhost:8081";
+                options.LaunchCommand = "npm run serve";
+                options.WorkingDirectory = "./ClientApp/";
+                options.RedirectOutput = false;
+            }
+            else
+            {
+                // Include destination as argument so we can use it in server.js
+                options.LaunchCommand = $"node server.js {options.DestinationServer}";
+                options.WorkingDirectory = "./wwwroot/";
+            }
+        });
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -57,7 +72,7 @@ public class Startup
         {
             endpoints.MapControllers();
             endpoints.MapContent();
-            endpoints.MapFallbackToFile("index.html");
+            endpoints.MapNodeJs();
         });
     }
 }
