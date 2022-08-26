@@ -21,7 +21,7 @@ public static class NodeJsEndpointRouteBuilderExtensions
         endpoints.MapFallback("{*path}", async context =>
         {
             var process = endpoints.ServiceProvider.GetRequiredService<NodeJsProcess>();
-            var ready = await process.StartProcess();
+            var ready = await process.EnsureProcessStarted();
 
             if (ready)
             {

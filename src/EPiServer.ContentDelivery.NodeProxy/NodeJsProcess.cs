@@ -37,7 +37,7 @@ internal class NodeJsProcess : IDisposable
 
     private bool IsReady => _processResponding && _process is not null && !_process.HasExited;
 
-    public async Task<bool> StartProcess(CancellationToken cancellationToken = default)
+    public async Task<bool> EnsureProcessStarted(CancellationToken cancellationToken = default)
     {
         if (IsReady)
         {
