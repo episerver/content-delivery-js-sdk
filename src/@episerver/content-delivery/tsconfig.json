@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "target": "ES6",
-    "module": "CommonJS",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
+    "module": "ES6",
+    "moduleResolution": "NodeNext",
+    "esModuleInterop": false,
     "noEmitOnError": true,
     "noImplicitAny": true,
     "sourceMap": true,
@@ -11,7 +11,6 @@
     "forceConsistentCasingInFileNames": true,
     "declaration": true,
     "declarationMap": true,
-    "types": ["node"],
     "outDir": "lib/",
   },
 }

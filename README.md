@@ -17,16 +17,15 @@ This repository contains the source code for the Content Delivery JavaScript SDK
 
 ## Samples
 
-The samples are using Vue CLI v5.
+The samples are using Nuxt and Vue CLI v5.
 
-* [Vue.js - Coupled](samples/music-festival-vue-coupled)
+* [Nuxt - Coupled](samples/music-festival-vue-coupled)
 * [Vue.js - Decoupled](samples/music-festival-vue-decoupled)
 
 ## Prerequisites for building and testing the SDKs
 
 This project uses:
-* Node.js 14+
-* npm 6+
+* Node.js 18+
 * .NET SDK 6+
 * SQL Server 2016 Express LocalDB ([download here](https://www.microsoft.com/en-us/sql-server/sql-server-downloads))
 
