@@ -1,0 +1,17 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview"
+  },
+  "dependencies": {
+    "@episerver/content-delivery": "file:../../../src/@episerver/content-delivery"
+  },
+  "devDependencies": {
+    "less": "^4.1.3",
+    "less-loader": "^11.0.0",
+    "nuxt": "3.0.0-rc.8"
+  }
+}

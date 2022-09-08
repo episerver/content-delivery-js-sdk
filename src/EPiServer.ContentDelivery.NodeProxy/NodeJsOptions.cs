@@ -13,9 +13,9 @@ public class NodeJsOptions
     /// should be proxied to.
     /// </summary>
     /// <remarks>
-    /// Default is http://localhost:3080.
+    /// Default is http://localhost:3000.
     /// </remarks>
-    public string DestinationServer { get; set; } = "http://localhost:3080";
+    public string DestinationServer { get; set; } = "http://localhost:3000";
 
     /// <summary>
     /// Gets or sets the launch command.

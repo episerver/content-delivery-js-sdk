@@ -2,15 +2,14 @@
 
 This sample site demonstrates one approach to render Optimizely content with a client-side framework that is using client side routing, with a working On-Page Edit (OPE) mode, and where the client app and backend are hosted in the same application. The client app is hosted in its own Noje.js process and then proxied by dotnet.
 
-The frontend uses [Vue CLI](https://cli.vuejs.org/) with [Vuex](https://next.vuex.vuejs.org/) to handle the state of the app in a `single source of truth`. Most of the techniques are framework agnostic and can be used with any other framework, such as React or Angular.
+The frontend uses [Nuxt 3](https://v3.nuxtjs.org/), but most of the techniques are framework agnostic and can be used with any other framework, such as React or Angular.
 
 Content is fetched from Optimizely using the Content Delivery API: https://world.optimizely.com/documentation/developer-guides/cms/content/content-delivery-api/
 
 ## Prerequisites
 
 This project uses:
-* Node.js 16+
-* npm 6+
+* Node.js 18+
 * .NET SDK 6+
 * SQL Server 2016 Express LocalDB ([download here](https://www.microsoft.com/en-us/sql-server/sql-server-downloads))
 
@@ -25,23 +24,3 @@ This project uses:
     * Navigate to http://localhost:8080.
     * Create an admin user.
     * The Node.js proxy will automatically start the client app and dotnet will serve it when it's ready.
-
-## Notable files
-
-### Vuex store modules
-
-* [epiContext.js](ClientApp/src/store/modules/epiContext.js): makes `inEditMode` and `isEditable` flags available to the OPE helpers.
-* [epiDataModel.js](ClientApp/src/store/modules/epiDataModel.js): the module that stores and updates the model object to be displayed on every component.
-
-### On-Page Editing helpers
-
-* [epiBootstrap.js](ClientApp/src/epiBootstrap.js): registers the `contentSaved` and `epiReady` message handlers that updates the vuex store.
-* [epiEdit.js](ClientApp/src/directives/epiEdit.js): a directive that can be added on components to make them optionally editable (e.g. `<span v-epi-edit="Name">`), through `isEditable` and `epiDisableEditing`.
-* [EpiProperty.vue](ClientApp/src/components/EpiProperty.vue): a component that renders a button to edit a property (e.g. `<epi-property property-name="Name">`).
-
-### Routing helpers
-
-* [EpiPageComponentSelector.vue](ClientApp/src/components/EpiPageComponentSelector.vue): loads the Vue page component and owns its model.
-* [EpiBlockComponentSelector.vue](ClientApp/src/components/EpiBlockComponentSelector.vue): loads the Vue block component.
-* [EpiLink.vue](ClientApp/src/components/EpiLink.vue): regular links when in OPE and Vue router links otherwise.
-* [EpiViewModeLink.vue](ClientApp/src/components/EpiViewModeLink.vue): disables links completely when in OPE.

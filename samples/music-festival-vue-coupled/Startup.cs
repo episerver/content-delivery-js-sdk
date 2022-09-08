@@ -23,7 +23,6 @@ public class Startup
             .AddAdminUserRegistration()
             .AddEmbeddedLocalization<Program>()
             .ConfigureForExternalTemplates()
-            .Configure<ExternalApplicationOptions>(options => options.OptimizeForDelivery = true)
             .Configure<DisplayOptions>(options =>
             {
                 options
@@ -41,15 +40,15 @@ public class Startup
         {
             if (_webHostingEnvironment.IsDevelopment())
             {
-                options.DestinationServer = "http://localhost:8081";
-                options.LaunchCommand = "npm run serve";
+                options.DestinationServer = "http://localhost:3000";
+                options.LaunchCommand = "npm run dev";
                 options.WorkingDirectory = "./ClientApp/";
                 options.RedirectOutput = false;
             }
             else
             {
-                // Include destination as argument so we can use it in server.js
-                options.LaunchCommand = $"node server.js {options.DestinationServer}";
+                // TODO: Include API_URL (http://localhost:80) and PORT (3000) env var.
+                options.LaunchCommand = "node ./server/index.mjs";
                 options.WorkingDirectory = "./wwwroot/";
             }
         });
