@@ -38,5 +38,5 @@ internal class NodeJsForwarder
     }
 
     public virtual ValueTask<ForwarderError> ProxyRequest(HttpContext context)
-        => _forwarder.SendAsync(context, _options.DestinationServer, _httpClient, _requestConfig, HttpTransformer.Default);
+        => _forwarder.SendAsync(context, $"http://localhost:{_options.DestinationPort}", _httpClient, _requestConfig, HttpTransformer.Default);
 }

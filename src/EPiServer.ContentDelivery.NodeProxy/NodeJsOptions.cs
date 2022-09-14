@@ -9,13 +9,13 @@ namespace EPiServer.ContentDelivery.NodeProxy;
 public class NodeJsOptions
 {
     /// <summary>
-    /// Gets or sets the destination server where the requests
-    /// should be proxied to.
+    /// Gets or sets the destination port where the requests
+    /// should be proxied to. Only loopback is supported.
     /// </summary>
     /// <remarks>
-    /// Default is http://localhost:3000.
+    /// Default is 3000.
     /// </remarks>
-    public string DestinationServer { get; set; } = "http://localhost:3000";
+    public int DestinationPort { get; set; } = 3000;
 
     /// <summary>
     /// Gets or sets the launch command.
@@ -32,6 +32,15 @@ public class NodeJsOptions
     /// Example: ./clientApp/
     /// </remarks>
     public string WorkingDirectory { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the environment variables.
+    /// </summary>
+    /// <remarks>
+    /// Environment variables are not supported when output
+    /// is not redirected. See <see cref="RedirectOutput"/>.
+    /// </remarks>
+    public IDictionary<string, string> EnvironmentVariables { get; set; } = new Dictionary<string, string>();
 
     /// <summary>
     /// Gets or sets whether the output should be redirected

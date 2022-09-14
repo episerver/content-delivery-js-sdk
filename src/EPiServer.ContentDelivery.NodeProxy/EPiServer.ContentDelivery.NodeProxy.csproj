@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Version>0.1</Version>
-    <TargetFrameworks>net6.0</TargetFrameworks>
+    <TargetFramework>net6.0</TargetFramework>
     <LangVersion>10</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -33,7 +33,7 @@
   <ItemGroup>
     <PackageReference Include="EPiServer.CMS.Core" Version="12.9.1" />
     <PackageReference Include="Yarp.ReverseProxy" Version="1.1.1" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>

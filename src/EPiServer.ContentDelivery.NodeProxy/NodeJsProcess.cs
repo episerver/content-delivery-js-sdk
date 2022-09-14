@@ -35,6 +35,8 @@ internal class NodeJsProcess : IDisposable
         }
     }
 
+    // This check is a bit simplified. We could also validate that the process is
+    // actually running, not just null-check _process.
     private bool IsReady => _processResponding && _process is not null && !_process.HasExited;
 
     public async Task<bool> EnsureProcessStarted(CancellationToken cancellationToken = default)
@@ -127,12 +129,17 @@ internal class NodeJsProcess : IDisposable
         }
         else
         {
-            throw new ApplicationException($"Detected Node.js { nodeVersionString }, Node.js 16 or greater is required.");
+            throw new ApplicationException($"Detected Node.js {nodeVersionString}, Node.js 16 or greater is required.");
         }
     }
 
     private void StartProcessInternal()
     {
+        if (_process is not null)
+        {
+            return;
+        }
+
         var space = _options.LaunchCommand.IndexOf(' ');
         var command = _options.LaunchCommand[0..space];
         var arguments = _options.LaunchCommand[++space..];
@@ -147,38 +154,50 @@ internal class NodeJsProcess : IDisposable
                 : ".cmd";
         }
 
-        var startInfo = new ProcessStartInfo
-        {
-            FileName = command,
-            Arguments = arguments,
-            WorkingDirectory = _options.WorkingDirectory,
-
-            UseShellExecute = !_options.RedirectOutput,
-            CreateNoWindow = _options.RedirectOutput,
-
-            RedirectStandardOutput = _options.RedirectOutput,
-            RedirectStandardError = _options.RedirectOutput,
-        };
-
         lock (_lock)
         {
+            _process = new Process();
+            _process.StartInfo.FileName = command;
+            _process.StartInfo.Arguments = arguments;
+            _process.StartInfo.WorkingDirectory = _options.WorkingDirectory;
+
+            if (_options.RedirectOutput)
+            {
+                _process.StartInfo.CreateNoWindow = true;
+                _process.StartInfo.RedirectStandardOutput = true;
+                _process.StartInfo.RedirectStandardError = true;
+                _process.OutputDataReceived += Process_OutputDataReceived;
+                _process.ErrorDataReceived += Process_ErrorDataReceived;
+
+                foreach (var item in _options.EnvironmentVariables)
+                {
+                    _process.StartInfo.EnvironmentVariables[item.Key] = item.Value;
+                }
+            }
+            else
+            {
+                _process.StartInfo.UseShellExecute = true;
+
+                if (_options.EnvironmentVariables.Any())
+                {
+                    throw new InvalidOperationException("Environment variables are not supported when output is not redirected. See NodeJsOptions.RedirectOutput.");
+                }
+            }
+
             _logger.LogInformation("Starting the '{Command}' with arguments '{Arguments}'.", command, arguments);
 
-            _process ??= Process.Start(startInfo);
+            _process.Start();
+
+            if (_options.RedirectOutput)
+            {
+                _process.BeginErrorReadLine();
+                _process.BeginOutputReadLine();
+            }
         }
 
         if (_process is null)
         {
             throw new ApplicationException("Unable to start the process.");
-        }
-
-        if (_options.RedirectOutput)
-        {
-            _process.OutputDataReceived += Process_OutputDataReceived;
-            _process.ErrorDataReceived += Process_ErrorDataReceived;
-
-            _process.BeginErrorReadLine();
-            _process.BeginOutputReadLine();
         }
     }
 
@@ -194,7 +213,7 @@ internal class NodeJsProcess : IDisposable
         try
         {
             var client = _clientFactory.CreateClient(ClientName);
-            var response = await client.GetAsync(_options.DestinationServer, cancellationTokenSource.Token);
+            var response = await client.GetAsync($"http://localhost:{_options.DestinationPort}", cancellationTokenSource.Token);
             var responding = response.IsSuccessStatusCode;
 
             return responding;
