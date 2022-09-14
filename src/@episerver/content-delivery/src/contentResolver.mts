@@ -140,7 +140,7 @@ export class ContentResolver {
     };
 
     return new Promise<ResolvedContent<T>>((resolve, reject) => {
-      this.#api.get('/content', parameters).then((response: ApiResponse) => {
+      this.#api.get('content', parameters).then((response: ApiResponse) => {
         const contentData = response.data as Array<T>;
         let status = ResolvedContentStatus.Unknown;
         let content: T | undefined;

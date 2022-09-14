@@ -69,7 +69,7 @@ export class ContentResolver {
     resolveContent(url, matchExact, request) {
         const parameters = Object.assign({ 'contentUrl': url, 'matchExact': matchExact }, __classPrivateFieldGet(this, _ContentResolver_api, "f").getDefaultParameters(request === null || request === void 0 ? void 0 : request.select, request === null || request === void 0 ? void 0 : request.expand));
         return new Promise((resolve, reject) => {
-            __classPrivateFieldGet(this, _ContentResolver_api, "f").get('/content', parameters).then((response) => {
+            __classPrivateFieldGet(this, _ContentResolver_api, "f").get('content', parameters).then((response) => {
                 const contentData = response.data;
                 let status = ResolvedContentStatus.Unknown;
                 let content;

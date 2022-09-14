@@ -42,7 +42,10 @@ export class ApiClient {
      */
     get(path, parameters = {}, headers = {}) {
         return __awaiter(this, void 0, void 0, function* () {
-            const requestUrl = getUrl(__classPrivateFieldGet(this, _ApiClient_config, "f").apiUrl, path, parameters);
+            let requestUrl = getUrl(__classPrivateFieldGet(this, _ApiClient_config, "f").apiUrl, path, parameters);
+            if (__classPrivateFieldGet(this, _ApiClient_config, "f").getUrl) {
+                requestUrl = yield __classPrivateFieldGet(this, _ApiClient_config, "f").getUrl(requestUrl);
+            }
             const request = {
                 method: 'get',
                 credentials: 'include',
@@ -120,18 +123,25 @@ function getHeaders(path, headers = {}, config) {
         return Promise.resolve(result);
     });
 }
-function getUrl(baseUrl, path, parameters) {
-    if (!baseUrl.endsWith('/'))
-        baseUrl += '/';
-    if (path.startsWith('/'))
-        path = path.substring(1);
-    let query = Object.keys(parameters)
-        .filter(key => parameters[key] !== undefined)
-        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(parameters[key])}`)
-        .join('&');
-    if (query)
-        query = '?' + query;
-    return baseUrl + path + query;
+function getUrl(baseUrl, path, parameters = {}) {
+    const tempHostname = 'http://temp';
+    // The temporary host will only be used when baseUrl is relative.
+    let url = new URL(baseUrl, tempHostname);
+    if (url.pathname.endsWith('/')) {
+        url.pathname = url.pathname + path;
+    }
+    else {
+        url.pathname = url.pathname + '/' + path;
+    }
+    for (const key in parameters) {
+        if (parameters[key] !== undefined) {
+            url.searchParams.set(key, parameters[key]);
+        }
+    }
+    // Return relative URL if input was relative.
+    return url.hostname === tempHostname
+        ? url.pathname + url.search
+        : url.toString();
 }
 function mapToError(error) {
     let result = {};

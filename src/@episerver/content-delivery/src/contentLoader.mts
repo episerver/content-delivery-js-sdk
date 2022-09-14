@@ -104,7 +104,7 @@ export class ContentLoader {
     const headers = this.#api.getDefaultHeaders(request?.branch);
 
     return new Promise<T>((resolve, reject) => {
-      this.#api.get(`/content/${encodeURIComponent(id)}`, parameters, headers).then((response: ApiResponse) => {
+      this.#api.get(`content/${encodeURIComponent(id)}`, parameters, headers).then((response: ApiResponse) => {
         if (response.ok) {
           resolve(response.data as T);
         } else {
@@ -133,7 +133,7 @@ export class ContentLoader {
       if (request?.continuationToken) headers = { ...headers, 'x-epi-continuation': request.continuationToken };
 
       return new Promise<ContentCollection<T>>((resolve, reject) => {
-        this.#api.get(`/content/${encodeURIComponent(id)}/children`, parameters, headers).then((response: ApiResponse) => {
+        this.#api.get(`content/${encodeURIComponent(id)}/children`, parameters, headers).then((response: ApiResponse) => {
           if (response.ok) {
             resolve({
               items: response.data,
@@ -148,7 +148,7 @@ export class ContentLoader {
       });
     } else {
       return new Promise<Array<T>>((resolve, reject) => {
-        this.#api.get(`/content/${encodeURIComponent(id)}/children`, parameters, headers).then((response: ApiResponse) => {
+        this.#api.get(`content/${encodeURIComponent(id)}/children`, parameters, headers).then((response: ApiResponse) => {
           if (response.ok) {
             resolve(response.data);
           } else {
@@ -173,7 +173,7 @@ export class ContentLoader {
     const headers = this.#api.getDefaultHeaders(request?.branch);
 
     return new Promise<Array<T>>((resolve, reject) => {
-      this.#api.get(`/content/${encodeURIComponent(id)}/ancestors`, parameters, headers).then((response: ApiResponse) => {
+      this.#api.get(`content/${encodeURIComponent(id)}/ancestors`, parameters, headers).then((response: ApiResponse) => {
         if (response.ok) {
           resolve(response.data);
         } else {

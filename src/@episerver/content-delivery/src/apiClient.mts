@@ -109,7 +109,11 @@ export class ApiClient {
    * @returns A promise with an ApiRespone if the request was successful, otherwise rejected with an ApiError.
    */
   async get(path: string, parameters: ApiParameters = {}, headers: ApiHeaders = {}): Promise<ApiResponse> {
-    const requestUrl = getUrl(this.#config.apiUrl, path, parameters);
+    let requestUrl = getUrl(this.#config.apiUrl, path, parameters);
+
+    if (this.#config.getUrl) {
+      requestUrl = await this.#config.getUrl(requestUrl);
+    }
 
     const request: RequestInit = {
       method: 'get',
@@ -195,18 +199,28 @@ async function getHeaders(path: string, headers: ApiHeaders = {}, config: Conten
   return Promise.resolve(result);
 }
 
-function getUrl(baseUrl: string, path: string, parameters: ApiParameters): string {
-  if (!baseUrl.endsWith('/')) baseUrl += '/';
-  if (path.startsWith('/')) path = path.substring(1);
+function getUrl(baseUrl: string, path: string, parameters: ApiParameters = {}): string {
+  const tempHostname = 'http://temp';
 
-  let query = Object.keys(parameters)
-    .filter(key => parameters[key] !== undefined)
-    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(parameters[key])}`)
-    .join('&');
+  // The temporary host will only be used when baseUrl is relative.
+  let url = new URL(baseUrl, tempHostname);
 
-  if (query) query = '?' + query;
+  if (url.pathname.endsWith('/')) {
+    url.pathname = url.pathname + path;
+  } else {
+    url.pathname = url.pathname + '/' + path;
+  }
 
-  return baseUrl + path + query;
+  for (const key in parameters) {
+    if (parameters[key] !== undefined) {
+      url.searchParams.set(key, parameters[key]);
+    }
+  }
+
+  // Return relative URL if input was relative.
+  return url.hostname === tempHostname
+    ? url.pathname + url.search
+    : url.toString();
 }
 
 function mapToError(error: any): ApiError {

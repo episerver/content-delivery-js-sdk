@@ -21,6 +21,12 @@ export type ContentDeliveryConfig = {
   getHeaders?: (path?: string) => Promise<Record<string, any>>,
 
   /**
+   * Function to call to change the URL before a
+   * requests to the Content Delivery API.
+   */
+  getUrl?: (url: string) => Promise<string>,
+
+  /**
    * Select all properties by default, unless otherwise
    * specified in each request to the Content Delivery API.
    */

@@ -34,7 +34,7 @@ export class SiteLoader {
      */
     getSite(id) {
         return new Promise((resolve, reject) => {
-            __classPrivateFieldGet(this, _SiteLoader_api, "f").get(`/site/${encodeURIComponent(id)}`).then((response) => {
+            __classPrivateFieldGet(this, _SiteLoader_api, "f").get(`site/${encodeURIComponent(id)}`).then((response) => {
                 if (response.ok) {
                     resolve(response.data);
                 }
@@ -53,7 +53,7 @@ export class SiteLoader {
    */
     getSites() {
         return new Promise((resolve, reject) => {
-            __classPrivateFieldGet(this, _SiteLoader_api, "f").get(`/site/`).then((response) => {
+            __classPrivateFieldGet(this, _SiteLoader_api, "f").get(`site/`).then((response) => {
                 if (response.ok) {
                     resolve(response.data);
                 }

@@ -37,7 +37,7 @@ export class ContentLoader {
         const parameters = __classPrivateFieldGet(this, _ContentLoader_api, "f").getDefaultParameters(request === null || request === void 0 ? void 0 : request.select, request === null || request === void 0 ? void 0 : request.expand);
         const headers = __classPrivateFieldGet(this, _ContentLoader_api, "f").getDefaultHeaders(request === null || request === void 0 ? void 0 : request.branch);
         return new Promise((resolve, reject) => {
-            __classPrivateFieldGet(this, _ContentLoader_api, "f").get(`/content/${encodeURIComponent(id)}`, parameters, headers).then((response) => {
+            __classPrivateFieldGet(this, _ContentLoader_api, "f").get(`content/${encodeURIComponent(id)}`, parameters, headers).then((response) => {
                 if (response.ok) {
                     resolve(response.data);
                 }
@@ -66,7 +66,7 @@ export class ContentLoader {
             if (request === null || request === void 0 ? void 0 : request.continuationToken)
                 headers = Object.assign(Object.assign({}, headers), { 'x-epi-continuation': request.continuationToken });
             return new Promise((resolve, reject) => {
-                __classPrivateFieldGet(this, _ContentLoader_api, "f").get(`/content/${encodeURIComponent(id)}/children`, parameters, headers).then((response) => {
+                __classPrivateFieldGet(this, _ContentLoader_api, "f").get(`content/${encodeURIComponent(id)}/children`, parameters, headers).then((response) => {
                     if (response.ok) {
                         resolve({
                             items: response.data,
@@ -83,7 +83,7 @@ export class ContentLoader {
         }
         else {
             return new Promise((resolve, reject) => {
-                __classPrivateFieldGet(this, _ContentLoader_api, "f").get(`/content/${encodeURIComponent(id)}/children`, parameters, headers).then((response) => {
+                __classPrivateFieldGet(this, _ContentLoader_api, "f").get(`content/${encodeURIComponent(id)}/children`, parameters, headers).then((response) => {
                     if (response.ok) {
                         resolve(response.data);
                     }
@@ -107,7 +107,7 @@ export class ContentLoader {
         const parameters = __classPrivateFieldGet(this, _ContentLoader_api, "f").getDefaultParameters(request === null || request === void 0 ? void 0 : request.select, request === null || request === void 0 ? void 0 : request.expand);
         const headers = __classPrivateFieldGet(this, _ContentLoader_api, "f").getDefaultHeaders(request === null || request === void 0 ? void 0 : request.branch);
         return new Promise((resolve, reject) => {
-            __classPrivateFieldGet(this, _ContentLoader_api, "f").get(`/content/${encodeURIComponent(id)}/ancestors`, parameters, headers).then((response) => {
+            __classPrivateFieldGet(this, _ContentLoader_api, "f").get(`content/${encodeURIComponent(id)}/ancestors`, parameters, headers).then((response) => {
                 if (response.ok) {
                     resolve(response.data);
                 }
