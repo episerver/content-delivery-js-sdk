@@ -2,9 +2,9 @@ import { defineNuxtConfig } from 'nuxt'
 
 export default defineNuxtConfig({
   runtimeConfig: {
-    apiUrl: 'http://localhost:8080/api/episerver/v3.0',
     public: {
-      apiUrl: 'http://localhost:8080/api/episerver/v3.0'
+      apiUrl: 'http://localhost:8080/api/episerver/v3.0/',
+      websiteUrl: 'http://localhost:8080'
     }
   },
   components: {

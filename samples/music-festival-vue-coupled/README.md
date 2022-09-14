@@ -24,3 +24,18 @@ This project uses:
     * Navigate to http://localhost:8080.
     * Create an admin user.
     * The Node.js proxy will automatically start the client app and dotnet will serve it when it's ready.
+
+## Hosting
+
+To host this setup in DXP, follow the [regular deployment instructions](https://docs.developers.optimizely.com/digital-experience-platform/v1.2.0-dxp-cloud-services/docs/deploy-using-code-packages) and then enable Node.js with the [platform settings file](https://docs.developers.optimizely.com/digital-experience-platform/v1.2.0-dxp-cloud-services/docs/code-package-format#platform-settings-file):
+```json
+{
+  "$schema": "https://schema.episerver.net/paasportal/2022-03-24/platformschema.json",
+  "platformPackages": [
+    {
+      "name": "NodeJs",
+      "version": 17
+    }
+  ]
+}
+```

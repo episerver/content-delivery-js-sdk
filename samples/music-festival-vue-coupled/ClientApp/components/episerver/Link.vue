@@ -4,8 +4,10 @@ import { ContextMode } from "@episerver/content-delivery";
 defineProps(["url", "className"]);
 
 const { resolvedContent } = useResolvedContent();
-const config = useRuntimeConfig();
-const apiUrl = new URL(config.apiUrl);
+const { websiteUrl } = useRuntimeConfig();
+
+const tempHostname = "http://temp";
+const siteUrl = new URL(websiteUrl);
 
 function useNuxtLink() {
   // Do not use NuxtLink in edit mode.
@@ -14,9 +16,17 @@ function useNuxtLink() {
 
 function makeUrlRelative(url) {
   // Make URL relative to enable client-side routing.
-  const temp = new URL(url);
-  return temp.host === apiUrl.host
-    ? temp.pathname + temp.searchParams + temp.hash
+  const temp = new URL(url, tempHostname);
+
+  if (temp.hostname === tempHostname) {
+    // URL is already relative.
+    return url;
+  }
+
+  // If URL is absolute, make it relative
+  // when host is same as website.
+  return temp.hostname === siteUrl.hostname
+    ? temp.pathname + temp.search + temp.hash
     : url;
 }
 </script>

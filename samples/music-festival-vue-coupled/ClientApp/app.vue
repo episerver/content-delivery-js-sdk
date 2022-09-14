@@ -1,21 +1,32 @@
 <script setup>
 import { defaultConfig } from "@episerver/content-delivery";
 
-defaultConfig.apiUrl = useRuntimeConfig().apiUrl;
+const { ssrContext } = useNuxtApp();
+const { apiUrl } = useRuntimeConfig();
+
+defaultConfig.apiUrl = apiUrl;
 defaultConfig.selectAllProperties = true;
 defaultConfig.expandAllProperties = true;
+
 defaultConfig.getHeaders = () => {
   if (process.server) {
-    // Forward the cookie header when rendering server-side, so
-    // those call are authenticated as well.
-    const includeHeaders = ["cookie"];
-    const headers = useNuxtApp().ssrContext.req.headers;
-    return Object.fromEntries(
-      includeHeaders
-        .filter((key) => headers[key])
-        .map((key) => [key, headers[key]])
-    );
+    // Forward the cookie header when rendering server-side,
+    // making these calls authenticated as well.
+    const headers = ssrContext.req.headers;
+    if (headers["cookie"]) {
+      return { cookie : headers["cookie"] };
+    }
   }
+};
+
+defaultConfig.getUrl = (url) => {
+  if (process.client) {
+    // Always use relative URL client-side.
+    var tempUrl = new URL(url, "http://temp");
+    return tempUrl.pathname + tempUrl.search;
+  }
+
+  return url;
 };
 
 useHead({
