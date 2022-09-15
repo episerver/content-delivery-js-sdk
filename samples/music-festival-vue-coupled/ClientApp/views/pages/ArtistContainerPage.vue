@@ -2,7 +2,7 @@
 import { ContentLoader } from "@episerver/content-delivery";
 
 const props = defineProps(["model"]);
-const artists = ref();
+const artists = ref({});
 
 onBeforeMount(() => {
   const contentLoader = new ContentLoader();

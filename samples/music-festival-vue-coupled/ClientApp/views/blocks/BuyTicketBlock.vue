@@ -1,9 +1,9 @@
 <script setup>
-defineProps(["pagePropertyName", "model", "heading", "message"]);
+const props = defineProps(["pagePropertyName", "model", "heading", "message"]);
 
 function prefixPropertyName(propertyName) {
-  return this.pagePropertyName
-    ? `${this.pagePropertyName}.${propertyName}`
+  return props.pagePropertyName
+    ? `${props.pagePropertyName}.${propertyName}`
     : propertyName;
 }
 </script>

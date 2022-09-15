@@ -1,20 +1,17 @@
 <script setup>
-defineProps(["model"]);
+const props = defineProps(["model"]);
 
-function imageAlignment(direction) {
-  if (direction === "Right") {
+const imageAlignment = computed(() => {
+  if (props.model.imageAlignment === "Right") {
     return "Grid--rowReverse";
   }
   return null;
-}
+});
 </script>
 
 <template>
   <div class="Page-container ContentBlock">
-    <div
-      class="Grid Grid--alignMiddle Grid--gutterA"
-      :class="imageAlignment(model.imageAlignment)"
-    >
+    <div class="Grid Grid--alignMiddle Grid--gutterA" :class="imageAlignment">
       <div class="Grid-cell u-md-size1of2" v-if="model.image">
         <ConditionalImage
           :src="model.image"
