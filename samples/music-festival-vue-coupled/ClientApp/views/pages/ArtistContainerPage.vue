@@ -1,39 +1,29 @@
-<script>
+<script setup>
 import { ContentLoader } from "@episerver/content-delivery";
 
-export default {
-  props: ["model"],
-  data() {
-    return {
-      artists: {},
-    };
-  },
-  created() {
-    this.updateData();
-  },
-  methods: {
-    updateData() {
-      const contentLoader = new ContentLoader();
-      contentLoader
-        .getChildren(this.model.contentLink.guidValue, {
-          branch: this.model.language.name,
-        })
-        .then((children) => {
-          const ordered = children.sort(
-            (a, b) => a.artistName.toLowerCase() < b.artistName.toLowerCase()
-          );
+const props = defineProps(["model"]);
+const artists = ref();
 
-          // Group by first letter of artist name
-          this.artists = ordered.reduce((groups, item) => {
-            const letter = item.artistName.substring(0, 1);
-            groups[letter] = groups[letter] || [];
-            groups[letter].push(item);
-            return groups;
-          }, {});
-        });
-    },
-  },
-};
+onBeforeMount(() => {
+  const contentLoader = new ContentLoader();
+  contentLoader
+    .getChildren(props.model.contentLink.guidValue, {
+      branch: props.model.language.name,
+    })
+    .then((children) => {
+      const ordered = children.sort(
+        (a, b) => a.artistName.toLowerCase() < b.artistName.toLowerCase()
+      );
+
+      // Group by first letter of artist name
+      artists.value = ordered.reduce((groups, item) => {
+        const letter = item.artistName.substring(0, 1);
+        groups[letter] = groups[letter] || [];
+        groups[letter].push(item);
+        return groups;
+      }, {});
+    });
+});
 </script>
 
 <template>
@@ -55,10 +45,10 @@ export default {
           <h3>{{ key }}</h3>
           <Card
             v-for="(value, key) in value"
-            :name="value.artistName"
-            :url="value.url"
-            :image="value.artistPhoto"
             :key="key"
+            :name="value.artistName"
+            :image="value.artistPhoto"
+            :url="value.url"
           />
         </div>
       </div>

@@ -1,20 +1,17 @@
-<script>
-export default {
-  props: ["model"],
-  computed: {
-    friendlyStartTime() {
-      return this.friendlyDateTime(this.model.performanceStartTime);
-    },
-    friendlyEndTime() {
-      return this.friendlyDateTime(this.model.performanceEndTime);
-    },
-  },
-  methods: {
-    friendlyDateTime(dateTime) {
-      return new Date(dateTime).toLocaleString("en");
-    },
-  }
-};
+<script setup>
+const props = defineProps(["model"]);
+
+const friendlyStartTime = computed(() => {
+  return friendlyDateTime(props.model.performanceStartTime);
+});
+
+const friendlyEndTime = computed(() => {
+  return friendlyDateTime(props.model.performanceEndTime);
+});
+
+function friendlyDateTime(dateTime) {
+  return new Date(dateTime).toLocaleString("en");
+}
 </script>
 
 <template>
