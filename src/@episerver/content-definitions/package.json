@@ -25,14 +25,14 @@
   },
   "dependencies": {
     "commander": "^9.4.0",
-    "openid-client": "^4.2.2"
+    "openid-client": "^5.1.9"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.18",
-    "@types/mocha": "^8.2.2",
-    "chai": "^4.3.4",
+    "@types/chai": "^4.3.3",
+    "@types/mocha": "^9.1.1",
+    "chai": "^4.3.6",
     "concat-stream": "^2.0.0",
-    "mocha": "^8.4.0",
+    "mocha": "^10.0.0",
     "test-setup": "file:../test-setup"
   }
 }

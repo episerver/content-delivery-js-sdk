@@ -3,11 +3,11 @@
 </template>
 
 <script>
-import { UserManager } from 'oidc-client';
+import authService from '@/authService';
 
 export default {
   mounted() {
-    new UserManager().signinSilentCallback();
+    authService.userManager.signinSilentCallback();
   },
 };
 </script>

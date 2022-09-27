@@ -1,4 +1,4 @@
-import { UserManager, WebStorageStateStore } from 'oidc-client';
+import { UserManager, WebStorageStateStore } from 'oidc-client-ts';
 
 class AuthService {
   constructor() {
@@ -7,7 +7,6 @@ class AuthService {
       authority: process.env.VUE_APP_LOGIN_AUTHORITY,
       client_id: process.env.VUE_APP_LOGIN_CLIENT_ID,
       redirect_uri: `${window.location.origin}/login-callback`,
-      automaticSilentRenew: true,
       silent_redirect_uri: `${window.location.origin}/login-renewal`,
       response_type: 'code',
       scope: 'openid profile offline_access email roles epi_content_delivery',

@@ -13,7 +13,7 @@
     "@episerver/content-delivery": "file:../../../src/@episerver/content-delivery",
     "core-js": "^3.8.3",
     "lodash": "^4.17.20",
-    "oidc-client": "^1.10.1",
+    "oidc-client-ts": "^2.0.6",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0"
