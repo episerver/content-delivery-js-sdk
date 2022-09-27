@@ -1,5 +1,5 @@
 import 'chai/register-should.js';
-import { ContentLoader } from "../lib/main.js";
+import { ContentLoader } from "../lib/main.mjs";
 
 const contentLoader = new ContentLoader();
 const rootPageId = 1;
@@ -107,45 +107,39 @@ describe('ContentLoader', () => {
   describe('getChildren', () => {
     describe('with default config', () => {
       it('should return array of content when parent exists and has children', async () => {
-        const children = await contentLoader.getChildren(listPageId);
+        const children = await contentLoader.getChildren(listPageId, { branch: 'en' });
 
         children.should.not.be.empty;
       });
 
       it('should return empty array when parent exists but has no children', async () => {
-        const children = await contentLoader.getChildren(10);
+        const children = await contentLoader.getChildren(10, { branch: 'en' });
 
         children.should.be.empty;
       });
 
       it('should reject when parent doesn\'t exist', async () => {
-        await contentLoader.getChildren(999).catch((error) => {
+        await contentLoader.getChildren(999, { branch: 'en' }).catch((error) => {
           error.errorCode.should.equal(404);
         });
       });
 
       it('should reject when parent is invalid', async () => {
-        await contentLoader.getChildren('').catch((error) => {
+        await contentLoader.getChildren('', { branch: 'en' }).catch((error) => {
           error.errorCode.should.equal(404);
         });
       });
 
       it('should reject when parent is invalid', async () => {
-        await contentLoader.getChildren('@').catch((error) => {
+        await contentLoader.getChildren('@', { branch: 'en' }).catch((error) => {
           error.errorCode.should.equal(404);
         });
       });
 
       it('should reject when parent is invalid', async () => {
-        await contentLoader.getChildren('<b>html</b>').catch((error) => {
+        await contentLoader.getChildren('<b>html</b>', { branch: 'en' }).catch((error) => {
           error.errorCode.should.equal(404);
         });
-      });
-
-      it('should load default branch when non specified', async () => {
-        const children = await contentLoader.getChildren(startPageId);
-
-        children[0].language.name.should.equal('en');
       });
 
       it('should load \'en\' branch when specified', async () => {
@@ -161,14 +155,14 @@ describe('ContentLoader', () => {
       });
 
       it('should only select \'title\' property when specified', async () => {
-        const children = await contentLoader.getChildren(rootPageId, { select: ['title'] });
+        const children = await contentLoader.getChildren(rootPageId, { branch: 'en', select: ['title'] });
 
         children[3].should.have.property('title');
         children[3].should.not.have.property('mainContentArea');
       });
 
       it('should only expand \'mainContentArea\' property when specified', async () => {
-        const children = await contentLoader.getChildren(rootPageId, { expand: ['mainContentArea'] });
+        const children = await contentLoader.getChildren(rootPageId, { branch: 'en', expand: ['mainContentArea'] });
 
         children[3].mainContentArea[0].should.have.property('contentLink').with.property('expanded').that.is.not.null;
       });
@@ -177,7 +171,7 @@ describe('ContentLoader', () => {
     describe('with \'selectAllProperties\' false', () => {
       it('should not select any non-meta property', async () => {
         const cl = new ContentLoader({ selectAllProperties: false });
-        const children = await cl.getChildren(rootPageId);
+        const children = await cl.getChildren(rootPageId, { branch: 'en' });
 
         children[3].should.not.have.property('title');
         children[3].should.not.have.property('mainContentArea');
@@ -187,7 +181,7 @@ describe('ContentLoader', () => {
     describe('with \'expandAllProperties\' true', () => {
       it('should expand properties', async () => {
         const cl = new ContentLoader({ expandAllProperties: true });
-        const children = await cl.getChildren(rootPageId);
+        const children = await cl.getChildren(rootPageId, { branch: 'en' });
 
         children[3].mainContentArea[0].should.have.property('contentLink').with.property('expanded').that.is.not.null;
       });
@@ -195,26 +189,26 @@ describe('ContentLoader', () => {
 
     describe('with top', () => {
       it('should reject when size larger than 100', async () => {
-        await contentLoader.getChildren(listPageId, { top: 101 }).catch((error) => {
+        await contentLoader.getChildren(listPageId, { branch: 'en', top: 101 }).catch((error) => {
           error.errorCode.should.equal(400);
         });
       });
 
       it('should return number of content items as specified', async () => {
-        const children = await contentLoader.getChildren(listPageId, { top: 3 });
+        const children = await contentLoader.getChildren(listPageId, { branch: 'en', top: 3 });
 
         children.items.length.should.equal(3);
       });
 
       it('should return a continuation token', async () => {
-        const children = await contentLoader.getChildren(listPageId, { top: 3 });
+        const children = await contentLoader.getChildren(listPageId, { branch: 'en', top: 3 });
 
         children.continuationToken.should.not.be.undefined;
       });
 
       it('should return next set of content items when using the continuation token', async () => {
-        const first = await contentLoader.getChildren(listPageId, { top: 3 });
-        const second = await contentLoader.getChildren(listPageId, { continuationToken: first.continuationToken });
+        const first = await contentLoader.getChildren(listPageId, { branch: 'en', top: 3 });
+        const second = await contentLoader.getChildren(listPageId, { branch: 'en', continuationToken: first.continuationToken });
 
         first.items.length.should.equal(3);
         second.items.length.should.equal(3);

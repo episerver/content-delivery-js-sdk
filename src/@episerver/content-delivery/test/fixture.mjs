@@ -1,5 +1,5 @@
 import * as backend from 'test-setup';
-import { defaultConfig } from "../lib/main.js";
+import { defaultConfig } from "../lib/main.mjs";
 
 defaultConfig.apiUrl = backend.apiUrl;
 

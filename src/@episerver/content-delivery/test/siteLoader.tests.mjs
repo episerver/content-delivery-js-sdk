@@ -1,5 +1,5 @@
 import 'chai/register-should.js';
-import { SiteLoader } from "../lib/main.js";
+import { SiteLoader } from "../lib/main.mjs";
 
 const siteLoader = new SiteLoader();
 

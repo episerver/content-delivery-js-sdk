@@ -1,5 +1,5 @@
 import 'chai/register-should.js';
-import { ContentResolver, ResolvedContentStatus, ContextMode } from "../lib/main.js";
+import { ContentResolver, ResolvedContentStatus, ContextMode } from "../lib/main.mjs";
 import { baseUrl } from "test-setup";
 
 const contentResolver = new ContentResolver();

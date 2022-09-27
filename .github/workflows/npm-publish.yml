@@ -13,7 +13,7 @@ jobs:
       - uses: ./.github/actions/install-sql-localdb
       - uses: actions/setup-node@v2
         with:
-          node-version: 14
+          node-version: 18
       - name: Build & test Content Definitions
         working-directory: ./src/@episerver/content-definitions
         run: |

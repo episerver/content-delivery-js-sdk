@@ -48,7 +48,7 @@ export default {
         // Make URL relative if host is matching, so client-side routing works.
         const url = new URL(this.url);
         return (url.host === document.location.host)
-          ? url.pathname + url.searchParams + url.hash
+          ? url.pathname + url.search + url.hash
           : url;
       } catch {
         return this.url;

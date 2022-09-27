@@ -1,5 +1,6 @@
 using EPiServer.Cms.Shell;
 using EPiServer.Cms.UI.AspNetIdentity;
+using EPiServer.ContentApi.Core.Configuration;
 using EPiServer.ContentApi.Core.DependencyInjection;
 
 namespace MusicFestival;
@@ -23,7 +24,6 @@ public class Startup
             .AddAdminUserRegistration()
             .AddEmbeddedLocalization<Program>()
             .ConfigureForExternalTemplates()
-            .Configure<ExternalApplicationOptions>(options => options.OptimizeForDelivery = true)
             .Configure<DisplayOptions>(options =>
             {
                 options
@@ -37,20 +37,34 @@ public class Startup
 
         services.ConfigureForContentDeliveryClient();
 
+        services.Configure<ContentApiOptions>(options =>
+        {
+            options.ForceAbsolute = false;
+        });
+
         services.AddNodeJs(options =>
         {
             if (_webHostingEnvironment.IsDevelopment())
             {
-                options.DestinationServer = "http://localhost:8081";
-                options.LaunchCommand = "npm run serve";
+                options.LaunchCommand = "npm run dev";
                 options.WorkingDirectory = "./ClientApp/";
                 options.RedirectOutput = false;
             }
             else
             {
-                // Include destination as argument so we can use it in server.js
-                options.LaunchCommand = $"node server.js {options.DestinationServer}";
+                var port = 4000;
+
+                options.DestinationPort = port;
+                options.LaunchCommand = "node ./server/index.mjs";
+                // If server contains secrets, these files needs to be served from elsewhere.
+                // We can leverage the static file middleware by serving them from here.
                 options.WorkingDirectory = "./wwwroot/";
+                options.EnvironmentVariables = new Dictionary<string, string>
+                {
+                    { "PORT", port.ToString() },
+                    { "NUXT_PUBLIC_API_URL", "http://localhost:80/api/episerver/v3.0/" },
+                    { "NUXT_PUBLIC_WEBSITE_URL", "http://www.example.com/" }
+                };
             }
         });
     }
