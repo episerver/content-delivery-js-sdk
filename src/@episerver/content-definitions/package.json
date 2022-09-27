@@ -24,7 +24,7 @@
     "test": "mocha --recursive --timeout 5000 --require ./test/fixture.mjs"
   },
   "dependencies": {
-    "commander": "^6.2.0",
+    "commander": "^9.4.0",
     "openid-client": "^4.2.2"
   },
   "devDependencies": {
