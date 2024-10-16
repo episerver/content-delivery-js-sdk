@@ -2,7 +2,7 @@
     Renders a ContentArea by iterating through all the blocks and using the
     `BlockComponentSelector` to render the corresponding Vue component.
 
-    By setting the `data-epi-block-id` attribute the block becomes editable
+    By setting the `data-epi-block-id` or `data-epi-content-id` attribute the block becomes editable
     during On-Page Edit. It will not be set in View mode to not leak out too
     much info about Optimizely to visitors.
 
