@@ -1,3 +1,6 @@
+> [!WARNING]
+> This example is intended for demonstration purposes only and is not supported for production applications in Optimizely's Content and Commerce Cloud. The approach launches a NodeJS server and proxies requests to a frontend application, which can result in performance and stability issues.
+
 # Optimizely Content Delivery - Coupled
 
 This sample site demonstrates one approach to render Optimizely content with a JavaScript framework with server-side rendering, client side routing, working On-Page Edit (OPE) mode, and where the client app and backend are hosted in the same application. The client app is hosted in its own Noje.js process and then proxied by dotnet. [See below for a more details](#architecture).
