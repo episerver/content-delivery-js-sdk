@@ -1,18 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <RootNamespace>MusicFestival.Backend</RootNamespace>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EPiServer.CMS" Version="12.23.0" />
-    <PackageReference Include="EPiServer.ContentDefinitionsApi" Version="3.9.0" />
-    <PackageReference Include="EPiServer.ContentDeliveryApi.Cms" Version="3.9.0" />
-    <PackageReference Include="EPiServer.OpenIDConnect" Version="3.9.0" />
-    <PackageReference Include="EPiServer.OpenIDConnect.UI" Version="3.9.0" />
+    <PackageReference Include="EPiServer.CMS" Version="12.32.5" />
+    <PackageReference Include="EPiServer.ContentDeliveryApi.Cms" Version="3.12.2" />
   </ItemGroup>
 
 </Project>
