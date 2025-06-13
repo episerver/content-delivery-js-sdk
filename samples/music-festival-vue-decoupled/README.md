@@ -37,7 +37,7 @@ This project uses:
 
 ### On-Page Editing helpers
 
-- [epiBootstrap.js](frontend/src/epiBootstrap.js): registers the `contentSaved` and `epiReady` message handlers that updates the vuex store.
+- [livePreview.js](frontend/src/livePreview.js): subscribes to `contentSaved` events to update the vuex store which enabled live preview of content.
 - [epiEdit.js](frontend/src/directives/epiEdit.js): a directive that can be added on components to make them optionally editable (e.g. `<span v-epi-edit="Name">`), through `isEditable` and `epiDisableEditing`.
 - [EpiProperty.vue](frontend/src/components/EpiProperty.vue): a component that renders a button to edit a property (e.g. `<epi-property property-name="Name">`).
 
